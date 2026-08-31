@@ -3,573 +3,993 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KBO 야구 기록장 (NC 다이노스 중심)</title>
+<title>NC 다이노스 승률 기록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --primary-color: #315288; /* NC Dinos Blue */
-        --accent-color: #D1B27B; /* Gold */
-        --bg-color: #f8f9fa;
-        --border-color: #ddd;
-    }
-    body {
-        font-family: 'Malgun Gothic', sans-serif;
-        background-color: var(--bg-color);
-        margin: 0;
-        padding: 20px;
-        color: #333;
-    }
-    .container {
-        max-width: 900px;
-        margin: 0 auto;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    .nav-buttons {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    .nav-buttons button {
-        flex: 1;
-        padding: 15px;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        background-color: #eee;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: 0.3s;
-    }
-    .nav-buttons button.active {
-        background-color: var(--primary-color);
-        color: #fff;
-    }
-    .tab-content {
-        display: none;
-    }
-    .tab-content.active {
-        display: block;
-    }
+  :root{
+    --bg: #0a1626;
+    --bg-deep: #060e19;
+    --surface: #10233c;
+    --surface-2: #16304f;
+    --border: #24425e;
+    --text: #eaf0f8;
+    --muted: #86a0bd;
+    --gold: #e8b93f;
+    --gold-dim: #a5872f;
+    --win: #3fae5c;
+    --win-bg: rgba(63,174,92,0.16);
+    --loss: #e05b52;
+    --loss-bg: rgba(224,91,82,0.16);
+    --draw: #9aa5b8;
+    --draw-bg: rgba(154,165,184,0.14);
+    --radius: 3px;
+    --font-display: 'Teko', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(232,185,63,0.05), transparent 40%),
+      radial-gradient(circle at 85% 100%, rgba(63,174,92,0.05), transparent 40%);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height:100vh;
+  }
+  .app{ max-width: 1180px; margin: 0 auto; padding: 20px 20px 60px; }
 
-    /* 입력 폼 스타일 */
-    .form-group {
-        margin-bottom: 15px;
-    }
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-    .form-group input, .form-group select {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-    }
-    .matchup-container {
-        display: flex;
-        gap: 20px;
-        background: #f1f3f5;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
-    .team-box {
-        flex: 1;
-        background: #fff;
-        padding: 15px;
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-    }
-    .team-box h3 {
-        text-align: center;
-        margin-top: 0;
-        color: var(--primary-color);
-    }
-    .submit-btn {
-        width: 100%;
-        padding: 15px;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    .submit-btn:hover { background-color: #233b63; }
+  /* ---------- Topbar ---------- */
+  .topbar{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    flex-wrap:wrap; gap:16px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 14px; margin-bottom: 22px;
+  }
+  .topbar h1{
+    font-family: var(--font-display);
+    font-weight:600;
+    font-size: 40px;
+    line-height:1;
+    margin:0;
+    letter-spacing: 0.5px;
+    color: var(--text);
+  }
+  .topbar h1 span{
+    display:block;
+    font-family: var(--font-body);
+    font-weight:500;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-top:4px;
+  }
+  .tabs{ display:flex; gap:6px; }
+  .tab-btn{
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: 1px;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 22px 6px;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .tab-btn:hover{ color: var(--text); border-color: var(--gold-dim); }
+  .tab-btn.active{
+    color: var(--bg-deep);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
 
-    /* 캘린더 스타일 */
-    .calendar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .calendar-header button {
-        padding: 5px 15px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-    }
-    .cal-day-name {
-        text-align: center;
-        font-weight: bold;
-        padding: 10px;
-        background: var(--primary-color);
-        color: white;
-    }
-    .cal-cell {
-        min-height: 80px;
-        border: 1px solid var(--border-color);
-        padding: 5px;
-        background: #fff;
-        cursor: pointer;
-        position: relative;
-    }
-    .cal-cell:hover { background: #e9ecef; }
-    .cal-date { font-weight: bold; font-size: 14px; }
-    .cal-game-info {
-        font-size: 11px;
-        margin-top: 5px;
-        color: #555;
-        word-break: keep-all;
-    }
-    .nc-win { color: blue; font-weight: bold;}
-    .nc-loss { color: red; font-weight: bold;}
-    .nc-draw { color: green; font-weight: bold;}
+  .view{ display:none; }
+  .view.active{ display:block; }
 
-    .stats-container {
-        text-align: right;
-        margin-top: 15px;
-        padding: 15px;
-        background: #e9ecef;
-        border-radius: 8px;
-        font-size: 15px;
-        line-height: 1.6;
-    }
+  /* ---------- Cards / shared ---------- */
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .section-label{
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
 
-    /* 랭킹 스타일 */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        border: 1px solid var(--border-color);
-        padding: 10px;
-        text-align: center;
-    }
-    th {
-        background-color: var(--primary-color);
-        color: white;
-    }
+  /* ---------- Input sub-tabs ---------- */
+  .subtabs{ display:flex; gap:8px; margin-bottom:16px; }
+  .subtab-btn{
+    font-family: var(--font-body);
+    font-weight:600;
+    font-size:13px;
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 16px;
+    cursor:pointer;
+  }
+  .subtab-btn:hover{ color: var(--text); border-color: var(--gold-dim); }
+  .subtab-btn.active{ color: var(--gold); border-color: var(--gold-dim); background: rgba(232,185,63,0.08); }
+  .input-card{ display:none; max-width: 720px; }
+  .input-card.active{ display:block; }
 
-    /* 모달 (상세 정보 팝업) */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5);
-        align-items: center; justify-content: center;
-    }
-    .modal-content {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        width: 400px;
-        max-width: 90%;
-    }
-    .modal-close {
-        float: right;
-        cursor: pointer;
-        font-size: 20px;
-        font-weight: bold;
-    }
+  /* ---------- Input form ---------- */
+  .form-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field.full{ grid-column: 1 / -1; }
+  .field label{ font-size:13px; color: var(--muted); font-weight:500; }
+  .field input[type=text], .field input[type=date], .field input[type=number], .field select{
+    background: var(--bg-deep);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 10px;
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+  .field input:focus, .field select:focus{ outline: none; border-color: var(--gold); }
+  .radio-row{ display:flex; gap:14px; align-items:center; height:38px; }
+  .radio-row label{ display:flex; align-items:center; gap:6px; font-size:14px; color: var(--text); cursor:pointer; font-weight:400; }
+  .divider-label{
+    grid-column: 1/-1;
+    font-family: var(--font-display);
+    font-size:18px;
+    color: var(--muted);
+    letter-spacing:1px;
+    margin-top:6px;
+    border-top: 1px dashed var(--border);
+    padding-top:14px;
+  }
+  .score-pair{ display:flex; align-items:center; gap:10px; }
+  .score-pair input{ width:70px; text-align:center; font-family: var(--font-mono); font-size:16px; }
+  .btn-row{ display:flex; gap:10px; margin-top:20px; grid-column: 1/-1; }
+  .btn{
+    font-family: var(--font-body);
+    font-weight:600;
+    font-size:14px;
+    padding: 10px 20px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{ background: var(--gold); color: var(--bg-deep); }
+  .btn-primary:hover{ background:#f0c552; }
+  .btn-danger{ background: transparent; color: var(--loss); border-color: var(--loss); }
+  .btn-danger:hover{ background: var(--loss-bg); }
+  .btn-ghost{ background: transparent; color: var(--muted); border-color: var(--border); }
+  .btn-ghost:hover{ color:var(--text); border-color:var(--gold-dim); }
+  .form-status{ grid-column: 1/-1; font-size:13px; color: var(--win); min-height:16px; }
+  .form-status.error{ color: var(--loss); }
+  .edit-flag{
+    grid-column:1/-1; font-size:12px; color: var(--gold); background: rgba(232,185,63,0.1);
+    border: 1px solid var(--gold-dim); border-radius: var(--radius); padding:6px 10px; display:none;
+  }
+
+  /* ---------- Calendar ---------- */
+  .cal-layout{ display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+  .cal-main{ flex: 1 1 560px; min-width: 320px; }
+  .cal-side{ flex: 0 0 280px; display:flex; flex-direction:column; gap:16px; min-height: 460px; }
+  .cal-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .cal-nav button{
+    background: var(--surface-2); border:1px solid var(--border); color: var(--text);
+    width:34px; height:34px; border-radius: var(--radius); cursor:pointer; font-size:16px;
+  }
+  .cal-nav button:hover{ border-color: var(--gold-dim); }
+  .cal-title{ font-family: var(--font-display); font-size:30px; letter-spacing:1px; }
+  .cal-grid{ display:grid; grid-template-columns: repeat(7,1fr); gap:5px; }
+  .cal-dow{ text-align:center; font-size:12px; color: var(--muted); padding-bottom:6px; letter-spacing:1px; }
+  .cal-cell{
+    aspect-ratio: 1 / 0.95;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px;
+    cursor:pointer;
+    display:flex; flex-direction:column; justify-content:space-between;
+    transition: border-color .12s ease;
+  }
+  .cal-cell:hover{ border-color: var(--gold-dim); }
+  .cal-cell.empty{ background:transparent; border-color:transparent; cursor:default; }
+  .cal-cell.selected{ border-color: var(--gold); }
+  .cal-cell .daynum{ font-family: var(--font-mono); font-size:13px; color: var(--muted); }
+  .cal-cell.win{ background: var(--win-bg); }
+  .cal-cell.loss{ background: var(--loss-bg); }
+  .cal-cell.draw{ background: var(--draw-bg); }
+  .cal-cell.win .daynum, .cal-cell.loss .daynum, .cal-cell.draw .daynum{ color: var(--text); }
+  .cal-game-line{ font-family: var(--font-mono); font-size:11px; line-height:1.3; color: var(--text); }
+  .cal-game-line .res{ font-weight:700; }
+  .cal-cell.win .res{ color: var(--win); }
+  .cal-cell.loss .res{ color: var(--loss); }
+  .cal-cell.draw .res{ color: var(--draw); }
+
+  .detail-panel{
+    background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
+    padding:16px; font-size:13px; flex: 1 1 auto;
+  }
+  .detail-empty{ color: var(--muted); line-height:1.6; }
+  .detail-title{ font-family: var(--font-display); font-size:22px; color: var(--gold); margin:0 0 10px; }
+  .detail-score{
+    font-family: var(--font-mono); font-size:24px; text-align:center;
+    background: var(--bg-deep); border:1px solid var(--border); border-radius: var(--radius);
+    padding:12px 6px; margin-bottom:12px; letter-spacing:1px;
+  }
+  .detail-score .vs{ color: var(--muted); font-size:16px; margin:0 8px; }
+  .detail-row{ display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dashed var(--border); }
+  .detail-row:last-of-type{ border-bottom:none; }
+  .detail-row .k{ color: var(--muted); }
+  .detail-row .v{ color: var(--text); font-weight:500; text-align:right; }
+  .detail-actions{ display:flex; gap:8px; margin-top:14px; }
+  .detail-actions .btn{ flex:1; font-size:13px; padding:8px; }
+
+  .stats-box{
+    background: var(--bg-deep);
+    border: 1px solid var(--gold-dim);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: var(--font-mono);
+  }
+  .stats-box .stats-title{
+    font-family: var(--font-display); font-size:18px; color: var(--gold); letter-spacing:1px;
+    margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border);
+  }
+  .stats-line{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px; color: var(--muted); }
+  .stats-line .val{ color: var(--text); text-shadow: 0 0 8px rgba(232,185,63,0.25); }
+  .stats-pct{ font-size:22px; color: var(--gold); text-shadow: 0 0 10px rgba(232,185,63,0.35); margin: 4px 0 14px; }
+  .stats-sep{ border-top: 1px dashed var(--border); margin: 10px 0; }
+
+  /* ---------- Ranking ---------- */
+  table.rank-table{ width:100%; border-collapse: collapse; }
+  table.rank-table th, table.rank-table td{
+    padding: 10px 12px; text-align:center; border-bottom:1px solid var(--border); font-size:14px;
+  }
+  table.rank-table th{ color: var(--muted); font-weight:500; font-size:12px; letter-spacing:1px; }
+  table.rank-table td.team-name{ text-align:left; font-weight:600; }
+  table.rank-table tr.nc-row td{ background: rgba(232,185,63,0.08); }
+  table.rank-table tr.nc-row td.team-name{ color: var(--gold); }
+  table.rank-table td.pct{ font-family: var(--font-mono); }
+  table.rank-table td.rank-num{ font-family: var(--font-display); font-size:18px; color: var(--muted); }
+  .rank-note{ font-size:12px; color: var(--muted); margin-top:12px; }
+
+  @media (max-width: 760px){
+    .form-grid{ grid-template-columns: 1fr; }
+    .cal-side{ flex-basis: 100%; }
+  }
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="container">
-    <div class="nav-buttons">
-        <button id="btn-input" class="active" onclick="switchTab('input')">경기 입력</button>
-        <button id="btn-calendar" onclick="switchTab('calendar')">캘린더</button>
-        <button id="btn-ranking" onclick="switchTab('ranking')">순위표</button>
-    </div>
+  <header class="topbar">
+    <h1>NC DINOS<span>2026 SEASON 승률 기록</span></h1>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="input">입력</button>
+      <button class="tab-btn" data-tab="calendar">캘린더</button>
+      <button class="tab-btn" data-tab="ranking">랭킹</button>
+    </nav>
+  </header>
 
-    <div id="tab-input" class="tab-content active">
-        <h2>경기 정보 입력</h2>
-        <div class="form-group">
-            <label>날짜</label>
-            <input type="date" id="in-date">
-        </div>
-        <div class="form-group">
-            <label>구장</label>
-            <input type="text" id="in-stadium" placeholder="예: 창원NC파크">
-        </div>
+  <main>
+    <!-- INPUT VIEW -->
+    <section id="view-input" class="view active">
+      <div class="subtabs">
+        <button class="subtab-btn active" data-subtab="nc">NC 다이노스 기록</button>
+        <button class="subtab-btn" data-subtab="other">타 팀 기록</button>
+      </div>
 
-        <div class="matchup-container">
-            <div class="team-box">
-                <h3>AWAY (원정)</h3>
-                <div class="form-group">
-                    <label>팀</label>
-                    <select id="in-away-team"></select>
-                </div>
-                <div class="form-group">
-                    <label>점수</label>
-                    <input type="number" id="in-away-score" min="0" value="0">
-                </div>
-                <div class="form-group">
-                    <label>선발투수</label>
-                    <input type="text" id="in-away-pitcher">
-                </div>
-                <div class="form-group">
-                    <label>MVP 플레이어</label>
-                    <input type="text" id="in-away-mvp">
-                </div>
+      <!-- NC input card -->
+      <div class="card input-card active" id="card-nc">
+        <p class="section-label">NC 다이노스 경기 기록</p>
+        <div class="edit-flag" id="nc-edit-flag">이미 저장된 경기입니다 &mdash; 내용을 수정하고 저장하세요.</div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="nc-date">날짜</label>
+            <input type="date" id="nc-date">
+          </div>
+          <div class="field">
+            <label for="nc-opponent">상대팀</label>
+            <select id="nc-opponent"></select>
+          </div>
+          <div class="field">
+            <label>홈 / 어웨이 (NC 기준)</label>
+            <div class="radio-row">
+              <label><input type="radio" name="nc-homeaway" value="away" checked> 어웨이 (원정)</label>
+              <label><input type="radio" name="nc-homeaway" value="home"> 홈</label>
             </div>
+          </div>
+          <div class="field">
+            <label for="nc-stadium">구장</label>
+            <input type="text" id="nc-stadium" placeholder="예) 창원 NC파크">
+          </div>
 
-            <div class="team-box">
-                <h3>HOME (홈)</h3>
-                <div class="form-group">
-                    <label>팀</label>
-                    <select id="in-home-team"></select>
-                </div>
-                <div class="form-group">
-                    <label>점수</label>
-                    <input type="number" id="in-home-score" min="0" value="0">
-                </div>
-                <div class="form-group">
-                    <label>선발투수</label>
-                    <input type="text" id="in-home-pitcher">
-                </div>
-                <div class="form-group">
-                    <label>MVP 플레이어</label>
-                    <input type="text" id="in-home-mvp">
-                </div>
-            </div>
+          <div class="divider-label">선발 라인업</div>
+          <div class="field">
+            <label for="nc-team-pitcher">NC 선발투수</label>
+            <input type="text" id="nc-team-pitcher" placeholder="선발투수 이름">
+          </div>
+          <div class="field">
+            <label for="nc-op-pitcher">상대 선발투수</label>
+            <input type="text" id="nc-op-pitcher" placeholder="선발투수 이름">
+          </div>
+
+          <div class="divider-label">스코어</div>
+          <div class="field">
+            <label for="nc-team-score">NC 점수</label>
+            <div class="score-pair"><input type="number" min="0" id="nc-team-score" value="0"></div>
+          </div>
+          <div class="field">
+            <label for="nc-op-score">상대 점수</label>
+            <div class="score-pair"><input type="number" min="0" id="nc-op-score" value="0"></div>
+          </div>
+
+          <div class="divider-label">이날의 MVP</div>
+          <div class="field">
+            <label for="nc-team-mvp">NC MVP</label>
+            <input type="text" id="nc-team-mvp" placeholder="선수 이름">
+          </div>
+          <div class="field">
+            <label for="nc-op-mvp">상대 MVP</label>
+            <input type="text" id="nc-op-mvp" placeholder="선수 이름">
+          </div>
+
+          <div class="form-status" id="nc-form-status"></div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="nc-btn-save">기록 저장</button>
+            <button class="btn btn-danger" id="nc-btn-delete" style="display:none;">기록 삭제</button>
+            <button class="btn btn-ghost" id="nc-btn-reset">초기화</button>
+          </div>
         </div>
-        <button class="submit-btn" onclick="saveGame()">저장하기</button>
-    </div>
+      </div>
 
-    <div id="tab-calendar" class="tab-content">
-        <div class="calendar-header">
-            <button onclick="changeMonth(-1)">◀ 이전 달</button>
-            <h2 id="cal-title">2026년 8월</h2>
-            <button onclick="changeMonth(1)">다음 달 ▶</button>
+      <!-- Other teams input card -->
+      <div class="card input-card" id="card-other">
+        <p class="section-label">타 팀 경기 기록</p>
+        <div class="edit-flag" id="other-edit-flag">이미 저장된 경기입니다 &mdash; 내용을 수정하고 저장하세요.</div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="other-date">날짜</label>
+            <input type="date" id="other-date">
+          </div>
+          <div class="field">
+            <label for="other-team">기록할 팀</label>
+            <select id="other-team"></select>
+          </div>
+          <div class="field">
+            <label for="other-opponent">상대팀</label>
+            <select id="other-opponent"></select>
+          </div>
+          <div class="field">
+            <label>홈 / 어웨이 (기록할 팀 기준)</label>
+            <div class="radio-row">
+              <label><input type="radio" name="other-homeaway" value="away" checked> 어웨이 (원정)</label>
+              <label><input type="radio" name="other-homeaway" value="home"> 홈</label>
+            </div>
+          </div>
+          <div class="field full">
+            <label for="other-stadium">구장</label>
+            <input type="text" id="other-stadium" placeholder="예) 사직야구장">
+          </div>
+
+          <div class="divider-label">선발 라인업</div>
+          <div class="field">
+            <label for="other-team-pitcher">기록할 팀 선발투수</label>
+            <input type="text" id="other-team-pitcher" placeholder="선발투수 이름">
+          </div>
+          <div class="field">
+            <label for="other-op-pitcher">상대 선발투수</label>
+            <input type="text" id="other-op-pitcher" placeholder="선발투수 이름">
+          </div>
+
+          <div class="divider-label">스코어</div>
+          <div class="field">
+            <label for="other-team-score">기록할 팀 점수</label>
+            <div class="score-pair"><input type="number" min="0" id="other-team-score" value="0"></div>
+          </div>
+          <div class="field">
+            <label for="other-op-score">상대 점수</label>
+            <div class="score-pair"><input type="number" min="0" id="other-op-score" value="0"></div>
+          </div>
+
+          <div class="divider-label">이날의 MVP</div>
+          <div class="field">
+            <label for="other-team-mvp">기록할 팀 MVP</label>
+            <input type="text" id="other-team-mvp" placeholder="선수 이름">
+          </div>
+          <div class="field">
+            <label for="other-op-mvp">상대 MVP</label>
+            <input type="text" id="other-op-mvp" placeholder="선수 이름">
+          </div>
+
+          <div class="form-status" id="other-form-status"></div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="other-btn-save">기록 저장</button>
+            <button class="btn btn-danger" id="other-btn-delete" style="display:none;">기록 삭제</button>
+            <button class="btn btn-ghost" id="other-btn-reset">초기화</button>
+          </div>
         </div>
-        <div class="calendar-grid" id="cal-grid">
-            </div>
-        
-        <div class="stats-container" id="stats-display">
-            </div>
-    </div>
+      </div>
+    </section>
 
-    <div id="tab-ranking" class="tab-content">
-        <h2>시즌 전체 순위표 (승률순)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>순위</th>
-                    <th>팀</th>
-                    <th>경기수</th>
-                    <th>승</th>
-                    <th>무</th>
-                    <th>패</th>
-                    <th>승률</th>
-                </tr>
-            </thead>
-            <tbody id="ranking-tbody">
-                </tbody>
+    <!-- CALENDAR VIEW -->
+    <section id="view-calendar" class="view">
+      <div class="cal-layout">
+        <div class="cal-main">
+          <div class="cal-nav">
+            <button id="cal-prev">&#8592;</button>
+            <div class="cal-title" id="cal-title">2026년 8월</div>
+            <button id="cal-next">&#8594;</button>
+          </div>
+          <div class="cal-grid" id="cal-dow-row"></div>
+          <div class="cal-grid" id="cal-grid" style="margin-top:6px;"></div>
+        </div>
+        <div class="cal-side">
+          <div class="detail-panel" id="detail-panel">
+            <p class="detail-empty">캘린더에서 날짜를 클릭하면<br>그날의 경기 기록이 여기에 표시됩니다.</p>
+          </div>
+          <div class="stats-box" id="stats-box"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RANKING VIEW -->
+    <section id="view-ranking" class="view">
+      <div class="card">
+        <p class="section-label">팀 순위 (승률순 · 입력된 경기 기준)</p>
+        <table class="rank-table">
+          <thead>
+            <tr>
+              <th>순위</th><th style="text-align:left;">팀</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th>
+            </tr>
+          </thead>
+          <tbody id="rank-tbody"></tbody>
         </table>
-    </div>
-</div>
-
-<div id="detail-modal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close" onclick="closeModal()">×</span>
-        <h3 id="modal-title">경기 정보</h3>
-        <div id="modal-body"></div>
-    </div>
+        <p class="rank-note">각 팀 칸에 직접 입력한 경기 기록만 집계됩니다. 특정 팀의 순위를 정확히 보려면 그 팀의 경기도 "타 팀 기록"에 입력해주세요.</p>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script>
-    const KBO_TEAMS = ["NC 다이노스", "롯데 자이언츠", "삼성 라이온즈", "KIA 타이거즈", "한화 이글스", "KT wiz", "두산 베어스", "LG 트윈스", "SSG 랜더스", "키움 히어로즈"];
-    let games = JSON.parse(localStorage.getItem('kbo_games')) || [];
-    let currentYear = 2026;
-    let currentMonth = 8; // 1~12
+(function(){
+  const TEAMS = [
+    'NC 다이노스','롯데 자이언츠','삼성 라이온즈','KIA 타이거즈','한화 이글스',
+    'KT WIZ','두산 베어스','LG TWINS','SSG LANDERS','키움 히어로즈'
+  ];
+  const NC = 'NC 다이노스';
+  const CODE = {
+    'NC 다이노스':'NC','롯데 자이언츠':'롯데','삼성 라이온즈':'삼성','KIA 타이거즈':'KIA',
+    '한화 이글스':'한화','KT WIZ':'KT','두산 베어스':'두산','LG TWINS':'LG',
+    'SSG LANDERS':'SSG','키움 히어로즈':'키움'
+  };
+  const DOW = ['일','월','화','수','목','금','토'];
 
-    // 초기화
-    window.onload = function() {
-        // 날짜 기본값 오늘로 셋팅
-        document.getElementById('in-date').valueAsDate = new Date();
-        
-        // 팀 셀렉트 박스 세팅
-        const awaySelect = document.getElementById('in-away-team');
-        const homeSelect = document.getElementById('in-home-team');
-        KBO_TEAMS.forEach(team => {
-            awaySelect.add(new Option(team, team));
-            homeSelect.add(new Option(team, team));
-        });
-        // 기본 선택 다르게
-        homeSelect.value = "NC 다이노스";
-        awaySelect.value = "롯데 자이언츠";
+  // games: key = `${teamCode}|${date}` -> record
+  // record: { date, team, opponent, teamHome, stadium, teamPitcher, opPitcher, teamScore, opScore, teamMVP, opMVP }
+  let games = {};
+  let viewYear, viewMonth; // month 0-indexed, for the NC calendar
+  let selectedDate = null;
+
+  const $ = (id) => document.getElementById(id);
+  const pad2 = (n) => String(n).padStart(2,'0');
+  const dateStr = (y,m,d) => `${y}-${pad2(m+1)}-${pad2(d)}`;
+  const recKey = (team, date) => `${CODE[team]}|${date}`;
+  const storageKey = (team, date) => `game:${CODE[team]}:${date}`;
+
+  function todayParts(){
+    const t = new Date();
+    return { y: t.getFullYear(), m: t.getMonth(), d: t.getDate() };
+  }
+
+  // ---------- storage ----------
+  async function loadAllGames(){
+    const out = {};
+    try{
+      const listRes = await window.storage.list('game:', false);
+      const keys = (listRes && listRes.keys) ? listRes.keys : [];
+      for(const k of keys){
+        try{
+          const r = await window.storage.get(k, false);
+          if(r && r.value){
+            const rec = JSON.parse(r.value);
+            out[recKey(rec.team, rec.date)] = rec;
+          }
+        }catch(e){ console.error('failed to load', k, e); }
+      }
+    }catch(e){ console.error('failed to list games', e); }
+    return out;
+  }
+  async function saveGame(rec){
+    await window.storage.set(storageKey(rec.team, rec.date), JSON.stringify(rec), false);
+  }
+  async function deleteGame(team, date){
+    await window.storage.delete(storageKey(team, date), false);
+  }
+  function findGame(team, date){
+    return games[recKey(team, date)];
+  }
+
+  // ---------- domain helpers ----------
+  function resultOf(g){
+    if(g.teamScore > g.opScore) return 'W';
+    if(g.teamScore < g.opScore) return 'L';
+    return 'D';
+  }
+  function resultClass(r){ return r === 'W' ? 'win' : (r === 'L' ? 'loss' : 'draw'); }
+  function leftRight(g){
+    // home team on the right, away team on the left
+    if(g.teamHome){
+      return {
+        left: { team: g.opponent, score: g.opScore },
+        right:{ team: g.team, score: g.teamScore }
+      };
+    }
+    return {
+      left: { team: g.team, score: g.teamScore },
+      right:{ team: g.opponent, score: g.opScore }
     };
+  }
+  function pct(w,l){
+    // returns e.g. ".667" (no leading digit) or ".---" if no decisions yet
+    if(w+l === 0) return '.---';
+    return (Math.round((w/(w+l))*1000)/1000).toFixed(3).slice(1);
+  }
 
-    // 탭 전환
-    function switchTab(tab) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.nav-buttons button').forEach(el => el.classList.remove('active'));
-        
-        document.getElementById(`tab-${tab}`).classList.add('active');
-        document.getElementById(`btn-${tab}`).classList.add('active');
+  // ---------- top-level tabs ----------
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('main > .view').forEach(v=>v.classList.remove('active'));
+      btn.classList.add('active');
+      $('view-' + btn.dataset.tab).classList.add('active');
+      if(btn.dataset.tab === 'calendar'){ renderCalendar(); }
+      if(btn.dataset.tab === 'ranking'){ renderRanking(); }
+    });
+  });
+  function goToInputTab(subtab){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab==='input'));
+    document.querySelectorAll('main > .view').forEach(v=>v.classList.toggle('active', v.id==='view-input'));
+    if(subtab) selectSubtab(subtab);
+  }
 
-        if(tab === 'calendar') renderCalendar();
-        if(tab === 'ranking') renderRanking();
+  // ---------- input sub-tabs ----------
+  function selectSubtab(name){
+    document.querySelectorAll('.subtab-btn').forEach(b=>b.classList.toggle('active', b.dataset.subtab===name));
+    $('card-nc').classList.toggle('active', name==='nc');
+    $('card-other').classList.toggle('active', name==='other');
+  }
+  document.querySelectorAll('.subtab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectSubtab(btn.dataset.subtab));
+  });
+
+  // ---------- NC form ----------
+  function populateNcOpponentSelect(){
+    const sel = $('nc-opponent');
+    sel.innerHTML = '';
+    TEAMS.filter(t=>t!==NC).forEach(t=>{
+      const opt = document.createElement('option');
+      opt.value = t; opt.textContent = t;
+      sel.appendChild(opt);
+    });
+  }
+  function clearNcForm(){
+    $('nc-opponent').selectedIndex = 0;
+    document.querySelector('input[name=nc-homeaway][value=away]').checked = true;
+    $('nc-stadium').value = '';
+    $('nc-team-pitcher').value = '';
+    $('nc-op-pitcher').value = '';
+    $('nc-team-score').value = 0;
+    $('nc-op-score').value = 0;
+    $('nc-team-mvp').value = '';
+    $('nc-op-mvp').value = '';
+    $('nc-btn-delete').style.display = 'none';
+    $('nc-edit-flag').style.display = 'none';
+    $('nc-form-status').textContent = '';
+    $('nc-form-status').classList.remove('error');
+  }
+  function loadNcGameIntoForm(g){
+    $('nc-opponent').value = g.opponent;
+    document.querySelector(`input[name=nc-homeaway][value=${g.teamHome ? 'home':'away'}]`).checked = true;
+    $('nc-stadium').value = g.stadium || '';
+    $('nc-team-pitcher').value = g.teamPitcher || '';
+    $('nc-op-pitcher').value = g.opPitcher || '';
+    $('nc-team-score').value = g.teamScore;
+    $('nc-op-score').value = g.opScore;
+    $('nc-team-mvp').value = g.teamMVP || '';
+    $('nc-op-mvp').value = g.opMVP || '';
+    $('nc-btn-delete').style.display = 'inline-block';
+    $('nc-edit-flag').style.display = 'block';
+  }
+  function checkNcDateForExisting(){
+    const d = $('nc-date').value;
+    if(!d) return;
+    const g = findGame(NC, d);
+    if(g) loadNcGameIntoForm(g); else clearNcForm();
+  }
+  $('nc-date').addEventListener('change', checkNcDateForExisting);
+  $('nc-btn-reset').addEventListener('click', clearNcForm);
+
+  $('nc-btn-save').addEventListener('click', async ()=>{
+    const d = $('nc-date').value;
+    const statusEl = $('nc-form-status');
+    if(!d){ statusEl.textContent = '날짜를 선택해주세요.'; statusEl.classList.add('error'); return; }
+    const rec = {
+      date: d, team: NC, opponent: $('nc-opponent').value,
+      teamHome: document.querySelector('input[name=nc-homeaway]:checked').value === 'home',
+      stadium: $('nc-stadium').value.trim(),
+      teamPitcher: $('nc-team-pitcher').value.trim(),
+      opPitcher: $('nc-op-pitcher').value.trim(),
+      teamScore: parseInt($('nc-team-score').value,10) || 0,
+      opScore: parseInt($('nc-op-score').value,10) || 0,
+      teamMVP: $('nc-team-mvp').value.trim(),
+      opMVP: $('nc-op-mvp').value.trim()
+    };
+    try{
+      await saveGame(rec);
+      games[recKey(NC,d)] = rec;
+      statusEl.classList.remove('error');
+      statusEl.textContent = '저장되었습니다.';
+      $('nc-btn-delete').style.display = 'inline-block';
+      $('nc-edit-flag').style.display = 'block';
+      renderCalendar();
+      renderRanking();
+    }catch(e){
+      console.error(e);
+      statusEl.classList.add('error');
+      statusEl.textContent = '저장에 실패했습니다. 다시 시도해주세요.';
     }
-
-    // 경기 저장
-    function saveGame() {
-        const date = document.getElementById('in-date').value;
-        const stadium = document.getElementById('in-stadium').value;
-        const awayTeam = document.getElementById('in-away-team').value;
-        const homeTeam = document.getElementById('in-home-team').value;
-        const awayScore = parseInt(document.getElementById('in-away-score').value);
-        const homeScore = parseInt(document.getElementById('in-home-score').value);
-        const awayPitcher = document.getElementById('in-away-pitcher').value;
-        const homePitcher = document.getElementById('in-home-pitcher').value;
-        const awayMVP = document.getElementById('in-away-mvp').value;
-        const homeMVP = document.getElementById('in-home-mvp').value;
-
-        if(!date || awayTeam === homeTeam) {
-            alert("날짜를 입력하시고, 서로 다른 팀을 선택해주세요.");
-            return;
-        }
-
-        const newGame = {
-            id: Date.now(), date, stadium, awayTeam, homeTeam, 
-            awayScore, homeScore, awayPitcher, homePitcher, awayMVP, homeMVP
-        };
-
-        // 같은 날짜 중복 제거(원한다면 주석 처리)
-        // games = games.filter(g => g.date !== date); 
-        
-        games.push(newGame);
-        localStorage.setItem('kbo_games', JSON.stringify(games));
-        
-        alert("경기 정보가 저장되었습니다.");
-        
-        // 폼 초기화 (일부)
-        document.getElementById('in-away-score').value = 0;
-        document.getElementById('in-home-score').value = 0;
-        document.getElementById('in-away-pitcher').value = "";
-        document.getElementById('in-home-pitcher').value = "";
-        document.getElementById('in-away-mvp').value = "";
-        document.getElementById('in-home-mvp').value = "";
+  });
+  $('nc-btn-delete').addEventListener('click', async ()=>{
+    const d = $('nc-date').value;
+    if(!d || !findGame(NC,d)) return;
+    if(!confirm(d + ' NC 기록을 삭제할까요?')) return;
+    try{
+      await deleteGame(NC, d);
+      delete games[recKey(NC,d)];
+      clearNcForm();
+      $('nc-form-status').textContent = '삭제되었습니다.';
+      renderCalendar();
+      renderRanking();
+      if(selectedDate === d){ selectedDate = null; renderDetail(null); }
+    }catch(e){
+      console.error(e);
+      $('nc-form-status').classList.add('error');
+      $('nc-form-status').textContent = '삭제에 실패했습니다.';
     }
+  });
 
-    // 달력 달 변경
-    function changeMonth(diff) {
-        currentMonth += diff;
-        if (currentMonth > 12) { currentMonth = 1; currentYear++; }
-        else if (currentMonth < 1) { currentMonth = 12; currentYear--; }
-        renderCalendar();
+  // ---------- Other-team form ----------
+  function populateOtherTeamSelect(){
+    const sel = $('other-team');
+    sel.innerHTML = '';
+    TEAMS.filter(t=>t!==NC).forEach(t=>{
+      const opt = document.createElement('option');
+      opt.value = t; opt.textContent = t;
+      sel.appendChild(opt);
+    });
+  }
+  function populateOtherOpponentSelect(){
+    const currentTeam = $('other-team').value;
+    const sel = $('other-opponent');
+    const prevVal = sel.value;
+    sel.innerHTML = '';
+    TEAMS.filter(t=>t!==currentTeam).forEach(t=>{
+      const opt = document.createElement('option');
+      opt.value = t; opt.textContent = t;
+      sel.appendChild(opt);
+    });
+    if(TEAMS.includes(prevVal) && prevVal !== currentTeam){ sel.value = prevVal; }
+  }
+  function clearOtherForm(keepTeam){
+    if(!keepTeam) $('other-team').selectedIndex = 0;
+    populateOtherOpponentSelect();
+    document.querySelector('input[name=other-homeaway][value=away]').checked = true;
+    $('other-stadium').value = '';
+    $('other-team-pitcher').value = '';
+    $('other-op-pitcher').value = '';
+    $('other-team-score').value = 0;
+    $('other-op-score').value = 0;
+    $('other-team-mvp').value = '';
+    $('other-op-mvp').value = '';
+    $('other-btn-delete').style.display = 'none';
+    $('other-edit-flag').style.display = 'none';
+    $('other-form-status').textContent = '';
+    $('other-form-status').classList.remove('error');
+  }
+  function loadOtherGameIntoForm(g){
+    $('other-team').value = g.team;
+    populateOtherOpponentSelect();
+    $('other-opponent').value = g.opponent;
+    document.querySelector(`input[name=other-homeaway][value=${g.teamHome ? 'home':'away'}]`).checked = true;
+    $('other-stadium').value = g.stadium || '';
+    $('other-team-pitcher').value = g.teamPitcher || '';
+    $('other-op-pitcher').value = g.opPitcher || '';
+    $('other-team-score').value = g.teamScore;
+    $('other-op-score').value = g.opScore;
+    $('other-team-mvp').value = g.teamMVP || '';
+    $('other-op-mvp').value = g.opMVP || '';
+    $('other-btn-delete').style.display = 'inline-block';
+    $('other-edit-flag').style.display = 'block';
+  }
+  function checkOtherForExisting(){
+    const d = $('other-date').value;
+    const team = $('other-team').value;
+    if(!d || !team) return;
+    const g = findGame(team, d);
+    if(g) loadOtherGameIntoForm(g); else clearOtherForm(true);
+  }
+  $('other-date').addEventListener('change', checkOtherForExisting);
+  $('other-team').addEventListener('change', ()=>{ populateOtherOpponentSelect(); checkOtherForExisting(); });
+  $('other-btn-reset').addEventListener('click', ()=> clearOtherForm(true));
+
+  $('other-btn-save').addEventListener('click', async ()=>{
+    const d = $('other-date').value;
+    const statusEl = $('other-form-status');
+    const team = $('other-team').value;
+    if(!d){ statusEl.textContent = '날짜를 선택해주세요.'; statusEl.classList.add('error'); return; }
+    const rec = {
+      date: d, team: team, opponent: $('other-opponent').value,
+      teamHome: document.querySelector('input[name=other-homeaway]:checked').value === 'home',
+      stadium: $('other-stadium').value.trim(),
+      teamPitcher: $('other-team-pitcher').value.trim(),
+      opPitcher: $('other-op-pitcher').value.trim(),
+      teamScore: parseInt($('other-team-score').value,10) || 0,
+      opScore: parseInt($('other-op-score').value,10) || 0,
+      teamMVP: $('other-team-mvp').value.trim(),
+      opMVP: $('other-op-mvp').value.trim()
+    };
+    try{
+      await saveGame(rec);
+      games[recKey(team,d)] = rec;
+      statusEl.classList.remove('error');
+      statusEl.textContent = '저장되었습니다.';
+      $('other-btn-delete').style.display = 'inline-block';
+      $('other-edit-flag').style.display = 'block';
+      renderRanking();
+      if(team === NC){ renderCalendar(); }
+    }catch(e){
+      console.error(e);
+      statusEl.classList.add('error');
+      statusEl.textContent = '저장에 실패했습니다. 다시 시도해주세요.';
     }
-
-    // 승률 계산 함수 (승 / (승+패)) 소수점 4번째 자리에서 반올림
-    function calcWinRate(w, l) {
-        if (w + l === 0) return "0.000";
-        return (w / (w + l)).toFixed(3);
+  });
+  $('other-btn-delete').addEventListener('click', async ()=>{
+    const d = $('other-date').value;
+    const team = $('other-team').value;
+    if(!d || !findGame(team,d)) return;
+    if(!confirm(`${d} ${team} 기록을 삭제할까요?`)) return;
+    try{
+      await deleteGame(team, d);
+      delete games[recKey(team,d)];
+      clearOtherForm(true);
+      $('other-form-status').textContent = '삭제되었습니다.';
+      renderRanking();
+      if(team === NC){ renderCalendar(); }
+    }catch(e){
+      console.error(e);
+      $('other-form-status').classList.add('error');
+      $('other-form-status').textContent = '삭제에 실패했습니다.';
     }
+  });
 
-    // 캘린더 렌더링
-    function renderCalendar() {
-        document.getElementById('cal-title').innerText = `${currentYear}년 ${currentMonth}월`;
-        const grid = document.getElementById('cal-grid');
-        grid.innerHTML = '';
+  // ---------- calendar (NC only) ----------
+  $('cal-prev').addEventListener('click', ()=>{
+    viewMonth--; if(viewMonth < 0){ viewMonth = 11; viewYear--; }
+    renderCalendar();
+  });
+  $('cal-next').addEventListener('click', ()=>{
+    viewMonth++; if(viewMonth > 11){ viewMonth = 0; viewYear++; }
+    renderCalendar();
+  });
 
-        const days = ['일', '월', '화', '수', '목', '금', '토'];
-        days.forEach(d => {
-            const div = document.createElement('div');
-            div.className = 'cal-day-name';
-            div.innerText = d;
-            grid.appendChild(div);
-        });
+  function renderDowHeader(){
+    const row = $('cal-dow-row');
+    row.innerHTML = '';
+    DOW.forEach(d=>{
+      const el = document.createElement('div');
+      el.className = 'cal-dow';
+      el.textContent = d;
+      row.appendChild(el);
+    });
+  }
 
-        const firstDay = new Date(currentYear, currentMonth - 1, 1).getDay();
-        const lastDate = new Date(currentYear, currentMonth, 0).getDate();
+  function renderCalendar(){
+    $('cal-title').textContent = `${viewYear}년 ${viewMonth+1}월`;
+    const grid = $('cal-grid');
+    grid.innerHTML = '';
+    const firstDow = new Date(viewYear, viewMonth, 1).getDay();
+    const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
 
-        // 빈 칸 채우기
-        for (let i = 0; i < firstDay; i++) {
-            const empty = document.createElement('div');
-            empty.className = 'cal-cell';
-            empty.style.visibility = 'hidden';
-            grid.appendChild(empty);
-        }
-
-        // 날짜 채우기
-        for (let i = 1; i <= lastDate; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'cal-cell';
-            
-            const dateStr = `${currentYear}-${String(currentMonth).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-            
-            cell.innerHTML = `<div class="cal-date">${i}</div>`;
-            cell.onclick = () => showGameDetail(dateStr);
-
-            // 해당 날짜에 NC 다이노스 경기가 있는지 확인
-            const dailyGames = games.filter(g => g.date === dateStr && (g.awayTeam === 'NC 다이노스' || g.homeTeam === 'NC 다이노스'));
-            
-            dailyGames.forEach(g => {
-                const isNC_Away = g.awayTeam === 'NC 다이노스';
-                const ncScore = isNC_Away ? g.awayScore : g.homeScore;
-                const opScore = isNC_Away ? g.homeScore : g.awayScore;
-                const opTeam = isNC_Away ? g.homeTeam : g.awayTeam;
-                const place = isNC_Away ? '@' : 'vs'; // 원정이면 @팀, 홈이면 vs팀
-
-                let resultStr = "무";
-                let resultClass = "nc-draw";
-                if(ncScore > opScore) { resultStr = "승"; resultClass = "nc-win"; }
-                else if(ncScore < opScore) { resultStr = "패"; resultClass = "nc-loss"; }
-
-                cell.innerHTML += `<div class="cal-game-info">
-                    ${place}${opTeam}<br>
-                    <span class="${resultClass}">${resultStr}</span> (${g.awayScore}:${g.homeScore})
-                </div>`;
-            });
-
-            grid.appendChild(cell);
-        }
-
-        renderStats();
+    for(let i=0;i<firstDow;i++){
+      const blank = document.createElement('div');
+      blank.className = 'cal-cell empty';
+      grid.appendChild(blank);
     }
-
-    // NC 다이노스 스탯 렌더링 (우측 하단)
-    function renderStats() {
-        let m_W=0, m_L=0, m_D=0;
-        let s_W=0, s_L=0, s_D=0;
-
-        games.forEach(g => {
-            if (g.awayTeam !== 'NC 다이노스' && g.homeTeam !== 'NC 다이노스') return;
-
-            const gDate = new Date(g.date);
-            const isNC_Away = g.awayTeam === 'NC 다이노스';
-            const ncScore = isNC_Away ? g.awayScore : g.homeScore;
-            const opScore = isNC_Away ? g.homeScore : g.awayScore;
-            
-            let isWin = ncScore > opScore;
-            let isLoss = ncScore < opScore;
-            let isDraw = ncScore === opScore;
-
-            // 2026 시즌 통산 (기준년도)
-            if (gDate.getFullYear() === 2026) {
-                if(isWin) s_W++; else if(isLoss) s_L++; else s_D++;
-            }
-            
-            // 현재 보고 있는 월
-            if (gDate.getFullYear() === currentYear && gDate.getMonth() + 1 === currentMonth) {
-                if(isWin) m_W++; else if(isLoss) m_L++; else m_D++;
-            }
-        });
-
-        const statsDiv = document.getElementById('stats-display');
-        statsDiv.innerHTML = `
-            <strong>[NC 다이노스 성적 요약]</strong><br>
-            ${currentMonth}월: ${m_W}승 ${m_D}무 ${m_L}패 (승률 ${calcWinRate(m_W, m_L)})<br>
-            2026시즌 통산: ${s_W}승 ${s_D}무 ${s_L}패 (승률 ${calcWinRate(s_W, s_L)})
+    for(let day=1; day<=daysInMonth; day++){
+      const ds = dateStr(viewYear, viewMonth, day);
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell';
+      cell.dataset.date = ds;
+      const g = findGame(NC, ds);
+      if(g){
+        const r = resultOf(g);
+        cell.classList.add(resultClass(r));
+        const lr = leftRight(g);
+        cell.innerHTML = `
+          <div class="daynum">${day}</div>
+          <div class="cal-game-line"><span class="res">${r}</span> ${CODE[lr.left.team]} ${lr.left.score} : ${lr.right.score} ${CODE[lr.right.team]}</div>
         `;
+      }else{
+        cell.innerHTML = `<div class="daynum">${day}</div>`;
+      }
+      if(ds === selectedDate) cell.classList.add('selected');
+      cell.addEventListener('click', ()=> onDayClick(ds));
+      grid.appendChild(cell);
     }
+    renderStatsBox();
+  }
 
-    // 모달 띄우기
-    function showGameDetail(dateStr) {
-        const dailyGames = games.filter(g => g.date === dateStr);
-        const body = document.getElementById('modal-body');
-        document.getElementById('modal-title').innerText = `${dateStr} 경기 정보`;
+  function onDayClick(ds){
+    selectedDate = ds;
+    document.querySelectorAll('.cal-cell').forEach(c=>c.classList.toggle('selected', c.dataset.date===ds));
+    renderDetail(ds);
+  }
 
-        if(dailyGames.length === 0) {
-            body.innerHTML = "<p>이 날짜에 기록된 경기가 없습니다.</p>";
-        } else {
-            body.innerHTML = dailyGames.map(g => `
-                <div style="border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:10px;">
-                    <strong>구장:</strong> ${g.stadium || '미입력'}<br>
-                    <strong>매치:</strong> ${g.awayTeam} (AWAY) vs ${g.homeTeam} (HOME)<br>
-                    <strong>점수:</strong> ${g.awayScore} : ${g.homeScore}<br>
-                    <strong>선발투수:</strong> ${g.awayPitcher||'미입력'} (AWAY) / ${g.homePitcher||'미입력'} (HOME)<br>
-                    <strong>MVP:</strong> ${g.awayMVP||'미입력'} (AWAY) / ${g.homeMVP||'미입력'} (HOME)
-                </div>
-            `).join('');
-        }
-        document.getElementById('detail-modal').style.display = 'flex';
+  function renderDetail(ds){
+    const panel = $('detail-panel');
+    const g = ds ? findGame(NC, ds) : null;
+    if(!ds || !g){
+      panel.innerHTML = ds
+        ? `<p class="detail-title">${ds}</p><p class="detail-empty">이 날짜에는 아직 NC 기록이 없습니다.</p>
+           <div class="detail-actions"><button class="btn btn-primary" id="btn-quick-add">이 날짜로 기록 입력</button></div>`
+        : `<p class="detail-empty">캘린더에서 날짜를 클릭하면<br>그날의 경기 기록이 여기에 표시됩니다.</p>`;
+      if(ds){
+        $('btn-quick-add').addEventListener('click', ()=>{
+          $('nc-date').value = ds;
+          clearNcForm();
+          goToInputTab('nc');
+        });
+      }
+      return;
     }
+    const r = resultOf(g);
+    const lr = leftRight(g);
+    const resultLabel = r === 'W' ? '승리' : (r === 'L' ? '패배' : '무승부');
+    panel.innerHTML = `
+      <p class="detail-title">${ds} &middot; ${resultLabel}</p>
+      <div class="detail-score">
+        ${CODE[lr.left.team]} ${lr.left.score}<span class="vs">:</span>${lr.right.score} ${CODE[lr.right.team]}
+      </div>
+      <div class="detail-row"><span class="k">구장</span><span class="v">${g.stadium || '-'}</span></div>
+      <div class="detail-row"><span class="k">NC 선발</span><span class="v">${g.teamPitcher || '-'}</span></div>
+      <div class="detail-row"><span class="k">${g.opponent} 선발</span><span class="v">${g.opPitcher || '-'}</span></div>
+      <div class="detail-row"><span class="k">NC MVP</span><span class="v">${g.teamMVP || '-'}</span></div>
+      <div class="detail-row"><span class="k">${g.opponent} MVP</span><span class="v">${g.opMVP || '-'}</span></div>
+      <div class="detail-actions">
+        <button class="btn btn-ghost" id="btn-edit-game">수정하기</button>
+        <button class="btn btn-danger" id="btn-delete-game">삭제</button>
+      </div>
+    `;
+    $('btn-edit-game').addEventListener('click', ()=>{
+      $('nc-date').value = ds;
+      loadNcGameIntoForm(g);
+      goToInputTab('nc');
+    });
+    $('btn-delete-game').addEventListener('click', async ()=>{
+      if(!confirm(ds + ' NC 기록을 삭제할까요?')) return;
+      try{
+        await deleteGame(NC, ds);
+        delete games[recKey(NC,ds)];
+        renderCalendar();
+        renderRanking();
+        renderDetail(null);
+        selectedDate = null;
+      }catch(e){ console.error(e); alert('삭제에 실패했습니다.'); }
+    });
+  }
 
-    function closeModal() {
-        document.getElementById('detail-modal').style.display = 'none';
+  function renderStatsBox(){
+    const monthList = Object.values(games).filter(g=>{
+      if(g.team !== NC) return false;
+      const [y,m] = g.date.split('-').map(Number);
+      return y === viewYear && (m-1) === viewMonth;
+    });
+    const seasonList = Object.values(games).filter(g=>{
+      if(g.team !== NC) return false;
+      const y = Number(g.date.split('-')[0]);
+      return y === viewYear;
+    });
+
+    function tally(list){
+      let w=0,d=0,l=0;
+      list.forEach(g=>{
+        const r = resultOf(g);
+        if(r==='W') w++; else if(r==='L') l++; else d++;
+      });
+      return {w,d,l};
     }
+    const m = tally(monthList);
+    const s = tally(seasonList);
 
-    // 순위표 렌더링
-    function renderRanking() {
-        const tbody = document.getElementById('ranking-tbody');
-        tbody.innerHTML = '';
+    $('stats-box').innerHTML = `
+      <p class="stats-title">전광판</p>
+      <div class="stats-line"><span>${viewMonth+1}월 전적</span><span class="val">${m.w}승 ${m.d}무 ${m.l}패</span></div>
+      <div class="stats-pct">${viewMonth+1}월 승률 &nbsp; 0${pct(m.w,m.l)}</div>
+      <div class="stats-sep"></div>
+      <div class="stats-line"><span>${viewYear}시즌 통산</span><span class="val">${s.w}승 ${s.d}무 ${s.l}패</span></div>
+      <div class="stats-pct">시즌 승률 &nbsp; 0${pct(s.w,s.l)}</div>
+    `;
+  }
 
-        let teamStats = {};
-        KBO_TEAMS.forEach(t => teamStats[t] = { w: 0, l: 0, d: 0, total: 0 });
+  // ---------- ranking (every team, based on its own directly-entered records) ----------
+  function renderRanking(){
+    const standings = {};
+    TEAMS.forEach(t=> standings[t] = {w:0,d:0,l:0});
 
-        // 기록된 모든 경기를 바탕으로 10개 구단 승패 계산
-        games.forEach(g => {
-            if(!teamStats[g.awayTeam] || !teamStats[g.homeTeam]) return;
+    Object.values(games).forEach(g=>{
+      if(!standings[g.team]) return;
+      const r = resultOf(g);
+      if(r==='W') standings[g.team].w++;
+      else if(r==='L') standings[g.team].l++;
+      else standings[g.team].d++;
+    });
 
-            teamStats[g.awayTeam].total++;
-            teamStats[g.homeTeam].total++;
+    const rows = TEAMS.map(t=>{
+      const s = standings[t];
+      const gamesPlayed = s.w+s.d+s.l;
+      const rate = (s.w+s.l) > 0 ? (s.w/(s.w+s.l)) : -1; // sorts to bottom when no decisions
+      return { team:t, ...s, games: gamesPlayed, rate };
+    });
+    rows.sort((a,b)=> b.rate - a.rate);
 
-            if(g.awayScore > g.homeScore) {
-                teamStats[g.awayTeam].w++;
-                teamStats[g.homeTeam].l++;
-            } else if(g.awayScore < g.homeScore) {
-                teamStats[g.awayTeam].l++;
-                teamStats[g.homeTeam].w++;
-            } else {
-                teamStats[g.awayTeam].d++;
-                teamStats[g.homeTeam].d++;
-            }
-        });
+    const tbody = $('rank-tbody');
+    tbody.innerHTML = '';
+    rows.forEach((row, idx)=>{
+      const tr = document.createElement('tr');
+      if(row.team === NC) tr.classList.add('nc-row');
+      const pctText = (row.w+row.l) > 0 ? ('0'+pct(row.w,row.l)) : '-';
+      tr.innerHTML = `
+        <td class="rank-num">${idx+1}</td>
+        <td class="team-name">${row.team}</td>
+        <td>${row.games}</td>
+        <td>${row.w}</td>
+        <td>${row.d}</td>
+        <td>${row.l}</td>
+        <td class="pct">${pctText}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 
-        // 배열로 변환 및 정렬 (승률 내림차순 -> 승수 내림차순)
-        let rankArr = KBO_TEAMS.map(t => {
-            let s = teamStats[t];
-            let rate = s.w + s.l === 0 ? 0 : s.w / (s.w + s.l);
-            return { team: t, ...s, rateValue: rate, rateStr: calcWinRate(s.w, s.l) };
-        });
+  // ---------- init ----------
+  async function init(){
+    populateNcOpponentSelect();
+    populateOtherTeamSelect();
+    populateOtherOpponentSelect();
+    renderDowHeader();
+    const t = todayParts();
+    viewYear = t.y; viewMonth = t.m;
+    const todayStr = dateStr(t.y, t.m, t.d);
+    $('nc-date').value = todayStr;
+    $('other-date').value = todayStr;
 
-        rankArr.sort((a, b) => {
-            if (b.rateValue !== a.rateValue) return b.rateValue - a.rateValue;
-            return b.w - a.w; // 승률이 같으면 승수가 많은 팀 우선
-        });
-
-        rankArr.forEach((r, idx) => {
-            const tr = document.createElement('tr');
-            // NC 다이노스 행에 하이라이트 부여
-            if(r.team === 'NC 다이노스') tr.style.backgroundColor = '#e8f0fe';
-            
-            tr.innerHTML = `
-                <td>${idx + 1}</td>
-                <td>${r.team}</td>
-                <td>${r.total}</td>
-                <td>${r.w}</td>
-                <td>${r.d}</td>
-                <td>${r.l}</td>
-                <td><strong>${r.rateStr}</strong></td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
+    games = await loadAllGames();
+    checkNcDateForExisting();
+    checkOtherForExisting();
+    renderCalendar();
+    renderRanking();
+  }
+  init();
+})();
 </script>
-
 </body>
 </html>
