@@ -3,992 +3,998 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NC 다이노스 승률 기록</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<title>NC 다이노스 직관 기록판</title>
 <style>
   :root{
-    --bg: #0a1626;
-    --bg-deep: #060e19;
-    --surface: #10233c;
-    --surface-2: #16304f;
-    --border: #24425e;
-    --text: #eaf0f8;
-    --muted: #86a0bd;
-    --gold: #e8b93f;
-    --gold-dim: #a5872f;
-    --win: #3fae5c;
-    --win-bg: rgba(63,174,92,0.16);
-    --loss: #e05b52;
-    --loss-bg: rgba(224,91,82,0.16);
-    --draw: #9aa5b8;
-    --draw-bg: rgba(154,165,184,0.14);
-    --radius: 3px;
-    --font-display: 'Teko', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --bg:#F5F6F3;
+    --panel:#FFFFFF;
+    --ink:#152232;
+    --ink-soft:#5B6672;
+    --line:#E1E4DF;
+    --navy:#1E3A5F;
+    --navy-deep:#132840;
+    --navy-soft:#EAF0F7;
+    --gold:#C89B3C;
+    --win:#2F8F5B;
+    --win-bg:#E7F5EC;
+    --loss:#C64B4B;
+    --loss-bg:#FBEAEA;
+    --draw:#B4862E;
+    --draw-bg:#FBF2E1;
+    --cancel:#8A93A0;
+    --cancel-bg:#EEF0F2;
+    --radius:10px;
+    --shadow:0 1px 2px rgba(21,34,50,.06), 0 4px 14px rgba(21,34,50,.05);
   }
   *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
   body{
-    margin:0;
-    background: var(--bg);
-    background-image:
-      radial-gradient(circle at 15% 0%, rgba(232,185,63,0.05), transparent 40%),
-      radial-gradient(circle at 85% 100%, rgba(63,174,92,0.05), transparent 40%);
-    color: var(--text);
-    font-family: var(--font-body);
-    min-height:100vh;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    line-height:1.5;
+    padding-bottom:60px;
   }
-  .app{ max-width: 1180px; margin: 0 auto; padding: 20px 20px 60px; }
+  .tabular{font-variant-numeric:tabular-nums;}
 
-  /* ---------- Topbar ---------- */
-  .topbar{
-    display:flex; align-items:flex-end; justify-content:space-between;
-    flex-wrap:wrap; gap:16px;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 14px; margin-bottom: 22px;
+  /* Header */
+  header.top{
+    background:linear-gradient(180deg,var(--navy-deep) 0%, var(--navy) 100%);
+    color:#fff;
+    padding:22px 24px 0 24px;
   }
-  .topbar h1{
-    font-family: var(--font-display);
-    font-weight:600;
-    font-size: 40px;
-    line-height:1;
-    margin:0;
-    letter-spacing: 0.5px;
-    color: var(--text);
+  .brand{
+    display:flex; align-items:baseline; gap:10px; margin-bottom:18px;
   }
-  .topbar h1 span{
-    display:block;
-    font-family: var(--font-body);
-    font-weight:500;
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: var(--gold);
-    margin-top:4px;
+  .brand .logo-mark{
+    width:34px;height:34px;border-radius:8px;
+    background:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:var(--navy-deep);font-size:16px;
+    flex:none;
   }
-  .tabs{ display:flex; gap:6px; }
-  .tab-btn{
-    font-family: var(--font-display);
-    font-size: 20px;
-    letter-spacing: 1px;
-    background: var(--surface);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 8px 22px 6px;
-    cursor:pointer;
-    transition: all .15s ease;
+  .brand h1{
+    font-size:19px; font-weight:700; margin:0; letter-spacing:.2px;
   }
-  .tab-btn:hover{ color: var(--text); border-color: var(--gold-dim); }
-  .tab-btn.active{
-    color: var(--bg-deep);
-    background: var(--gold);
-    border-color: var(--gold);
+  .brand span.sub{
+    color:#B9C7D8; font-size:12.5px; font-weight:400;
+  }
+  nav.tabs{
+    display:flex; gap:2px; max-width:1180px; margin:0 auto;
+  }
+  nav.tabs button{
+    appearance:none; border:none; background:transparent;
+    color:#AFC0D4; padding:11px 18px; font-size:14.5px; font-weight:600;
+    cursor:pointer; border-radius:8px 8px 0 0;
+    transition:background .15s, color .15s;
+  }
+  nav.tabs button:hover{ color:#fff; background:rgba(255,255,255,.06); }
+  nav.tabs button.active{
+    background:var(--bg); color:var(--navy-deep);
   }
 
-  .view{ display:none; }
-  .view.active{ display:block; }
+  main{
+    max-width:1180px; margin:0 auto; padding:22px 20px 10px;
+  }
+  .panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  h2.section-title{
+    font-size:15px; font-weight:700; margin:0 0 14px; color:var(--navy-deep);
+  }
+  .hint{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
 
-  /* ---------- Cards / shared ---------- */
-  .card{
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
+  /* ---------- Input Tab ---------- */
+  .form-wrap{ padding:22px; }
+  .field-row{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+  .field{ flex:1; min-width:150px; }
+  .field label{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; }
+  .field input[type=text], .field input[type=date], .field input[type=number], .field select, .field textarea{
+    width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:7px;
+    font-size:14px; color:var(--ink); background:#fff; font-family:inherit;
   }
-  .section-label{
-    font-family: var(--font-display);
-    font-size: 22px;
-    letter-spacing: 0.5px;
-    color: var(--gold);
-    margin: 0 0 14px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--navy); box-shadow:0 0 0 3px var(--navy-soft);
   }
+  .matchup{
+    display:grid; grid-template-columns:1fr 40px 1fr; gap:12px; align-items:start; margin-bottom:6px;
+  }
+  .side-card{
+    border:1px solid var(--line); border-radius:9px; padding:14px; background:#FBFCFA;
+  }
+  .side-card.away{ border-left:4px solid var(--ink-soft); }
+  .side-card.home{ border-left:4px solid var(--gold); }
+  .side-label{ font-size:11.5px; font-weight:700; color:var(--ink-soft); margin-bottom:10px; }
+  .side-label.away-c{color:#6B7480;}
+  .side-label.home-c{color:#9A7418;}
+  .vs-mark{
+    display:flex; align-items:center; justify-content:center; height:100%;
+    font-size:12px; font-weight:700; color:var(--ink-soft); padding-top:36px;
+  }
+  .toggle-row{ display:flex; gap:10px; align-items:center; margin:16px 0; flex-wrap:wrap; }
+  .chip-toggle{
+    display:inline-flex; align-items:center; gap:7px; padding:8px 13px; border-radius:20px;
+    border:1px solid var(--line); background:#fff; cursor:pointer; font-size:13.5px; font-weight:600;
+    color:var(--ink-soft); user-select:none;
+  }
+  .chip-toggle input{ display:none; }
+  .chip-toggle.on-watch.checked{ background:var(--navy-soft); border-color:var(--navy); color:var(--navy-deep); }
+  .chip-toggle.on-cancel.checked{ background:var(--loss-bg); border-color:var(--loss); color:var(--loss); }
+  .cancel-reason-box{
+    display:none; margin-top:6px;
+  }
+  .cancel-reason-box.show{ display:block; }
+  .form-actions{ display:flex; gap:10px; margin-top:18px; align-items:center; }
+  button.primary{
+    background:var(--navy); color:#fff; border:none; padding:11px 22px; border-radius:8px;
+    font-size:14.5px; font-weight:700; cursor:pointer;
+  }
+  button.primary:hover{ background:var(--navy-deep); }
+  button.ghost{
+    background:transparent; color:var(--ink-soft); border:1px solid var(--line); padding:11px 18px; border-radius:8px;
+    font-size:14px; font-weight:600; cursor:pointer;
+  }
+  button.ghost:hover{ background:#F0F1EE; }
+  #editingNotice{
+    display:none; background:var(--draw-bg); color:var(--draw); border:1px solid #EAD6A0;
+    padding:8px 12px; border-radius:7px; font-size:13px; font-weight:600; margin-bottom:14px;
+  }
+  #editingNotice.show{ display:block; }
+  #toast{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--navy-deep); color:#fff; padding:11px 20px; border-radius:8px; font-size:13.5px;
+    opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:50; font-weight:600;
+    box-shadow:0 6px 20px rgba(0,0,0,.2);
+  }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-  /* ---------- Input sub-tabs ---------- */
-  .subtabs{ display:flex; gap:8px; margin-bottom:16px; }
-  .subtab-btn{
-    font-family: var(--font-body);
-    font-weight:600;
-    font-size:13px;
-    background: var(--surface);
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 8px 16px;
-    cursor:pointer;
-  }
-  .subtab-btn:hover{ color: var(--text); border-color: var(--gold-dim); }
-  .subtab-btn.active{ color: var(--gold); border-color: var(--gold-dim); background: rgba(232,185,63,0.08); }
-  .input-card{ display:none; max-width: 720px; }
-  .input-card.active{ display:block; }
-
-  /* ---------- Input form ---------- */
-  .form-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
-  .field{ display:flex; flex-direction:column; gap:6px; }
-  .field.full{ grid-column: 1 / -1; }
-  .field label{ font-size:13px; color: var(--muted); font-weight:500; }
-  .field input[type=text], .field input[type=date], .field input[type=number], .field select{
-    background: var(--bg-deep);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 9px 10px;
-    border-radius: var(--radius);
-    font-family: var(--font-body);
-    font-size: 14px;
-  }
-  .field input:focus, .field select:focus{ outline: none; border-color: var(--gold); }
-  .radio-row{ display:flex; gap:14px; align-items:center; height:38px; }
-  .radio-row label{ display:flex; align-items:center; gap:6px; font-size:14px; color: var(--text); cursor:pointer; font-weight:400; }
-  .divider-label{
-    grid-column: 1/-1;
-    font-family: var(--font-display);
-    font-size:18px;
-    color: var(--muted);
-    letter-spacing:1px;
-    margin-top:6px;
-    border-top: 1px dashed var(--border);
-    padding-top:14px;
-  }
-  .score-pair{ display:flex; align-items:center; gap:10px; }
-  .score-pair input{ width:70px; text-align:center; font-family: var(--font-mono); font-size:16px; }
-  .btn-row{ display:flex; gap:10px; margin-top:20px; grid-column: 1/-1; }
-  .btn{
-    font-family: var(--font-body);
-    font-weight:600;
-    font-size:14px;
-    padding: 10px 20px;
-    border-radius: var(--radius);
-    border: 1px solid transparent;
-    cursor:pointer;
-  }
-  .btn-primary{ background: var(--gold); color: var(--bg-deep); }
-  .btn-primary:hover{ background:#f0c552; }
-  .btn-danger{ background: transparent; color: var(--loss); border-color: var(--loss); }
-  .btn-danger:hover{ background: var(--loss-bg); }
-  .btn-ghost{ background: transparent; color: var(--muted); border-color: var(--border); }
-  .btn-ghost:hover{ color:var(--text); border-color:var(--gold-dim); }
-  .form-status{ grid-column: 1/-1; font-size:13px; color: var(--win); min-height:16px; }
-  .form-status.error{ color: var(--loss); }
-  .edit-flag{
-    grid-column:1/-1; font-size:12px; color: var(--gold); background: rgba(232,185,63,0.1);
-    border: 1px solid var(--gold-dim); border-radius: var(--radius); padding:6px 10px; display:none;
-  }
-
-  /* ---------- Calendar ---------- */
-  .cal-layout{ display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
-  .cal-main{ flex: 1 1 560px; min-width: 320px; }
-  .cal-side{ flex: 0 0 280px; display:flex; flex-direction:column; gap:16px; min-height: 460px; }
-  .cal-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  /* ---------- Calendar Tab ---------- */
+  .cal-wrap{ display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
+  .cal-left{ flex:2; min-width:340px; padding:18px; }
+  .cal-right{ flex:1; min-width:270px; display:flex; flex-direction:column; gap:16px; }
+  .cal-nav{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .cal-nav .ym{ font-size:17px; font-weight:800; color:var(--navy-deep); }
   .cal-nav button{
-    background: var(--surface-2); border:1px solid var(--border); color: var(--text);
-    width:34px; height:34px; border-radius: var(--radius); cursor:pointer; font-size:16px;
+    background:var(--navy-soft); border:none; color:var(--navy-deep); width:32px;height:32px;border-radius:7px;
+    cursor:pointer; font-size:15px; font-weight:700;
   }
-  .cal-nav button:hover{ border-color: var(--gold-dim); }
-  .cal-title{ font-family: var(--font-display); font-size:30px; letter-spacing:1px; }
-  .cal-grid{ display:grid; grid-template-columns: repeat(7,1fr); gap:5px; }
-  .cal-dow{ text-align:center; font-size:12px; color: var(--muted); padding-bottom:6px; letter-spacing:1px; }
-  .cal-cell{
-    aspect-ratio: 1 / 0.95;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 6px;
-    cursor:pointer;
-    display:flex; flex-direction:column; justify-content:space-between;
-    transition: border-color .12s ease;
+  .cal-nav button:hover{ background:#DCE7F3; }
+  table.cal-grid{ width:100%; border-collapse:collapse; table-layout:fixed; }
+  table.cal-grid th{
+    font-size:11.5px; color:var(--ink-soft); font-weight:700; padding:6px 0; text-align:center;
   }
-  .cal-cell:hover{ border-color: var(--gold-dim); }
-  .cal-cell.empty{ background:transparent; border-color:transparent; cursor:default; }
-  .cal-cell.selected{ border-color: var(--gold); }
-  .cal-cell .daynum{ font-family: var(--font-mono); font-size:13px; color: var(--muted); }
-  .cal-cell.win{ background: var(--win-bg); }
-  .cal-cell.loss{ background: var(--loss-bg); }
-  .cal-cell.draw{ background: var(--draw-bg); }
-  .cal-cell.win .daynum, .cal-cell.loss .daynum, .cal-cell.draw .daynum{ color: var(--text); }
-  .cal-game-line{ font-family: var(--font-mono); font-size:11px; line-height:1.3; color: var(--text); }
-  .cal-game-line .res{ font-weight:700; }
-  .cal-cell.win .res{ color: var(--win); }
-  .cal-cell.loss .res{ color: var(--loss); }
-  .cal-cell.draw .res{ color: var(--draw); }
+  table.cal-grid td{
+    border:1px solid var(--line); vertical-align:top; height:78px; padding:6px; cursor:default;
+    transition:background .1s;
+  }
+  table.cal-grid td.has-game{ cursor:pointer; }
+  table.cal-grid td.has-game:hover{ background:#F5F8FB; }
+  table.cal-grid td.empty{ background:#FAFAF8; border-color:#EEEFEC; }
+  table.cal-grid td.selected{ background:var(--navy-soft); border-color:var(--navy); }
+  .day-num{ font-size:12px; font-weight:700; color:var(--ink-soft); }
+  td.today .day-num{ color:var(--navy); }
+  td.today{ box-shadow:inset 0 0 0 1.5px var(--navy); }
+  .badge{
+    display:inline-block; margin-top:5px; font-size:11px; font-weight:800; padding:2px 6px; border-radius:5px;
+  }
+  .badge.win{ background:var(--win-bg); color:var(--win); }
+  .badge.loss{ background:var(--loss-bg); color:var(--loss); }
+  .badge.draw{ background:var(--draw-bg); color:var(--draw); }
+  .badge.cancel{ background:var(--cancel-bg); color:var(--cancel); text-decoration:line-through; }
+  .badge.sched{ background:#E7EEF7; color:#5A7CA6; }
+  .watch-dot{ color:var(--gold); font-size:10px; margin-left:3px; }
 
-  .detail-panel{
-    background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
-    padding:16px; font-size:13px; flex: 1 1 auto;
+  .detail-panel{ padding:16px; min-height:170px; }
+  .detail-empty{ color:var(--ink-soft); font-size:13.5px; padding:20px 4px; text-align:center; }
+  .detail-game{ border-bottom:1px solid var(--line); padding-bottom:12px; margin-bottom:12px; }
+  .detail-game:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .detail-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .detail-date{ font-size:12.5px; color:var(--ink-soft); font-weight:600; }
+  .score-line{ display:flex; align-items:center; justify-content:center; gap:14px; margin:10px 0; }
+  .score-team{ text-align:center; flex:1; }
+  .score-team .tname{ font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:3px; }
+  .score-team .tscore{ font-size:26px; font-weight:800; color:var(--navy-deep); }
+  .score-sep{ font-size:15px; color:var(--ink-soft); font-weight:700; }
+  .detail-meta{ font-size:12.5px; color:var(--ink-soft); }
+  .detail-meta div{ margin-bottom:3px; }
+  .detail-meta b{ color:var(--ink); font-weight:600; }
+  .detail-actions{ display:flex; gap:8px; margin-top:10px; }
+  .detail-actions button{
+    font-size:12px; padding:6px 10px; border-radius:6px; border:1px solid var(--line); background:#fff;
+    cursor:pointer; color:var(--ink-soft); font-weight:600;
   }
-  .detail-empty{ color: var(--muted); line-height:1.6; }
-  .detail-title{ font-family: var(--font-display); font-size:22px; color: var(--gold); margin:0 0 10px; }
-  .detail-score{
-    font-family: var(--font-mono); font-size:24px; text-align:center;
-    background: var(--bg-deep); border:1px solid var(--border); border-radius: var(--radius);
-    padding:12px 6px; margin-bottom:12px; letter-spacing:1px;
-  }
-  .detail-score .vs{ color: var(--muted); font-size:16px; margin:0 8px; }
-  .detail-row{ display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px dashed var(--border); }
-  .detail-row:last-of-type{ border-bottom:none; }
-  .detail-row .k{ color: var(--muted); }
-  .detail-row .v{ color: var(--text); font-weight:500; text-align:right; }
-  .detail-actions{ display:flex; gap:8px; margin-top:14px; }
-  .detail-actions .btn{ flex:1; font-size:13px; padding:8px; }
+  .detail-actions button:hover{ background:#F1F2EF; }
+  .cancel-tag{ display:inline-block; background:var(--loss-bg); color:var(--loss); font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; }
+  .watch-tag{ display:inline-block; background:var(--navy-soft); color:var(--navy-deep); font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:6px;}
 
-  .stats-box{
-    background: var(--bg-deep);
-    border: 1px solid var(--gold-dim);
-    border-radius: var(--radius);
-    padding: 16px;
-    font-family: var(--font-mono);
-  }
-  .stats-box .stats-title{
-    font-family: var(--font-display); font-size:18px; color: var(--gold); letter-spacing:1px;
-    margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border);
-  }
-  .stats-line{ display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px; color: var(--muted); }
-  .stats-line .val{ color: var(--text); text-shadow: 0 0 8px rgba(232,185,63,0.25); }
-  .stats-pct{ font-size:22px; color: var(--gold); text-shadow: 0 0 10px rgba(232,185,63,0.35); margin: 4px 0 14px; }
-  .stats-sep{ border-top: 1px dashed var(--border); margin: 10px 0; }
+  .stats-panel{ padding:18px; }
+  .stat-block + .stat-block{ margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+  .stat-block .label{ font-size:12px; color:var(--ink-soft); font-weight:700; margin-bottom:6px; }
+  .stat-record{ font-size:18px; font-weight:800; color:var(--navy-deep); }
+  .stat-rate{ font-size:13.5px; color:var(--ink-soft); margin-top:3px; }
+  .stat-rate b{ color:var(--navy); font-size:15px; }
 
-  /* ---------- Ranking ---------- */
-  table.rank-table{ width:100%; border-collapse: collapse; }
-  table.rank-table th, table.rank-table td{
-    padding: 10px 12px; text-align:center; border-bottom:1px solid var(--border); font-size:14px;
+  /* ---------- Other teams tab ---------- */
+  .table-wrap{ padding:18px; overflow-x:auto; }
+  .table-toolbar{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;}
+  select.filter-select{
+    padding:8px 10px; border:1px solid var(--line); border-radius:7px; font-size:13.5px; background:#fff;
   }
-  table.rank-table th{ color: var(--muted); font-weight:500; font-size:12px; letter-spacing:1px; }
-  table.rank-table td.team-name{ text-align:left; font-weight:600; }
-  table.rank-table tr.nc-row td{ background: rgba(232,185,63,0.08); }
-  table.rank-table tr.nc-row td.team-name{ color: var(--gold); }
-  table.rank-table td.pct{ font-family: var(--font-mono); }
-  table.rank-table td.rank-num{ font-family: var(--font-display); font-size:18px; color: var(--muted); }
-  .rank-note{ font-size:12px; color: var(--muted); margin-top:12px; }
+  table.data-table{ width:100%; border-collapse:collapse; min-width:760px; }
+  table.data-table th{
+    text-align:left; font-size:12px; color:var(--ink-soft); font-weight:700; padding:8px 10px;
+    border-bottom:2px solid var(--line); white-space:nowrap;
+  }
+  table.data-table td{
+    padding:9px 10px; font-size:13px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  table.data-table tr:hover td{ background:#FAFBFA; }
+  .row-btn{
+    font-size:11.5px; padding:4px 9px; border-radius:6px; border:1px solid var(--line); background:#fff;
+    cursor:pointer; color:var(--ink-soft); font-weight:600; margin-right:5px;
+  }
+  .row-btn:hover{ background:#F1F2EF; }
+  .empty-row td{ text-align:center; color:var(--ink-soft); padding:30px; }
 
-  @media (max-width: 760px){
-    .form-grid{ grid-template-columns: 1fr; }
-    .cal-side{ flex-basis: 100%; }
+  /* ---------- Ranking tab ---------- */
+  .rank-wrap{ padding:18px; }
+  table.rank-table{ width:100%; border-collapse:collapse; }
+  table.rank-table th{
+    text-align:left; font-size:12px; color:var(--ink-soft); font-weight:700; padding:9px 10px; border-bottom:2px solid var(--line);
+  }
+  table.rank-table td{ padding:11px 10px; font-size:14px; border-bottom:1px solid var(--line); }
+  table.rank-table tr.nc-row td{ background:var(--navy-soft); font-weight:700; }
+  .rank-no{ font-weight:800; color:var(--ink-soft); width:28px; }
+  .rank-no.top1{ color:var(--gold); }
+  td.rate-cell{ font-weight:800; color:var(--navy-deep); }
+
+  @media (max-width:720px){
+    .matchup{ grid-template-columns:1fr; }
+    .vs-mark{ padding-top:0; }
+    table.cal-grid td{ height:60px; padding:4px; }
+    .badge{ font-size:9.5px; padding:1px 4px; }
   }
 </style>
 </head>
 <body>
-<div class="app">
 
-  <header class="topbar">
-    <h1>NC DINOS<span>2026 SEASON 승률 기록</span></h1>
-    <nav class="tabs">
-      <button class="tab-btn active" data-tab="input">입력</button>
-      <button class="tab-btn" data-tab="calendar">캘린더</button>
-      <button class="tab-btn" data-tab="ranking">랭킹</button>
-    </nav>
-  </header>
+<header class="top">
+  <div class="brand">
+    <div class="logo-mark">NC</div>
+    <h1>NC 다이노스 직관 기록판 <span class="sub">— 월간 승률 트래커</span></h1>
+  </div>
+  <nav class="tabs" id="tabNav">
+    <button data-tab="input" class="active">경기 입력</button>
+    <button data-tab="calendar">캘린더</button>
+    <button data-tab="other">타 팀 기록</button>
+    <button data-tab="ranking">랭킹</button>
+  </nav>
+</header>
 
-  <main>
-    <!-- INPUT VIEW -->
-    <section id="view-input" class="view active">
-      <div class="subtabs">
-        <button class="subtab-btn active" data-subtab="nc">NC 다이노스 기록</button>
-        <button class="subtab-btn" data-subtab="other">타 팀 기록</button>
-      </div>
+<main>
 
-      <!-- NC input card -->
-      <div class="card input-card active" id="card-nc">
-        <p class="section-label">NC 다이노스 경기 기록</p>
-        <div class="edit-flag" id="nc-edit-flag">이미 저장된 경기입니다 &mdash; 내용을 수정하고 저장하세요.</div>
-        <div class="form-grid">
-          <div class="field">
-            <label for="nc-date">날짜</label>
-            <input type="date" id="nc-date">
-          </div>
-          <div class="field">
-            <label for="nc-opponent">상대팀</label>
-            <select id="nc-opponent"></select>
-          </div>
-          <div class="field">
-            <label>홈 / 어웨이 (NC 기준)</label>
-            <div class="radio-row">
-              <label><input type="radio" name="nc-homeaway" value="away" checked> 어웨이 (원정)</label>
-              <label><input type="radio" name="nc-homeaway" value="home"> 홈</label>
-            </div>
-          </div>
-          <div class="field">
-            <label for="nc-stadium">구장</label>
-            <input type="text" id="nc-stadium" placeholder="예) 창원 NC파크">
-          </div>
+  <!-- ================= INPUT TAB ================= -->
+  <section id="tab-input">
+    <div class="panel form-wrap">
+      <div id="editingNotice">✏️ 기존 경기를 수정하는 중입니다. <button type="button" class="row-btn" id="cancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
+      <h2 class="section-title">경기 기록 입력</h2>
 
-          <div class="divider-label">선발 라인업</div>
-          <div class="field">
-            <label for="nc-team-pitcher">NC 선발투수</label>
-            <input type="text" id="nc-team-pitcher" placeholder="선발투수 이름">
-          </div>
-          <div class="field">
-            <label for="nc-op-pitcher">상대 선발투수</label>
-            <input type="text" id="nc-op-pitcher" placeholder="선발투수 이름">
-          </div>
-
-          <div class="divider-label">스코어</div>
-          <div class="field">
-            <label for="nc-team-score">NC 점수</label>
-            <div class="score-pair"><input type="number" min="0" id="nc-team-score" value="0"></div>
-          </div>
-          <div class="field">
-            <label for="nc-op-score">상대 점수</label>
-            <div class="score-pair"><input type="number" min="0" id="nc-op-score" value="0"></div>
-          </div>
-
-          <div class="divider-label">이날의 MVP</div>
-          <div class="field">
-            <label for="nc-team-mvp">NC MVP</label>
-            <input type="text" id="nc-team-mvp" placeholder="선수 이름">
-          </div>
-          <div class="field">
-            <label for="nc-op-mvp">상대 MVP</label>
-            <input type="text" id="nc-op-mvp" placeholder="선수 이름">
-          </div>
-
-          <div class="form-status" id="nc-form-status"></div>
-          <div class="btn-row">
-            <button class="btn btn-primary" id="nc-btn-save">기록 저장</button>
-            <button class="btn btn-danger" id="nc-btn-delete" style="display:none;">기록 삭제</button>
-            <button class="btn btn-ghost" id="nc-btn-reset">초기화</button>
-          </div>
+      <div class="field-row">
+        <div class="field" style="max-width:220px;">
+          <label>날짜</label>
+          <input type="date" id="f-date">
+        </div>
+        <div class="field" style="max-width:260px;">
+          <label>구장 <span style="font-weight:400;">(비워두면 홈팀 기준 자동 입력)</span></label>
+          <input type="text" id="f-stadium" placeholder="예: 창원NC파크">
         </div>
       </div>
 
-      <!-- Other teams input card -->
-      <div class="card input-card" id="card-other">
-        <p class="section-label">타 팀 경기 기록</p>
-        <div class="edit-flag" id="other-edit-flag">이미 저장된 경기입니다 &mdash; 내용을 수정하고 저장하세요.</div>
-        <div class="form-grid">
-          <div class="field">
-            <label for="other-date">날짜</label>
-            <input type="date" id="other-date">
+      <div class="matchup">
+        <div class="side-card away">
+          <div class="side-label away-c">⬅ 어웨이팀</div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>팀</label>
+            <select id="f-awayTeam"></select>
+          </div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>선발투수</label>
+            <input type="text" id="f-awayPitcher" placeholder="선발투수 이름">
+          </div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>점수</label>
+            <input type="number" id="f-awayScore" min="0" placeholder="0">
           </div>
           <div class="field">
-            <label for="other-team">기록할 팀</label>
-            <select id="other-team"></select>
+            <label>MVP</label>
+            <input type="text" id="f-awayMVP" placeholder="이 날의 MVP">
+          </div>
+        </div>
+        <div class="vs-mark">VS</div>
+        <div class="side-card home">
+          <div class="side-label home-c">홈팀 ➡</div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>팀</label>
+            <select id="f-homeTeam"></select>
+          </div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>선발투수</label>
+            <input type="text" id="f-homePitcher" placeholder="선발투수 이름">
+          </div>
+          <div class="field" style="margin-bottom:10px;">
+            <label>점수</label>
+            <input type="number" id="f-homeScore" min="0" placeholder="0">
           </div>
           <div class="field">
-            <label for="other-opponent">상대팀</label>
-            <select id="other-opponent"></select>
-          </div>
-          <div class="field">
-            <label>홈 / 어웨이 (기록할 팀 기준)</label>
-            <div class="radio-row">
-              <label><input type="radio" name="other-homeaway" value="away" checked> 어웨이 (원정)</label>
-              <label><input type="radio" name="other-homeaway" value="home"> 홈</label>
-            </div>
-          </div>
-          <div class="field full">
-            <label for="other-stadium">구장</label>
-            <input type="text" id="other-stadium" placeholder="예) 사직야구장">
-          </div>
-
-          <div class="divider-label">선발 라인업</div>
-          <div class="field">
-            <label for="other-team-pitcher">기록할 팀 선발투수</label>
-            <input type="text" id="other-team-pitcher" placeholder="선발투수 이름">
-          </div>
-          <div class="field">
-            <label for="other-op-pitcher">상대 선발투수</label>
-            <input type="text" id="other-op-pitcher" placeholder="선발투수 이름">
-          </div>
-
-          <div class="divider-label">스코어</div>
-          <div class="field">
-            <label for="other-team-score">기록할 팀 점수</label>
-            <div class="score-pair"><input type="number" min="0" id="other-team-score" value="0"></div>
-          </div>
-          <div class="field">
-            <label for="other-op-score">상대 점수</label>
-            <div class="score-pair"><input type="number" min="0" id="other-op-score" value="0"></div>
-          </div>
-
-          <div class="divider-label">이날의 MVP</div>
-          <div class="field">
-            <label for="other-team-mvp">기록할 팀 MVP</label>
-            <input type="text" id="other-team-mvp" placeholder="선수 이름">
-          </div>
-          <div class="field">
-            <label for="other-op-mvp">상대 MVP</label>
-            <input type="text" id="other-op-mvp" placeholder="선수 이름">
-          </div>
-
-          <div class="form-status" id="other-form-status"></div>
-          <div class="btn-row">
-            <button class="btn btn-primary" id="other-btn-save">기록 저장</button>
-            <button class="btn btn-danger" id="other-btn-delete" style="display:none;">기록 삭제</button>
-            <button class="btn btn-ghost" id="other-btn-reset">초기화</button>
+            <label>MVP</label>
+            <input type="text" id="f-homeMVP" placeholder="이 날의 MVP">
           </div>
         </div>
       </div>
-    </section>
+      <div class="hint" id="stadiumHint"></div>
 
-    <!-- CALENDAR VIEW -->
-    <section id="view-calendar" class="view">
-      <div class="cal-layout">
-        <div class="cal-main">
-          <div class="cal-nav">
-            <button id="cal-prev">&#8592;</button>
-            <div class="cal-title" id="cal-title">2026년 8월</div>
-            <button id="cal-next">&#8594;</button>
-          </div>
-          <div class="cal-grid" id="cal-dow-row"></div>
-          <div class="cal-grid" id="cal-grid" style="margin-top:6px;"></div>
+      <div class="field-row" style="margin-top:4px;">
+        <div class="field">
+          <label>승리투수</label>
+          <input type="text" id="f-winPitcher" placeholder="승리투수 이름">
         </div>
-        <div class="cal-side">
-          <div class="detail-panel" id="detail-panel">
-            <p class="detail-empty">캘린더에서 날짜를 클릭하면<br>그날의 경기 기록이 여기에 표시됩니다.</p>
-          </div>
-          <div class="stats-box" id="stats-box"></div>
+        <div class="field">
+          <label>패전투수</label>
+          <input type="text" id="f-losePitcher" placeholder="패전투수 이름">
+        </div>
+        <div class="field">
+          <label>세이브</label>
+          <input type="text" id="f-savePitcher" placeholder="세이브투수 이름">
+        </div>
+        <div class="field">
+          <label>홀드 <span style="font-weight:400;">(여러 명은 쉼표로 구분)</span></label>
+          <input type="text" id="f-holdPitcher" placeholder="예: 이용준, 김영규">
         </div>
       </div>
-    </section>
 
-    <!-- RANKING VIEW -->
-    <section id="view-ranking" class="view">
-      <div class="card">
-        <p class="section-label">팀 순위 (승률순 · 입력된 경기 기준)</p>
-        <table class="rank-table">
+      <div class="toggle-row">
+        <label class="chip-toggle on-watch" id="watchToggle">
+          <input type="checkbox" id="f-watch">
+          <span>⚾ 직관</span>
+        </label>
+        <label class="chip-toggle on-cancel" id="cancelToggle">
+          <input type="checkbox" id="f-cancel">
+          <span>🚫 경기 취소</span>
+        </label>
+      </div>
+
+      <div class="field cancel-reason-box" id="cancelReasonBox">
+        <label>취소 사유</label>
+        <textarea id="f-cancelReason" rows="2" placeholder="예: 우천취소"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="primary" id="saveBtn">저장하기</button>
+        <button class="ghost" id="resetBtn">입력 초기화</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CALENDAR TAB ================= -->
+  <section id="tab-calendar" style="display:none;">
+    <div class="cal-wrap">
+      <div class="panel cal-left">
+        <div class="cal-nav">
+          <button id="prevMonth">‹</button>
+          <div class="ym" id="calYM">2026년 8월</div>
+          <button id="nextMonth">›</button>
+        </div>
+        <table class="cal-grid">
           <thead>
-            <tr>
-              <th>순위</th><th style="text-align:left;">팀</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th>
-            </tr>
+            <tr><th style="color:#C64B4B;">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th style="color:#3B6FBF;">토</th></tr>
           </thead>
-          <tbody id="rank-tbody"></tbody>
+          <tbody id="calBody"></tbody>
         </table>
-        <p class="rank-note">각 팀 칸에 직접 입력한 경기 기록만 집계됩니다. 특정 팀의 순위를 정확히 보려면 그 팀의 경기도 "타 팀 기록"에 입력해주세요.</p>
       </div>
-    </section>
-  </main>
-</div>
+      <div class="cal-right">
+        <div class="panel detail-panel" id="detailPanel">
+          <h2 class="section-title">경기 상세</h2>
+          <div class="detail-empty">날짜를 클릭하면 그 날의 NC 경기 기록을 볼 수 있어요.</div>
+        </div>
+        <div class="panel stats-panel" id="statsPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OTHER TEAMS TAB ================= -->
+  <section id="tab-other" style="display:none;">
+    <div class="panel table-wrap">
+      <div class="table-toolbar">
+        <h2 class="section-title" style="margin:0;">타 팀 기록 (NC 다이노스 제외)</h2>
+        <select class="filter-select" id="otherFilter"></select>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>날짜</th><th>어웨이</th><th>스코어</th><th>홈</th><th>구장</th><th>직관</th><th>비고</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="otherBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= RANKING TAB ================= -->
+  <section id="tab-ranking" style="display:none;">
+    <div class="panel rank-wrap">
+      <h2 class="section-title">2026시즌 팀 순위 (승률순 · 입력된 경기 기준)</h2>
+      <table class="rank-table">
+        <thead>
+          <tr><th>순위</th><th>팀</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th></tr>
+        </thead>
+        <tbody id="rankBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast"></div>
 
 <script>
 (function(){
-  const TEAMS = [
-    'NC 다이노스','롯데 자이언츠','삼성 라이온즈','KIA 타이거즈','한화 이글스',
-    'KT WIZ','두산 베어스','LG TWINS','SSG LANDERS','키움 히어로즈'
-  ];
-  const NC = 'NC 다이노스';
-  const CODE = {
-    'NC 다이노스':'NC','롯데 자이언츠':'롯데','삼성 라이온즈':'삼성','KIA 타이거즈':'KIA',
-    '한화 이글스':'한화','KT WIZ':'KT','두산 베어스':'두산','LG TWINS':'LG',
-    'SSG LANDERS':'SSG','키움 히어로즈':'키움'
+  "use strict";
+
+  var TEAMS = ["NC 다이노스","롯데 자이언츠","삼성 라이온즈","KIA 타이거즈","한화 이글스","KT wiz","두산 베어스","LG 트윈스","SSG 랜더스","키움 히어로즈"];
+  var STADIUM_MAP = {
+    "NC 다이노스":"창원NC파크",
+    "롯데 자이언츠":"사직 야구장",
+    "삼성 라이온즈":"대구 삼성 라이온즈 파크",
+    "KIA 타이거즈":"광주-기아 챔피언스 필드",
+    "한화 이글스":"대전 한화생명 볼파크",
+    "KT wiz":"수원 케이티 위즈 파크",
+    "SSG 랜더스":"인천 SSG 랜더스필드",
+    "두산 베어스":"서울종합운동장 잠실 야구장",
+    "LG 트윈스":"서울종합운동장 잠실 야구장",
+    "키움 히어로즈":"고척 스카이돔"
   };
-  const DOW = ['일','월','화','수','목','금','토'];
+  var STORAGE_KEY = "nc_dinos_game_records_v1";
+  var NC = "NC 다이노스";
 
-  // games: key = `${teamCode}|${date}` -> record
-  // record: { date, team, opponent, teamHome, stadium, teamPitcher, opPitcher, teamScore, opScore, teamMVP, opMVP }
-  let games = {};
-  let viewYear, viewMonth; // month 0-indexed, for the NC calendar
-  let selectedDate = null;
+  var state = {
+    games: load(),
+    activeTab: "input",
+    editingId: null,
+    calYear: new Date().getFullYear(),
+    calMonth: new Date().getMonth(), // 0-indexed
+    selectedDate: null,
+    stadiumAutoOk: true
+  };
+  // Default calendar to a month that actually has data if current month/year unset properly.
+  if(!state.calYear) state.calYear = 2026;
 
-  const $ = (id) => document.getElementById(id);
-  const pad2 = (n) => String(n).padStart(2,'0');
-  const dateStr = (y,m,d) => `${y}-${pad2(m+1)}-${pad2(d)}`;
-  const recKey = (team, date) => `${CODE[team]}|${date}`;
-  const storageKey = (team, date) => `game:${CODE[team]}:${date}`;
-
-  function todayParts(){
-    const t = new Date();
-    return { y: t.getFullYear(), m: t.getMonth(), d: t.getDate() };
-  }
-
-  // ---------- storage ----------
-  async function loadAllGames(){
-    const out = {};
+  function load(){
     try{
-      const listRes = await window.storage.list('game:', false);
-      const keys = (listRes && listRes.keys) ? listRes.keys : [];
-      for(const k of keys){
-        try{
-          const r = await window.storage.get(k, false);
-          if(r && r.value){
-            const rec = JSON.parse(r.value);
-            out[recKey(rec.team, rec.date)] = rec;
-          }
-        }catch(e){ console.error('failed to load', k, e); }
-      }
-    }catch(e){ console.error('failed to list games', e); }
-    return out;
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
   }
-  async function saveGame(rec){
-    await window.storage.set(storageKey(rec.team, rec.date), JSON.stringify(rec), false);
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games)); }catch(e){}
   }
-  async function deleteGame(team, date){
-    await window.storage.delete(storageKey(team, date), false);
-  }
-  function findGame(team, date){
-    return games[recKey(team, date)];
+  function uid(){ return "g_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8); }
+
+  function pad2(n){ return n<10 ? "0"+n : ""+n; }
+  function fmtDate(y,m,d){ return y+"-"+pad2(m+1)+"-"+pad2(d); }
+
+  // ---------------- Tabs ----------------
+  var tabNav = document.getElementById("tabNav");
+  tabNav.addEventListener("click", function(e){
+    var btn = e.target.closest("button[data-tab]");
+    if(!btn) return;
+    setActiveTab(btn.getAttribute("data-tab"));
+  });
+  function setActiveTab(tab){
+    state.activeTab = tab;
+    ["input","calendar","other","ranking"].forEach(function(t){
+      document.getElementById("tab-"+t).style.display = (t===tab) ? "" : "none";
+    });
+    Array.prototype.forEach.call(tabNav.querySelectorAll("button"), function(b){
+      b.classList.toggle("active", b.getAttribute("data-tab")===tab);
+    });
+    if(tab==="calendar") renderCalendarTab();
+    if(tab==="other") renderOtherTab();
+    if(tab==="ranking") renderRankingTab();
   }
 
-  // ---------- domain helpers ----------
-  function resultOf(g){
-    if(g.teamScore > g.opScore) return 'W';
-    if(g.teamScore < g.opScore) return 'L';
-    return 'D';
-  }
-  function resultClass(r){ return r === 'W' ? 'win' : (r === 'L' ? 'loss' : 'draw'); }
-  function leftRight(g){
-    // home team on the right, away team on the left
-    if(g.teamHome){
-      return {
-        left: { team: g.opponent, score: g.opScore },
-        right:{ team: g.team, score: g.teamScore }
-      };
+  // ---------------- Populate team selects ----------------
+  var awaySel = document.getElementById("f-awayTeam");
+  var homeSel = document.getElementById("f-homeTeam");
+  TEAMS.forEach(function(t){
+    var o1 = document.createElement("option"); o1.value=t; o1.textContent=t; awaySel.appendChild(o1);
+    var o2 = document.createElement("option"); o2.value=t; o2.textContent=t; homeSel.appendChild(o2);
+  });
+  awaySel.value = "롯데 자이언츠";
+  homeSel.value = NC;
+
+  var otherFilter = document.getElementById("otherFilter");
+  var allOpt = document.createElement("option"); allOpt.value=""; allOpt.textContent="전체 팀";
+  otherFilter.appendChild(allOpt);
+  TEAMS.filter(function(t){return t!==NC;}).forEach(function(t){
+    var o = document.createElement("option"); o.value=t; o.textContent=t; otherFilter.appendChild(o);
+  });
+  otherFilter.addEventListener("change", renderOtherTab);
+
+  // default date = today
+  document.getElementById("f-date").value = new Date().toISOString().slice(0,10);
+
+  // ---------------- Stadium auto-fill ----------------
+  var stadiumInput = document.getElementById("f-stadium");
+  var stadiumHint = document.getElementById("stadiumHint");
+  function applyStadiumDefault(){
+    var homeTeam = homeSel.value;
+    var def = STADIUM_MAP[homeTeam] || "";
+    if(state.stadiumAutoOk){
+      stadiumInput.value = def;
     }
-    return {
-      left: { team: g.team, score: g.teamScore },
-      right:{ team: g.opponent, score: g.opScore }
+    stadiumHint.textContent = def ? ("자동 입력값: " + def + " (직접 입력하면 그 값으로 저장돼요)") : "";
+  }
+  homeSel.addEventListener("change", function(){
+    state.stadiumAutoOk = true;
+    applyStadiumDefault();
+  });
+  stadiumInput.addEventListener("input", function(){
+    state.stadiumAutoOk = (stadiumInput.value.trim()==="");
+  });
+  applyStadiumDefault();
+
+  // prevent same team both sides -> auto swap warning
+  function validateTeams(){
+    if(awaySel.value === homeSel.value){
+      return false;
+    }
+    return true;
+  }
+
+  // ---------------- Toggles ----------------
+  var watchToggle = document.getElementById("watchToggle");
+  var watchCb = document.getElementById("f-watch");
+  watchToggle.addEventListener("click", function(){
+    watchCb.checked = !watchCb.checked;
+    watchToggle.classList.toggle("checked", watchCb.checked);
+  });
+
+  var cancelToggle = document.getElementById("cancelToggle");
+  var cancelCb = document.getElementById("f-cancel");
+  var cancelReasonBox = document.getElementById("cancelReasonBox");
+  cancelToggle.addEventListener("click", function(){
+    cancelCb.checked = !cancelCb.checked;
+    cancelToggle.classList.toggle("checked", cancelCb.checked);
+    cancelReasonBox.classList.toggle("show", cancelCb.checked);
+  });
+
+  // ---------------- Save / Reset ----------------
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    resetForm();
+  });
+  document.getElementById("cancelEditBtn").addEventListener("click", function(){
+    resetForm();
+  });
+
+  function resetForm(){
+    state.editingId = null;
+    document.getElementById("editingNotice").classList.remove("show");
+    document.getElementById("f-date").value = new Date().toISOString().slice(0,10);
+    awaySel.value = "롯데 자이언츠";
+    homeSel.value = NC;
+    document.getElementById("f-awayPitcher").value = "";
+    document.getElementById("f-homePitcher").value = "";
+    document.getElementById("f-awayScore").value = "";
+    document.getElementById("f-homeScore").value = "";
+    document.getElementById("f-awayMVP").value = "";
+    document.getElementById("f-homeMVP").value = "";
+    document.getElementById("f-winPitcher").value = "";
+    document.getElementById("f-losePitcher").value = "";
+    document.getElementById("f-savePitcher").value = "";
+    document.getElementById("f-holdPitcher").value = "";
+    watchCb.checked = false; watchToggle.classList.remove("checked");
+    cancelCb.checked = false; cancelToggle.classList.remove("checked");
+    cancelReasonBox.classList.remove("show");
+    document.getElementById("f-cancelReason").value = "";
+    state.stadiumAutoOk = true;
+    applyStadiumDefault();
+  }
+
+  document.getElementById("saveBtn").addEventListener("click", function(){
+    var date = document.getElementById("f-date").value;
+    if(!date){ toast("날짜를 입력해주세요."); return; }
+    if(!validateTeams()){ toast("어웨이팀과 홈팀은 서로 달라야 합니다."); return; }
+    var cancel = cancelCb.checked;
+    var cancelReason = document.getElementById("f-cancelReason").value.trim();
+    if(cancel && !cancelReason){ toast("취소 사유를 입력해주세요."); return; }
+
+    var stadium = stadiumInput.value.trim() || STADIUM_MAP[homeSel.value] || "";
+
+    var rec = {
+      id: state.editingId || uid(),
+      date: date,
+      awayTeam: awaySel.value,
+      homeTeam: homeSel.value,
+      awayPitcher: document.getElementById("f-awayPitcher").value.trim(),
+      homePitcher: document.getElementById("f-homePitcher").value.trim(),
+      awayScore: toNumOrNull(document.getElementById("f-awayScore").value),
+      homeScore: toNumOrNull(document.getElementById("f-homeScore").value),
+      awayMVP: document.getElementById("f-awayMVP").value.trim(),
+      homeMVP: document.getElementById("f-homeMVP").value.trim(),
+      winPitcher: document.getElementById("f-winPitcher").value.trim(),
+      losePitcher: document.getElementById("f-losePitcher").value.trim(),
+      savePitcher: document.getElementById("f-savePitcher").value.trim(),
+      holdPitcher: document.getElementById("f-holdPitcher").value.trim(),
+      stadium: stadium,
+      watched: watchCb.checked,
+      canceled: cancel,
+      cancelReason: cancel ? cancelReason : ""
     };
-  }
-  function pct(w,l){
-    // returns e.g. ".667" (no leading digit) or ".---" if no decisions yet
-    if(w+l === 0) return '.---';
-    return (Math.round((w/(w+l))*1000)/1000).toFixed(3).slice(1);
-  }
 
-  // ---------- top-level tabs ----------
-  document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('main > .view').forEach(v=>v.classList.remove('active'));
-      btn.classList.add('active');
-      $('view-' + btn.dataset.tab).classList.add('active');
-      if(btn.dataset.tab === 'calendar'){ renderCalendar(); }
-      if(btn.dataset.tab === 'ranking'){ renderRanking(); }
-    });
-  });
-  function goToInputTab(subtab){
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab==='input'));
-    document.querySelectorAll('main > .view').forEach(v=>v.classList.toggle('active', v.id==='view-input'));
-    if(subtab) selectSubtab(subtab);
-  }
-
-  // ---------- input sub-tabs ----------
-  function selectSubtab(name){
-    document.querySelectorAll('.subtab-btn').forEach(b=>b.classList.toggle('active', b.dataset.subtab===name));
-    $('card-nc').classList.toggle('active', name==='nc');
-    $('card-other').classList.toggle('active', name==='other');
-  }
-  document.querySelectorAll('.subtab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=> selectSubtab(btn.dataset.subtab));
-  });
-
-  // ---------- NC form ----------
-  function populateNcOpponentSelect(){
-    const sel = $('nc-opponent');
-    sel.innerHTML = '';
-    TEAMS.filter(t=>t!==NC).forEach(t=>{
-      const opt = document.createElement('option');
-      opt.value = t; opt.textContent = t;
-      sel.appendChild(opt);
-    });
-  }
-  function clearNcForm(){
-    $('nc-opponent').selectedIndex = 0;
-    document.querySelector('input[name=nc-homeaway][value=away]').checked = true;
-    $('nc-stadium').value = '';
-    $('nc-team-pitcher').value = '';
-    $('nc-op-pitcher').value = '';
-    $('nc-team-score').value = 0;
-    $('nc-op-score').value = 0;
-    $('nc-team-mvp').value = '';
-    $('nc-op-mvp').value = '';
-    $('nc-btn-delete').style.display = 'none';
-    $('nc-edit-flag').style.display = 'none';
-    $('nc-form-status').textContent = '';
-    $('nc-form-status').classList.remove('error');
-  }
-  function loadNcGameIntoForm(g){
-    $('nc-opponent').value = g.opponent;
-    document.querySelector(`input[name=nc-homeaway][value=${g.teamHome ? 'home':'away'}]`).checked = true;
-    $('nc-stadium').value = g.stadium || '';
-    $('nc-team-pitcher').value = g.teamPitcher || '';
-    $('nc-op-pitcher').value = g.opPitcher || '';
-    $('nc-team-score').value = g.teamScore;
-    $('nc-op-score').value = g.opScore;
-    $('nc-team-mvp').value = g.teamMVP || '';
-    $('nc-op-mvp').value = g.opMVP || '';
-    $('nc-btn-delete').style.display = 'inline-block';
-    $('nc-edit-flag').style.display = 'block';
-  }
-  function checkNcDateForExisting(){
-    const d = $('nc-date').value;
-    if(!d) return;
-    const g = findGame(NC, d);
-    if(g) loadNcGameIntoForm(g); else clearNcForm();
-  }
-  $('nc-date').addEventListener('change', checkNcDateForExisting);
-  $('nc-btn-reset').addEventListener('click', clearNcForm);
-
-  $('nc-btn-save').addEventListener('click', async ()=>{
-    const d = $('nc-date').value;
-    const statusEl = $('nc-form-status');
-    if(!d){ statusEl.textContent = '날짜를 선택해주세요.'; statusEl.classList.add('error'); return; }
-    const rec = {
-      date: d, team: NC, opponent: $('nc-opponent').value,
-      teamHome: document.querySelector('input[name=nc-homeaway]:checked').value === 'home',
-      stadium: $('nc-stadium').value.trim(),
-      teamPitcher: $('nc-team-pitcher').value.trim(),
-      opPitcher: $('nc-op-pitcher').value.trim(),
-      teamScore: parseInt($('nc-team-score').value,10) || 0,
-      opScore: parseInt($('nc-op-score').value,10) || 0,
-      teamMVP: $('nc-team-mvp').value.trim(),
-      opMVP: $('nc-op-mvp').value.trim()
-    };
-    try{
-      await saveGame(rec);
-      games[recKey(NC,d)] = rec;
-      statusEl.classList.remove('error');
-      statusEl.textContent = '저장되었습니다.';
-      $('nc-btn-delete').style.display = 'inline-block';
-      $('nc-edit-flag').style.display = 'block';
-      renderCalendar();
-      renderRanking();
-    }catch(e){
-      console.error(e);
-      statusEl.classList.add('error');
-      statusEl.textContent = '저장에 실패했습니다. 다시 시도해주세요.';
+    if(state.editingId){
+      var idx = state.games.findIndex(function(g){ return g.id===state.editingId; });
+      if(idx>-1) state.games[idx] = rec;
+    } else {
+      state.games.push(rec);
     }
-  });
-  $('nc-btn-delete').addEventListener('click', async ()=>{
-    const d = $('nc-date').value;
-    if(!d || !findGame(NC,d)) return;
-    if(!confirm(d + ' NC 기록을 삭제할까요?')) return;
-    try{
-      await deleteGame(NC, d);
-      delete games[recKey(NC,d)];
-      clearNcForm();
-      $('nc-form-status').textContent = '삭제되었습니다.';
-      renderCalendar();
-      renderRanking();
-      if(selectedDate === d){ selectedDate = null; renderDetail(null); }
-    }catch(e){
-      console.error(e);
-      $('nc-form-status').classList.add('error');
-      $('nc-form-status').textContent = '삭제에 실패했습니다.';
-    }
+    save();
+    toast(state.editingId ? "경기 기록을 수정했습니다." : "경기 기록을 저장했습니다.");
+    resetForm();
+    // if calendar is showing this date's month, refresh
+    renderCalendarTab();
   });
 
-  // ---------- Other-team form ----------
-  function populateOtherTeamSelect(){
-    const sel = $('other-team');
-    sel.innerHTML = '';
-    TEAMS.filter(t=>t!==NC).forEach(t=>{
-      const opt = document.createElement('option');
-      opt.value = t; opt.textContent = t;
-      sel.appendChild(opt);
-    });
+  function toNumOrNull(v){
+    if(v===""||v===null||v===undefined) return null;
+    var n = Number(v);
+    return isNaN(n) ? null : n;
   }
-  function populateOtherOpponentSelect(){
-    const currentTeam = $('other-team').value;
-    const sel = $('other-opponent');
-    const prevVal = sel.value;
-    sel.innerHTML = '';
-    TEAMS.filter(t=>t!==currentTeam).forEach(t=>{
-      const opt = document.createElement('option');
-      opt.value = t; opt.textContent = t;
-      sel.appendChild(opt);
-    });
-    if(TEAMS.includes(prevVal) && prevVal !== currentTeam){ sel.value = prevVal; }
-  }
-  function clearOtherForm(keepTeam){
-    if(!keepTeam) $('other-team').selectedIndex = 0;
-    populateOtherOpponentSelect();
-    document.querySelector('input[name=other-homeaway][value=away]').checked = true;
-    $('other-stadium').value = '';
-    $('other-team-pitcher').value = '';
-    $('other-op-pitcher').value = '';
-    $('other-team-score').value = 0;
-    $('other-op-score').value = 0;
-    $('other-team-mvp').value = '';
-    $('other-op-mvp').value = '';
-    $('other-btn-delete').style.display = 'none';
-    $('other-edit-flag').style.display = 'none';
-    $('other-form-status').textContent = '';
-    $('other-form-status').classList.remove('error');
-  }
-  function loadOtherGameIntoForm(g){
-    $('other-team').value = g.team;
-    populateOtherOpponentSelect();
-    $('other-opponent').value = g.opponent;
-    document.querySelector(`input[name=other-homeaway][value=${g.teamHome ? 'home':'away'}]`).checked = true;
-    $('other-stadium').value = g.stadium || '';
-    $('other-team-pitcher').value = g.teamPitcher || '';
-    $('other-op-pitcher').value = g.opPitcher || '';
-    $('other-team-score').value = g.teamScore;
-    $('other-op-score').value = g.opScore;
-    $('other-team-mvp').value = g.teamMVP || '';
-    $('other-op-mvp').value = g.opMVP || '';
-    $('other-btn-delete').style.display = 'inline-block';
-    $('other-edit-flag').style.display = 'block';
-  }
-  function checkOtherForExisting(){
-    const d = $('other-date').value;
-    const team = $('other-team').value;
-    if(!d || !team) return;
-    const g = findGame(team, d);
-    if(g) loadOtherGameIntoForm(g); else clearOtherForm(true);
-  }
-  $('other-date').addEventListener('change', checkOtherForExisting);
-  $('other-team').addEventListener('change', ()=>{ populateOtherOpponentSelect(); checkOtherForExisting(); });
-  $('other-btn-reset').addEventListener('click', ()=> clearOtherForm(true));
 
-  $('other-btn-save').addEventListener('click', async ()=>{
-    const d = $('other-date').value;
-    const statusEl = $('other-form-status');
-    const team = $('other-team').value;
-    if(!d){ statusEl.textContent = '날짜를 선택해주세요.'; statusEl.classList.add('error'); return; }
-    const rec = {
-      date: d, team: team, opponent: $('other-opponent').value,
-      teamHome: document.querySelector('input[name=other-homeaway]:checked').value === 'home',
-      stadium: $('other-stadium').value.trim(),
-      teamPitcher: $('other-team-pitcher').value.trim(),
-      opPitcher: $('other-op-pitcher').value.trim(),
-      teamScore: parseInt($('other-team-score').value,10) || 0,
-      opScore: parseInt($('other-op-score').value,10) || 0,
-      teamMVP: $('other-team-mvp').value.trim(),
-      opMVP: $('other-op-mvp').value.trim()
-    };
-    try{
-      await saveGame(rec);
-      games[recKey(team,d)] = rec;
-      statusEl.classList.remove('error');
-      statusEl.textContent = '저장되었습니다.';
-      $('other-btn-delete').style.display = 'inline-block';
-      $('other-edit-flag').style.display = 'block';
-      renderRanking();
-      if(team === NC){ renderCalendar(); }
-    }catch(e){
-      console.error(e);
-      statusEl.classList.add('error');
-      statusEl.textContent = '저장에 실패했습니다. 다시 시도해주세요.';
-    }
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+  }
+
+  function loadGameIntoForm(g){
+    state.editingId = g.id;
+    document.getElementById("editingNotice").classList.add("show");
+    document.getElementById("f-date").value = g.date;
+    awaySel.value = g.awayTeam;
+    homeSel.value = g.homeTeam;
+    document.getElementById("f-awayPitcher").value = g.awayPitcher || "";
+    document.getElementById("f-homePitcher").value = g.homePitcher || "";
+    document.getElementById("f-awayScore").value = (g.awayScore===null||g.awayScore===undefined) ? "" : g.awayScore;
+    document.getElementById("f-homeScore").value = (g.homeScore===null||g.homeScore===undefined) ? "" : g.homeScore;
+    document.getElementById("f-awayMVP").value = g.awayMVP || "";
+    document.getElementById("f-homeMVP").value = g.homeMVP || "";
+    document.getElementById("f-winPitcher").value = g.winPitcher || "";
+    document.getElementById("f-losePitcher").value = g.losePitcher || "";
+    document.getElementById("f-savePitcher").value = g.savePitcher || "";
+    document.getElementById("f-holdPitcher").value = g.holdPitcher || "";
+    state.stadiumAutoOk = false;
+    stadiumInput.value = g.stadium || "";
+    stadiumHint.textContent = "";
+    watchCb.checked = !!g.watched; watchToggle.classList.toggle("checked", watchCb.checked);
+    cancelCb.checked = !!g.canceled; cancelToggle.classList.toggle("checked", cancelCb.checked);
+    cancelReasonBox.classList.toggle("show", cancelCb.checked);
+    document.getElementById("f-cancelReason").value = g.cancelReason || "";
+    setActiveTab("input");
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  function deleteGame(id){
+    if(!confirm("이 경기 기록을 삭제할까요?")) return;
+    state.games = state.games.filter(function(g){ return g.id!==id; });
+    save();
+    renderCalendarTab();
+    renderOtherTab();
+    renderRankingTab();
+    toast("삭제했습니다.");
+  }
+  window.__deleteGame = deleteGame;
+  window.__editGame = function(id){
+    var g = state.games.find(function(x){ return x.id===id; });
+    if(g) loadGameIntoForm(g);
+  };
+
+  // ---------------- Result helpers ----------------
+  // returns 'win'|'loss'|'draw'|'cancel'|'sched' from perspective of `team`
+  function resultFor(g, team){
+    if(g.canceled) return "cancel";
+    var myScore, oppScore;
+    if(g.awayTeam===team){ myScore=g.awayScore; oppScore=g.homeScore; }
+    else if(g.homeTeam===team){ myScore=g.homeScore; oppScore=g.awayScore; }
+    else return null;
+    if(myScore===null||myScore===undefined||oppScore===null||oppScore===undefined) return "sched";
+    if(myScore>oppScore) return "win";
+    if(myScore<oppScore) return "loss";
+    return "draw";
+  }
+
+  function roundRate(n){
+    // round to 3 decimal places (round at the 4th decimal digit)
+    return Math.round(n*1000)/1000;
+  }
+  function fmtRate(n){
+    if(n===null || isNaN(n)) return "-";
+    var r = roundRate(n);
+    return r.toFixed(3).replace(/^0\./,"0.").replace(/^-0\./,"-0.");
+  }
+
+  // ---------------- Calendar Tab ----------------
+  var MONTH_NAMES_KR = function(y,m){ return y+"년 "+(m+1)+"월"; };
+
+  document.getElementById("prevMonth").addEventListener("click", function(){
+    state.calMonth--;
+    if(state.calMonth<0){ state.calMonth=11; state.calYear--; }
+    state.selectedDate = null;
+    renderCalendarTab();
   });
-  $('other-btn-delete').addEventListener('click', async ()=>{
-    const d = $('other-date').value;
-    const team = $('other-team').value;
-    if(!d || !findGame(team,d)) return;
-    if(!confirm(`${d} ${team} 기록을 삭제할까요?`)) return;
-    try{
-      await deleteGame(team, d);
-      delete games[recKey(team,d)];
-      clearOtherForm(true);
-      $('other-form-status').textContent = '삭제되었습니다.';
-      renderRanking();
-      if(team === NC){ renderCalendar(); }
-    }catch(e){
-      console.error(e);
-      $('other-form-status').classList.add('error');
-      $('other-form-status').textContent = '삭제에 실패했습니다.';
-    }
+  document.getElementById("nextMonth").addEventListener("click", function(){
+    state.calMonth++;
+    if(state.calMonth>11){ state.calMonth=0; state.calYear++; }
+    state.selectedDate = null;
+    renderCalendarTab();
   });
 
-  // ---------- calendar (NC only) ----------
-  $('cal-prev').addEventListener('click', ()=>{
-    viewMonth--; if(viewMonth < 0){ viewMonth = 11; viewYear--; }
-    renderCalendar();
-  });
-  $('cal-next').addEventListener('click', ()=>{
-    viewMonth++; if(viewMonth > 11){ viewMonth = 0; viewYear++; }
-    renderCalendar();
-  });
-
-  function renderDowHeader(){
-    const row = $('cal-dow-row');
-    row.innerHTML = '';
-    DOW.forEach(d=>{
-      const el = document.createElement('div');
-      el.className = 'cal-dow';
-      el.textContent = d;
-      row.appendChild(el);
+  function gamesOnDate(dateStr, teamFilter){
+    return state.games.filter(function(g){
+      if(g.date!==dateStr) return false;
+      if(teamFilter && g.awayTeam!==teamFilter && g.homeTeam!==teamFilter) return false;
+      return true;
     });
   }
 
-  function renderCalendar(){
-    $('cal-title').textContent = `${viewYear}년 ${viewMonth+1}월`;
-    const grid = $('cal-grid');
-    grid.innerHTML = '';
-    const firstDow = new Date(viewYear, viewMonth, 1).getDay();
-    const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
+  function renderCalendarTab(){
+    document.getElementById("calYM").textContent = MONTH_NAMES_KR(state.calYear, state.calMonth);
+    var body = document.getElementById("calBody");
+    body.innerHTML = "";
 
-    for(let i=0;i<firstDow;i++){
-      const blank = document.createElement('div');
-      blank.className = 'cal-cell empty';
-      grid.appendChild(blank);
+    var firstDay = new Date(state.calYear, state.calMonth, 1);
+    var startWeekday = firstDay.getDay(); // 0=Sun
+    var daysInMonth = new Date(state.calYear, state.calMonth+1, 0).getDate();
+    var todayStr = new Date().toISOString().slice(0,10);
+
+    var cellsHtml = [];
+    for(var i=0;i<startWeekday;i++){ cellsHtml.push('<td class="empty"></td>'); }
+    for(var d=1; d<=daysInMonth; d++){
+      var dateStr = fmtDate(state.calYear, state.calMonth, d);
+      var ncGames = gamesOnDate(dateStr, NC);
+      var classes = ["day-cell"];
+      if(ncGames.length) classes.push("has-game");
+      if(dateStr===todayStr) classes.push("today");
+      if(dateStr===state.selectedDate) classes.push("selected");
+      var badges = ncGames.map(function(g){
+        var r = resultFor(g, NC);
+        var label = {win:"승", loss:"패", draw:"무", cancel:"취소", sched:"예정"}[r] || "";
+        var watchMark = g.watched ? '<span class="watch-dot">●</span>' : "";
+        return '<span class="badge '+r+'">'+label+watchMark+'</span>';
+      }).join("");
+      cellsHtml.push('<td class="'+classes.join(" ")+'" data-date="'+dateStr+'"><div class="day-num">'+d+'</div>'+badges+'</td>');
     }
-    for(let day=1; day<=daysInMonth; day++){
-      const ds = dateStr(viewYear, viewMonth, day);
-      const cell = document.createElement('div');
-      cell.className = 'cal-cell';
-      cell.dataset.date = ds;
-      const g = findGame(NC, ds);
-      if(g){
-        const r = resultOf(g);
-        cell.classList.add(resultClass(r));
-        const lr = leftRight(g);
-        cell.innerHTML = `
-          <div class="daynum">${day}</div>
-          <div class="cal-game-line"><span class="res">${r}</span> ${CODE[lr.left.team]} ${lr.left.score} : ${lr.right.score} ${CODE[lr.right.team]}</div>
-        `;
-      }else{
-        cell.innerHTML = `<div class="daynum">${day}</div>`;
-      }
-      if(ds === selectedDate) cell.classList.add('selected');
-      cell.addEventListener('click', ()=> onDayClick(ds));
-      grid.appendChild(cell);
+    // pad trailing to complete weeks
+    var totalCells = startWeekday + daysInMonth;
+    var trailing = (7 - (totalCells % 7)) % 7;
+    for(var j=0;j<trailing;j++){ cellsHtml.push('<td class="empty"></td>'); }
+
+    // build rows
+    var rowsHtml = "";
+    for(var r=0;r<cellsHtml.length;r+=7){
+      rowsHtml += "<tr>"+cellsHtml.slice(r,r+7).join("")+"</tr>";
     }
-    renderStatsBox();
+    body.innerHTML = rowsHtml;
+
+    Array.prototype.forEach.call(body.querySelectorAll("td.has-game"), function(td){
+      td.addEventListener("click", function(){
+        state.selectedDate = td.getAttribute("data-date");
+        renderCalendarTab();
+      });
+    });
+
+    renderDetailPanel();
+    renderStatsPanel();
   }
 
-  function onDayClick(ds){
-    selectedDate = ds;
-    document.querySelectorAll('.cal-cell').forEach(c=>c.classList.toggle('selected', c.dataset.date===ds));
-    renderDetail(ds);
-  }
+  function teamDisplayName(t){ return t; }
 
-  function renderDetail(ds){
-    const panel = $('detail-panel');
-    const g = ds ? findGame(NC, ds) : null;
-    if(!ds || !g){
-      panel.innerHTML = ds
-        ? `<p class="detail-title">${ds}</p><p class="detail-empty">이 날짜에는 아직 NC 기록이 없습니다.</p>
-           <div class="detail-actions"><button class="btn btn-primary" id="btn-quick-add">이 날짜로 기록 입력</button></div>`
-        : `<p class="detail-empty">캘린더에서 날짜를 클릭하면<br>그날의 경기 기록이 여기에 표시됩니다.</p>`;
-      if(ds){
-        $('btn-quick-add').addEventListener('click', ()=>{
-          $('nc-date').value = ds;
-          clearNcForm();
-          goToInputTab('nc');
-        });
-      }
+  function renderDetailPanel(){
+    var panel = document.getElementById("detailPanel");
+    if(!state.selectedDate){
+      panel.innerHTML = '<h2 class="section-title">경기 상세</h2><div class="detail-empty">날짜를 클릭하면 그 날의 NC 경기 기록을 볼 수 있어요.</div>';
       return;
     }
-    const r = resultOf(g);
-    const lr = leftRight(g);
-    const resultLabel = r === 'W' ? '승리' : (r === 'L' ? '패배' : '무승부');
-    panel.innerHTML = `
-      <p class="detail-title">${ds} &middot; ${resultLabel}</p>
-      <div class="detail-score">
-        ${CODE[lr.left.team]} ${lr.left.score}<span class="vs">:</span>${lr.right.score} ${CODE[lr.right.team]}
-      </div>
-      <div class="detail-row"><span class="k">구장</span><span class="v">${g.stadium || '-'}</span></div>
-      <div class="detail-row"><span class="k">NC 선발</span><span class="v">${g.teamPitcher || '-'}</span></div>
-      <div class="detail-row"><span class="k">${g.opponent} 선발</span><span class="v">${g.opPitcher || '-'}</span></div>
-      <div class="detail-row"><span class="k">NC MVP</span><span class="v">${g.teamMVP || '-'}</span></div>
-      <div class="detail-row"><span class="k">${g.opponent} MVP</span><span class="v">${g.opMVP || '-'}</span></div>
-      <div class="detail-actions">
-        <button class="btn btn-ghost" id="btn-edit-game">수정하기</button>
-        <button class="btn btn-danger" id="btn-delete-game">삭제</button>
-      </div>
-    `;
-    $('btn-edit-game').addEventListener('click', ()=>{
-      $('nc-date').value = ds;
-      loadNcGameIntoForm(g);
-      goToInputTab('nc');
-    });
-    $('btn-delete-game').addEventListener('click', async ()=>{
-      if(!confirm(ds + ' NC 기록을 삭제할까요?')) return;
-      try{
-        await deleteGame(NC, ds);
-        delete games[recKey(NC,ds)];
-        renderCalendar();
-        renderRanking();
-        renderDetail(null);
-        selectedDate = null;
-      }catch(e){ console.error(e); alert('삭제에 실패했습니다.'); }
-    });
-  }
-
-  function renderStatsBox(){
-    const monthList = Object.values(games).filter(g=>{
-      if(g.team !== NC) return false;
-      const [y,m] = g.date.split('-').map(Number);
-      return y === viewYear && (m-1) === viewMonth;
-    });
-    const seasonList = Object.values(games).filter(g=>{
-      if(g.team !== NC) return false;
-      const y = Number(g.date.split('-')[0]);
-      return y === viewYear;
-    });
-
-    function tally(list){
-      let w=0,d=0,l=0;
-      list.forEach(g=>{
-        const r = resultOf(g);
-        if(r==='W') w++; else if(r==='L') l++; else d++;
-      });
-      return {w,d,l};
+    var games = gamesOnDate(state.selectedDate, NC);
+    if(!games.length){
+      panel.innerHTML = '<h2 class="section-title">경기 상세</h2><div class="detail-empty">해당 날짜에는 기록이 없습니다.</div>';
+      return;
     }
-    const m = tally(monthList);
-    const s = tally(seasonList);
+    var html = '<h2 class="section-title">경기 상세 · '+state.selectedDate+'</h2>';
+    games.forEach(function(g){
+      var r = resultFor(g, NC);
+      html += '<div class="detail-game">';
+      html += '<div class="detail-head"><div class="detail-date">'+g.awayTeam+' @ '+g.homeTeam+'</div>';
+      html += '<div>'+(g.canceled ? '<span class="cancel-tag">취소</span>' : '<span class="badge '+r+'">'+({win:"승",loss:"패",draw:"무",sched:"예정"}[r]||"")+'</span>');
+      if(g.watched) html += '<span class="watch-tag">⚾ 직관</span>';
+      html += '</div></div>';
 
-    $('stats-box').innerHTML = `
-      <p class="stats-title">전광판</p>
-      <div class="stats-line"><span>${viewMonth+1}월 전적</span><span class="val">${m.w}승 ${m.d}무 ${m.l}패</span></div>
-      <div class="stats-pct">${viewMonth+1}월 승률 &nbsp; 0${pct(m.w,m.l)}</div>
-      <div class="stats-sep"></div>
-      <div class="stats-line"><span>${viewYear}시즌 통산</span><span class="val">${s.w}승 ${s.d}무 ${s.l}패</span></div>
-      <div class="stats-pct">시즌 승률 &nbsp; 0${pct(s.w,s.l)}</div>
-    `;
-  }
-
-  // ---------- ranking (every team, based on its own directly-entered records) ----------
-  function renderRanking(){
-    const standings = {};
-    TEAMS.forEach(t=> standings[t] = {w:0,d:0,l:0});
-
-    Object.values(games).forEach(g=>{
-      if(!standings[g.team]) return;
-      const r = resultOf(g);
-      if(r==='W') standings[g.team].w++;
-      else if(r==='L') standings[g.team].l++;
-      else standings[g.team].d++;
+      if(g.canceled){
+        html += '<div class="detail-meta"><div><b>취소 사유:</b> '+escapeHtml(g.cancelReason||"-")+'</div><div><b>구장:</b> '+escapeHtml(g.stadium||"-")+'</div></div>';
+      } else {
+        html += '<div class="score-line">';
+        html += '<div class="score-team"><div class="tname">'+escapeHtml(g.awayTeam)+'</div><div class="tscore tabular">'+(g.awayScore===null?"-":g.awayScore)+'</div></div>';
+        html += '<div class="score-sep">:</div>';
+        html += '<div class="score-team"><div class="tname">'+escapeHtml(g.homeTeam)+'</div><div class="tscore tabular">'+(g.homeScore===null?"-":g.homeScore)+'</div></div>';
+        html += '</div>';
+        html += '<div class="detail-meta">';
+        html += '<div><b>구장:</b> '+escapeHtml(g.stadium||"-")+'</div>';
+        html += '<div><b>선발투수:</b> '+escapeHtml(g.awayTeam)+' '+escapeHtml(g.awayPitcher||"-")+' · '+escapeHtml(g.homeTeam)+' '+escapeHtml(g.homePitcher||"-")+'</div>';
+        var decisionBits = [];
+        if(g.winPitcher) decisionBits.push('승 '+escapeHtml(g.winPitcher));
+        if(g.losePitcher) decisionBits.push('패 '+escapeHtml(g.losePitcher));
+        if(g.savePitcher) decisionBits.push('세이브 '+escapeHtml(g.savePitcher));
+        if(g.holdPitcher) decisionBits.push('홀드 '+escapeHtml(g.holdPitcher));
+        if(decisionBits.length){
+          html += '<div><b>승패/세이브/홀드:</b> '+decisionBits.join(' · ')+'</div>';
+        }
+        html += '<div><b>MVP:</b> '+escapeHtml(g.awayTeam)+' '+escapeHtml(g.awayMVP||"-")+' · '+escapeHtml(g.homeTeam)+' '+escapeHtml(g.homeMVP||"-")+'</div>';
+        html += '</div>';
+      }
+      html += '<div class="detail-actions"><button data-edit="'+g.id+'">수정</button><button data-del="'+g.id+'">삭제</button></div>';
+      html += '</div>';
     });
-
-    const rows = TEAMS.map(t=>{
-      const s = standings[t];
-      const gamesPlayed = s.w+s.d+s.l;
-      const rate = (s.w+s.l) > 0 ? (s.w/(s.w+s.l)) : -1; // sorts to bottom when no decisions
-      return { team:t, ...s, games: gamesPlayed, rate };
+    panel.innerHTML = html;
+    Array.prototype.forEach.call(panel.querySelectorAll("[data-edit]"), function(b){
+      b.addEventListener("click", function(){ window.__editGame(b.getAttribute("data-edit")); });
     });
-    rows.sort((a,b)=> b.rate - a.rate);
-
-    const tbody = $('rank-tbody');
-    tbody.innerHTML = '';
-    rows.forEach((row, idx)=>{
-      const tr = document.createElement('tr');
-      if(row.team === NC) tr.classList.add('nc-row');
-      const pctText = (row.w+row.l) > 0 ? ('0'+pct(row.w,row.l)) : '-';
-      tr.innerHTML = `
-        <td class="rank-num">${idx+1}</td>
-        <td class="team-name">${row.team}</td>
-        <td>${row.games}</td>
-        <td>${row.w}</td>
-        <td>${row.d}</td>
-        <td>${row.l}</td>
-        <td class="pct">${pctText}</td>
-      `;
-      tbody.appendChild(tr);
+    Array.prototype.forEach.call(panel.querySelectorAll("[data-del]"), function(b){
+      b.addEventListener("click", function(){ window.__deleteGame(b.getAttribute("data-del")); });
     });
   }
 
-  // ---------- init ----------
-  async function init(){
-    populateNcOpponentSelect();
-    populateOtherTeamSelect();
-    populateOtherOpponentSelect();
-    renderDowHeader();
-    const t = todayParts();
-    viewYear = t.y; viewMonth = t.m;
-    const todayStr = dateStr(t.y, t.m, t.d);
-    $('nc-date').value = todayStr;
-    $('other-date').value = todayStr;
-
-    games = await loadAllGames();
-    checkNcDateForExisting();
-    checkOtherForExisting();
-    renderCalendar();
-    renderRanking();
+  function computeRecord(games, team){
+    var w=0,d=0,l=0;
+    games.forEach(function(g){
+      var r = resultFor(g, team);
+      if(r==="win") w++;
+      else if(r==="loss") l++;
+      else if(r==="draw") d++;
+      // cancel / sched / null -> excluded
+    });
+    var rate = (w+l)>0 ? w/(w+l) : null;
+    return {w:w,d:d,l:l,rate:rate};
   }
-  init();
+
+  function renderStatsPanel(){
+    var panel = document.getElementById("statsPanel");
+    var monthGames = state.games.filter(function(g){
+      if(g.awayTeam!==NC && g.homeTeam!==NC) return false;
+      var dt = new Date(g.date+"T00:00:00");
+      return dt.getFullYear()===state.calYear && dt.getMonth()===state.calMonth;
+    });
+    var yearGames = state.games.filter(function(g){
+      if(g.awayTeam!==NC && g.homeTeam!==NC) return false;
+      var dt = new Date(g.date+"T00:00:00");
+      return dt.getFullYear()===state.calYear;
+    });
+    var m = computeRecord(monthGames, NC);
+    var y = computeRecord(yearGames, NC);
+
+    var html = "";
+    html += '<div class="stat-block">';
+    html += '<div class="label">'+(state.calMonth+1)+'월 성적</div>';
+    html += '<div class="stat-record tabular">'+m.w+'승 '+m.d+'무 '+m.l+'패</div>';
+    html += '<div class="stat-rate">'+(state.calMonth+1)+'월 승률 <b class="tabular">'+fmtRate(m.rate)+'</b></div>';
+    html += '</div>';
+    html += '<div class="stat-block">';
+    html += '<div class="label">'+state.calYear+'시즌 통산</div>';
+    html += '<div class="stat-record tabular">'+y.w+'승 '+y.d+'무 '+y.l+'패</div>';
+    html += '<div class="stat-rate">통산 승률 <b class="tabular">'+fmtRate(y.rate)+'</b></div>';
+    html += '</div>';
+    panel.innerHTML = html;
+  }
+
+  // ---------------- Other Teams Tab ----------------
+  function renderOtherTab(){
+    var filter = otherFilter.value;
+    var body = document.getElementById("otherBody");
+    var rows = state.games.filter(function(g){
+      return g.awayTeam!==NC && g.homeTeam!==NC;
+    });
+    if(filter){
+      rows = rows.filter(function(g){ return g.awayTeam===filter || g.homeTeam===filter; });
+    }
+    rows.sort(function(a,b){ return b.date.localeCompare(a.date); });
+
+    if(!rows.length){
+      body.innerHTML = '<tr class="empty-row"><td colspan="8">기록된 경기가 없습니다.</td></tr>';
+      return;
+    }
+    var html = "";
+    rows.forEach(function(g){
+      var scoreTxt = g.canceled ? "-" : ((g.awayScore===null?"-":g.awayScore) + " : " + (g.homeScore===null?"-":g.homeScore));
+      var noteTxt = g.canceled ? ('<span class="cancel-tag">취소</span> '+escapeHtml(g.cancelReason||"")) : "";
+      var decisionBitsO = [];
+      if(g.winPitcher) decisionBitsO.push('승 '+g.winPitcher);
+      if(g.losePitcher) decisionBitsO.push('패 '+g.losePitcher);
+      if(g.savePitcher) decisionBitsO.push('세이브 '+g.savePitcher);
+      if(g.holdPitcher) decisionBitsO.push('홀드 '+g.holdPitcher);
+      var rowTitle = decisionBitsO.length ? (' title="'+escapeHtml(decisionBitsO.join(' · '))+'"') : "";
+      html += "<tr"+rowTitle+">";
+      html += "<td>"+g.date+"</td>";
+      html += "<td>"+escapeHtml(g.awayTeam)+"</td>";
+      html += '<td class="tabular">'+scoreTxt+"</td>";
+      html += "<td>"+escapeHtml(g.homeTeam)+"</td>";
+      html += "<td>"+escapeHtml(g.stadium||"-")+"</td>";
+      html += "<td>"+(g.watched ? "⚾" : "-")+"</td>";
+      html += "<td>"+noteTxt+"</td>";
+      html += '<td><button class="row-btn" data-edit="'+g.id+'">수정</button><button class="row-btn" data-del="'+g.id+'">삭제</button></td>';
+      html += "</tr>";
+    });
+    body.innerHTML = html;
+    Array.prototype.forEach.call(body.querySelectorAll("[data-edit]"), function(b){
+      b.addEventListener("click", function(){ window.__editGame(b.getAttribute("data-edit")); });
+    });
+    Array.prototype.forEach.call(body.querySelectorAll("[data-del]"), function(b){
+      b.addEventListener("click", function(){ window.__deleteGame(b.getAttribute("data-del")); });
+    });
+  }
+
+  // ---------------- Ranking Tab ----------------
+  function renderRankingTab(){
+    var body = document.getElementById("rankBody");
+    var results = TEAMS.map(function(team){
+      var teamGames = state.games.filter(function(g){ return (g.awayTeam===team || g.homeTeam===team) && !g.canceled; });
+      var rec = computeRecord(teamGames, team);
+      var played = rec.w+rec.d+rec.l;
+      return { team:team, played:played, w:rec.w, d:rec.d, l:rec.l, rate:rec.rate };
+    });
+    results.sort(function(a,b){
+      var ar = a.rate===null ? -1 : a.rate;
+      var br = b.rate===null ? -1 : b.rate;
+      if(br!==ar) return br-ar;
+      return b.w-a.w;
+    });
+    var html = "";
+    results.forEach(function(row, i){
+      var rankNo = i+1;
+      html += '<tr class="'+(row.team===NC?"nc-row":"")+'">';
+      html += '<td class="rank-no'+(rankNo===1?" top1":"")+'">'+rankNo+'</td>';
+      html += "<td>"+escapeHtml(row.team)+"</td>";
+      html += '<td class="tabular">'+row.played+"</td>";
+      html += '<td class="tabular">'+row.w+"</td>";
+      html += '<td class="tabular">'+row.d+"</td>";
+      html += '<td class="tabular">'+row.l+"</td>";
+      html += '<td class="rate-cell tabular">'+fmtRate(row.rate)+"</td>";
+      html += "</tr>";
+    });
+    body.innerHTML = html;
+  }
+
+  function escapeHtml(s){
+    if(s===null||s===undefined) return "";
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  // init: jump calendar to most recent NC game month if exists, else current month
+  (function initCalendarPosition(){
+    var ncGames = state.games.filter(function(g){ return g.awayTeam===NC || g.homeTeam===NC; });
+    if(ncGames.length){
+      ncGames.sort(function(a,b){ return b.date.localeCompare(a.date); });
+      var dt = new Date(ncGames[0].date+"T00:00:00");
+      state.calYear = dt.getFullYear();
+      state.calMonth = dt.getMonth();
+    }
+  })();
+
+  renderCalendarTab();
+  renderOtherTab();
+  renderRankingTab();
 })();
 </script>
 </body>
