@@ -840,7 +840,12 @@
         if(decisionBits.length){
           html += '<div><b>승패/세이브/홀드:</b> '+decisionBits.join(' · ')+'</div>';
         }
-        html += '<div><b>MVP:</b> '+escapeHtml(g.awayTeam)+' '+escapeHtml(g.awayMVP||"-")+' · '+escapeHtml(g.homeTeam)+' '+escapeHtml(g.homeMVP||"-")+'</div>';
+        var mvpBits = [];
+        if(g.awayMVP) mvpBits.push(escapeHtml(g.awayTeam)+' '+escapeHtml(g.awayMVP));
+        if(g.homeMVP) mvpBits.push(escapeHtml(g.homeTeam)+' '+escapeHtml(g.homeMVP));
+        if(mvpBits.length){
+          html += '<div><b>MVP:</b> '+mvpBits.join(' · ')+'</div>';
+        }
         html += '</div>';
       }
       html += '<div class="detail-actions"><button data-edit="'+g.id+'">수정</button><button data-del="'+g.id+'">삭제</button></div>';
