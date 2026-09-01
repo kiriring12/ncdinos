@@ -269,6 +269,7 @@
     <button data-tab="calendar">캘린더</button>
     <button data-tab="other">타 팀 기록</button>
     <button data-tab="ranking">랭킹</button>
+    <button data-tab="sync">기기 간 동기화</button>
   </nav>
 </header>
 
@@ -433,9 +434,61 @@
     </div>
   </section>
 
+  <!-- ================= SYNC TAB ================= -->
+  <section id="tab-sync" style="display:none;">
+    <div class="panel form-wrap">
+      <h2 class="section-title">기기 간 동기화 (GitHub 저장소 연동)</h2>
+      <p class="hint" style="margin-bottom:16px;">
+        이 페이지는 GitHub Pages 등 정적 사이트라 기본적으로 기록이 <b>이 브라우저 안</b>에만 저장돼요.
+        아래에 여러분의 GitHub 저장소 정보를 연결해두면, 입력한 기록이 저장소의 JSON 파일에 자동으로 저장되고
+        휴대폰·PC 어디서든 같은 정보를 열면 최신 기록을 불러올 수 있어요.
+      </p>
+      <div class="field-row">
+        <div class="field">
+          <label>GitHub 사용자명(또는 조직명)</label>
+          <input type="text" id="s-owner" placeholder="예: myusername">
+        </div>
+        <div class="field">
+          <label>저장소 이름</label>
+          <input type="text" id="s-repo" placeholder="예: nc-baseball-tracker">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>브랜치</label>
+          <input type="text" id="s-branch" placeholder="main" value="main">
+        </div>
+        <div class="field" style="flex:2;">
+          <label>데이터 파일 경로</label>
+          <input type="text" id="s-path" placeholder="data/games.json" value="data/games.json">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field" style="flex:3;">
+          <label>Personal Access Token <span style="font-weight:400;">(해당 저장소에 대한 쓰기 권한, fine-grained token 권장)</span></label>
+          <input type="text" id="s-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        </div>
+      </div>
+      <div class="hint" style="margin-bottom:14px;">
+        토큰은 이 기기의 브라우저에만 저장되고 다른 곳으로 전송되지 않아요(깃허브 API 호출에만 사용). 각 기기에서 한 번씩 같은 값을 입력해두면 돼요.
+        토큰 발급: GitHub → Settings → Developer settings → Personal access tokens → 해당 저장소 Contents 쓰기 권한으로 생성.
+      </div>
+      <div class="form-actions" style="flex-wrap:wrap;">
+        <button class="primary" id="syncSaveBtn">연결 정보 저장</button>
+        <button class="ghost" id="syncPullBtn">지금 불러오기</button>
+        <button class="ghost" id="syncPushBtn">지금 올리기(덮어쓰기)</button>
+        <button class="ghost" id="syncClearBtn">연결 해제</button>
+      </div>
+      <div id="syncStatus" class="hint" style="margin-top:14px; font-size:13px;"></div>
+    </div>
+  </section>
+
 </main>
 
 <div id="toast"></div>
+<div id="loadingOverlay" style="display:none;position:fixed;inset:0;background:rgba(19,40,64,.55);z-index:100;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600;">
+  <div style="background:var(--navy-deep);padding:18px 26px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.3);">불러오는 중...</div>
+</div>
 
 <script>
 (function(){
@@ -483,6 +536,176 @@
   function pad2(n){ return n<10 ? "0"+n : ""+n; }
   function fmtDate(y,m,d){ return y+"-"+pad2(m+1)+"-"+pad2(d); }
 
+  // ---------------- GitHub Sync ----------------
+  var SYNC_KEY = "nc_dinos_sync_config_v1";
+  var syncCfg = loadSyncCfg();
+  var syncSha = null; // current known sha of the remote file
+  var syncBusy = false;
+
+  function loadSyncCfg(){
+    try{
+      var raw = localStorage.getItem(SYNC_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+  function saveSyncCfg(cfg){
+    try{ localStorage.setItem(SYNC_KEY, JSON.stringify(cfg)); }catch(e){}
+  }
+  function syncConfigured(){
+    return !!(syncCfg && syncCfg.owner && syncCfg.repo && syncCfg.path && syncCfg.token);
+  }
+  function b64EncodeUnicode(str){
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1){
+      return String.fromCharCode(parseInt(p1, 16));
+    }));
+  }
+  function b64DecodeUnicode(str){
+    str = str.replace(/\n/g, "");
+    return decodeURIComponent(atob(str).split("").map(function(c){
+      return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(""));
+  }
+  function contentsUrl(){
+    return "https://api.github.com/repos/" + encodeURIComponent(syncCfg.owner) + "/" + encodeURIComponent(syncCfg.repo) +
+      "/contents/" + syncCfg.path.split("/").map(encodeURIComponent).join("/") +
+      "?ref=" + encodeURIComponent(syncCfg.branch || "main");
+  }
+  function ghHeaders(){
+    return {
+      "Authorization": "Bearer " + syncCfg.token,
+      "Accept": "application/vnd.github+json"
+    };
+  }
+  function setSyncStatus(msg, isError){
+    var el = document.getElementById("syncStatus");
+    if(!el) return;
+    el.textContent = msg;
+    el.style.color = isError ? "#C64B4B" : "";
+  }
+
+  function syncPull(silent){
+    if(!syncConfigured()) return Promise.resolve(false);
+    syncBusy = true;
+    return fetch(contentsUrl(), { headers: ghHeaders() }).then(function(res){
+      if(res.status===404){
+        syncSha = null;
+        if(!silent) setSyncStatus("원격 저장소에 아직 데이터 파일이 없어요. '지금 올리기'를 눌러 새로 만들 수 있어요.");
+        return false;
+      }
+      if(!res.ok){
+        throw new Error("GET " + res.status);
+      }
+      return res.json().then(function(json){
+        syncSha = json.sha;
+        var text = b64DecodeUnicode(json.content);
+        var remoteGames = JSON.parse(text);
+        if(Array.isArray(remoteGames)){
+          state.games = remoteGames;
+          save();
+        }
+        if(!silent) setSyncStatus("최신 기록을 불러왔습니다. (" + new Date().toLocaleString("ko-KR") + ")");
+        renderCalendarTab(); renderOtherTab(); renderRankingTab();
+        return true;
+      });
+    }).catch(function(err){
+      setSyncStatus("불러오기에 실패했어요: " + err.message + " (저장소/브랜치/경로/토큰 권한을 확인해주세요)", true);
+      return false;
+    }).finally(function(){ syncBusy = false; });
+  }
+
+  function syncPush(silent){
+    if(!syncConfigured()) return Promise.resolve(false);
+    syncBusy = true;
+    var body = {
+      message: "Update NC 다이노스 game records",
+      content: b64EncodeUnicode(JSON.stringify(state.games, null, 2)),
+      branch: syncCfg.branch || "main"
+    };
+    if(syncSha) body.sha = syncSha;
+    return fetch(contentsUrl().split("?")[0], {
+      method: "PUT",
+      headers: Object.assign({ "Content-Type": "application/json" }, ghHeaders()),
+      body: JSON.stringify(body)
+    }).then(function(res){
+      if(res.status===409){
+        // conflict: someone else updated it. Re-pull then retry once.
+        return syncPull(true).then(function(){
+          body.sha = syncSha;
+          return fetch(contentsUrl().split("?")[0], {
+            method: "PUT",
+            headers: Object.assign({ "Content-Type": "application/json" }, ghHeaders()),
+            body: JSON.stringify(body)
+          });
+        });
+      }
+      return res;
+    }).then(function(res){
+      if(!res.ok){
+        return res.json().catch(function(){ return {}; }).then(function(errJson){
+          throw new Error((errJson && errJson.message) || ("PUT " + res.status));
+        });
+      }
+      return res.json();
+    }).then(function(json){
+      if(json && json.content && json.content.sha) syncSha = json.content.sha;
+      if(!silent) setSyncStatus("다른 기기와 동기화 완료. (" + new Date().toLocaleString("ko-KR") + ")");
+      return true;
+    }).catch(function(err){
+      setSyncStatus("올리기에 실패했어요: " + err.message + " (토큰 권한/저장소 이름을 확인해주세요)", true);
+      return false;
+    }).finally(function(){ syncBusy = false; });
+  }
+
+  function renderSyncTab(){
+    if(syncCfg){
+      document.getElementById("s-owner").value = syncCfg.owner || "";
+      document.getElementById("s-repo").value = syncCfg.repo || "";
+      document.getElementById("s-branch").value = syncCfg.branch || "main";
+      document.getElementById("s-path").value = syncCfg.path || "data/games.json";
+      document.getElementById("s-token").value = syncCfg.token || "";
+      setSyncStatus(syncConfigured() ? "연결됨: " + syncCfg.owner + "/" + syncCfg.repo + " (" + syncCfg.path + ")" : "연결 정보를 입력 후 저장해주세요.");
+    } else {
+      setSyncStatus("아직 연결되지 않았습니다.");
+    }
+  }
+
+  document.getElementById("syncSaveBtn").addEventListener("click", function(){
+    syncCfg = {
+      owner: document.getElementById("s-owner").value.trim(),
+      repo: document.getElementById("s-repo").value.trim(),
+      branch: document.getElementById("s-branch").value.trim() || "main",
+      path: document.getElementById("s-path").value.trim() || "data/games.json",
+      token: document.getElementById("s-token").value.trim()
+    };
+    saveSyncCfg(syncCfg);
+    setSyncStatus("연결 정보를 저장했습니다. '지금 불러오기'로 확인해보세요.");
+    toast("동기화 설정을 저장했습니다.");
+  });
+  document.getElementById("syncPullBtn").addEventListener("click", function(){
+    if(syncBusy) return;
+    setSyncStatus("불러오는 중...");
+    syncPull(false);
+  });
+  document.getElementById("syncPushBtn").addEventListener("click", function(){
+    if(syncBusy) return;
+    if(!confirm("현재 이 기기에 있는 기록으로 원격 저장소 데이터를 덮어씁니다. 계속할까요?")) return;
+    setSyncStatus("올리는 중...");
+    syncPush(false);
+  });
+  document.getElementById("syncClearBtn").addEventListener("click", function(){
+    if(!confirm("이 기기에서 동기화 연결 정보를 삭제할까요? (원격 데이터는 그대로 유지돼요)")) return;
+    syncCfg = null;
+    syncSha = null;
+    localStorage.removeItem(SYNC_KEY);
+    document.getElementById("s-owner").value = "";
+    document.getElementById("s-repo").value = "";
+    document.getElementById("s-branch").value = "main";
+    document.getElementById("s-path").value = "data/games.json";
+    document.getElementById("s-token").value = "";
+    setSyncStatus("연결을 해제했습니다.");
+    toast("동기화 연결을 해제했습니다.");
+  });
+
   // ---------------- Tabs ----------------
   var tabNav = document.getElementById("tabNav");
   tabNav.addEventListener("click", function(e){
@@ -492,7 +715,7 @@
   });
   function setActiveTab(tab){
     state.activeTab = tab;
-    ["input","calendar","other","ranking"].forEach(function(t){
+    ["input","calendar","other","ranking","sync"].forEach(function(t){
       document.getElementById("tab-"+t).style.display = (t===tab) ? "" : "none";
     });
     Array.prototype.forEach.call(tabNav.querySelectorAll("button"), function(b){
@@ -501,6 +724,7 @@
     if(tab==="calendar") renderCalendarTab();
     if(tab==="other") renderOtherTab();
     if(tab==="ranking") renderRankingTab();
+    if(tab==="sync") renderSyncTab();
   }
 
   // ---------------- Populate team selects ----------------
@@ -643,6 +867,9 @@
     resetForm();
     // if calendar is showing this date's month, refresh
     renderCalendarTab();
+    if(syncConfigured()) syncPush(true).then(function(ok){
+      if(ok) toast("다른 기기와 동기화까지 완료했어요.");
+    });
   });
 
   function toNumOrNull(v){
@@ -694,6 +921,7 @@
     renderOtherTab();
     renderRankingTab();
     toast("삭제했습니다.");
+    if(syncConfigured()) syncPush(true);
   }
   window.__deleteGame = deleteGame;
   window.__editGame = function(id){
@@ -987,7 +1215,7 @@
   }
 
   // init: jump calendar to most recent NC game month if exists, else current month
-  (function initCalendarPosition(){
+  function positionCalendarToLatest(){
     var ncGames = state.games.filter(function(g){ return g.awayTeam===NC || g.homeTeam===NC; });
     if(ncGames.length){
       ncGames.sort(function(a,b){ return b.date.localeCompare(a.date); });
@@ -995,11 +1223,25 @@
       state.calYear = dt.getFullYear();
       state.calMonth = dt.getMonth();
     }
-  })();
+  }
 
-  renderCalendarTab();
-  renderOtherTab();
-  renderRankingTab();
+  function initialRender(){
+    positionCalendarToLatest();
+    renderCalendarTab();
+    renderOtherTab();
+    renderRankingTab();
+  }
+
+  if(syncConfigured()){
+    var overlay = document.getElementById("loadingOverlay");
+    overlay.style.display = "flex";
+    syncPull(true).finally(function(){
+      overlay.style.display = "none";
+      initialRender();
+    });
+  } else {
+    initialRender();
+  }
 })();
 </script>
 </body>
