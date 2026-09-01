@@ -407,7 +407,7 @@
   <section id="tab-other" style="display:none;">
     <div class="panel table-wrap">
       <div class="table-toolbar">
-        <h2 class="section-title" style="margin:0;">타 팀 기록 (NC 다이노스 제외)</h2>
+        <h2 class="section-title" style="margin:0;">타 팀 기록 <span style="font-weight:400;">(팀을 선택하면 NC와의 경기도 함께 표시돼요)</span></h2>
         <select class="filter-select" id="otherFilter"></select>
       </div>
       <table class="data-table">
@@ -430,6 +430,15 @@
           <tr><th>순위</th><th>팀</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th></tr>
         </thead>
         <tbody id="rankBody"></tbody>
+      </table>
+    </div>
+    <div class="panel rank-wrap" style="margin-top:16px;">
+      <h2 class="section-title">NC 다이노스 상대전적 (상대팀별 · NC 기준 승률순)</h2>
+      <table class="rank-table">
+        <thead>
+          <tr><th>순위</th><th>상대팀</th><th>경기</th><th>NC 승</th><th>무</th><th>NC 패</th><th>NC 승률</th></tr>
+        </thead>
+        <tbody id="h2hBody"></tbody>
       </table>
     </div>
   </section>
@@ -604,7 +613,7 @@
           save();
         }
         if(!silent) setSyncStatus("최신 기록을 불러왔습니다. (" + new Date().toLocaleString("ko-KR") + ")");
-        renderCalendarTab(); renderOtherTab(); renderRankingTab();
+        renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking();
         return true;
       });
     }).catch(function(err){
@@ -723,7 +732,7 @@
     });
     if(tab==="calendar") renderCalendarTab();
     if(tab==="other") renderOtherTab();
-    if(tab==="ranking") renderRankingTab();
+    if(tab==="ranking"){ renderRankingTab(); renderHeadToHeadRanking(); }
     if(tab==="sync") renderSyncTab();
   }
 
@@ -920,6 +929,7 @@
     renderCalendarTab();
     renderOtherTab();
     renderRankingTab();
+    renderHeadToHeadRanking();
     toast("삭제했습니다.");
     if(syncConfigured()) syncPush(true);
   }
@@ -1123,9 +1133,9 @@
     html += '<div class="stat-rate">'+(state.calMonth+1)+'월 승률 <b class="tabular">'+fmtRate(m.rate)+'</b></div>';
     html += '</div>';
     html += '<div class="stat-block">';
-    html += '<div class="label">'+state.calYear+'시즌 통산</div>';
+    html += '<div class="label">'+state.calYear+'시즌 성적</div>';
     html += '<div class="stat-record tabular">'+y.w+'승 '+y.d+'무 '+y.l+'패</div>';
-    html += '<div class="stat-rate">통산 승률 <b class="tabular">'+fmtRate(y.rate)+'</b></div>';
+    html += '<div class="stat-rate">'+state.calYear+'시즌 승률 <b class="tabular">'+fmtRate(y.rate)+'</b></div>';
     html += '</div>';
     panel.innerHTML = html;
   }
@@ -1134,11 +1144,14 @@
   function renderOtherTab(){
     var filter = otherFilter.value;
     var body = document.getElementById("otherBody");
-    var rows = state.games.filter(function(g){
-      return g.awayTeam!==NC && g.homeTeam!==NC;
-    });
+    var rows;
     if(filter){
-      rows = rows.filter(function(g){ return g.awayTeam===filter || g.homeTeam===filter; });
+      // Show every game involving this team, including matchups against NC.
+      rows = state.games.filter(function(g){ return g.awayTeam===filter || g.homeTeam===filter; });
+    } else {
+      // No team selected: show all non-NC-vs-NC-only overview, but still include NC matchups
+      // since they belong to the other team's record too.
+      rows = state.games.slice();
     }
     rows.sort(function(a,b){ return b.date.localeCompare(a.date); });
 
@@ -1207,6 +1220,40 @@
     body.innerHTML = html;
   }
 
+  function renderHeadToHeadRanking(){
+    var body = document.getElementById("h2hBody");
+    if(!body) return;
+    var results = TEAMS.filter(function(t){ return t!==NC; }).map(function(opp){
+      var h2hGames = state.games.filter(function(g){
+        if(g.canceled) return false;
+        return (g.awayTeam===NC && g.homeTeam===opp) || (g.awayTeam===opp && g.homeTeam===NC);
+      });
+      var rec = computeRecord(h2hGames, NC);
+      var played = rec.w+rec.d+rec.l;
+      return { team:opp, played:played, w:rec.w, d:rec.d, l:rec.l, rate:rec.rate };
+    });
+    results.sort(function(a,b){
+      var ar = a.rate===null ? -1 : a.rate;
+      var br = b.rate===null ? -1 : b.rate;
+      if(br!==ar) return br-ar;
+      return b.w-a.w;
+    });
+    var html = "";
+    results.forEach(function(row, i){
+      var rankNo = i+1;
+      html += "<tr>";
+      html += '<td class="rank-no'+(rankNo===1?" top1":"")+'">'+rankNo+'</td>';
+      html += "<td>"+escapeHtml(row.team)+"</td>";
+      html += '<td class="tabular">'+row.played+"</td>";
+      html += '<td class="tabular">'+row.w+"</td>";
+      html += '<td class="tabular">'+row.d+"</td>";
+      html += '<td class="tabular">'+row.l+"</td>";
+      html += '<td class="rate-cell tabular">'+fmtRate(row.rate)+"</td>";
+      html += "</tr>";
+    });
+    body.innerHTML = html || '<tr class="empty-row"><td colspan="7">기록된 경기가 없습니다.</td></tr>';
+  }
+
   function escapeHtml(s){
     if(s===null||s===undefined) return "";
     return String(s).replace(/[&<>"']/g, function(c){
@@ -1230,6 +1277,7 @@
     renderCalendarTab();
     renderOtherTab();
     renderRankingTab();
+    renderHeadToHeadRanking();
   }
 
   if(syncConfigured()){
