@@ -858,5 +858,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtip1ylg_satiqo",
+    "date": "2026-09-01",
+    "awayTeam": "KIA 타이거즈",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "네일",
+    "homePitcher": "구창모",
+    "awayScore": 2,
+    "homeScore": 7,
+    "awayMVP": "",
+    "homeMVP": "블레인",
+    "winPitcher": "김진호",
+    "losePitcher": "네일",
+    "savePitcher": "",
+    "holdPitcher": "배재환, 이용준, 신영우",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
