@@ -898,5 +898,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtjl5390_ketwd0",
+    "date": "2026-05-19",
+    "awayTeam": "NC 다이노스",
+    "homeTeam": "두산 베어스",
+    "awayPitcher": "테일러",
+    "homePitcher": "최민석",
+    "awayScore": 3,
+    "homeScore": 9,
+    "awayMVP": "",
+    "homeMVP": "최민석, 박찬호",
+    "winPitcher": "최민석",
+    "losePitcher": "테일러",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "서울종합운동장 잠실 야구장",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
