@@ -878,5 +878,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtjkx83k_l9bchz",
+    "date": "2026-05-17",
+    "awayTeam": "키움 히어로즈",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "박준현",
+    "homePitcher": "라일리",
+    "awayScore": 3,
+    "homeScore": 2,
+    "awayMVP": "서건창",
+    "homeMVP": "",
+    "winPitcher": "김성진",
+    "losePitcher": "김영규",
+    "savePitcher": "유토",
+    "holdPitcher": "원종현",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
