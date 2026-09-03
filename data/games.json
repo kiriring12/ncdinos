@@ -938,5 +938,25 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "우천 취소"
+  },
+  {
+    "id": "g_mtkro4to_zsaf47",
+    "date": "2026-05-21",
+    "awayTeam": "NC 다이노스",
+    "homeTeam": "두산 베어스",
+    "awayPitcher": "토다",
+    "homePitcher": "벤자민",
+    "awayScore": 0,
+    "homeScore": 1,
+    "awayMVP": "",
+    "homeMVP": "손아섭",
+    "winPitcher": "벤자민",
+    "losePitcher": "토다",
+    "savePitcher": "이영하",
+    "holdPitcher": "",
+    "stadium": "서울종합운동장 잠실 야구장",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
