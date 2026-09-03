@@ -958,5 +958,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtkrx1as_2egnqm",
+    "date": "2026-05-22",
+    "awayTeam": "NC 다이노스",
+    "homeTeam": "KT wiz",
+    "awayPitcher": "김태경",
+    "homePitcher": "고영표",
+    "awayScore": 4,
+    "homeScore": 7,
+    "awayMVP": "",
+    "homeMVP": "최원준",
+    "winPitcher": "손동현",
+    "losePitcher": "류진욱",
+    "savePitcher": "박영현",
+    "holdPitcher": "한승혁",
+    "stadium": "수원 케이티 위즈 파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
