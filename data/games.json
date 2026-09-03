@@ -918,5 +918,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtkrmq68_ma2825",
+    "date": "2026-05-20",
+    "awayTeam": "두산 베어스",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "",
+    "homePitcher": "",
+    "awayScore": null,
+    "homeScore": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": true,
+    "cancelReason": "우천 취소"
   }
 ]
