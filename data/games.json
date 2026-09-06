@@ -1158,5 +1158,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtpx4lon_im2d2h",
+    "date": "2026-06-04",
+    "awayTeam": "NC 다이노스",
+    "homeTeam": "삼성 라이온즈",
+    "awayPitcher": "구창모",
+    "homePitcher": "원태인",
+    "awayScore": 6,
+    "homeScore": 3,
+    "awayMVP": "박민우",
+    "homeMVP": "",
+    "winPitcher": "구창모",
+    "losePitcher": "원태인",
+    "savePitcher": "전사민",
+    "holdPitcher": "임지민, 류진욱",
+    "stadium": "대구 삼성 라이온즈 파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
