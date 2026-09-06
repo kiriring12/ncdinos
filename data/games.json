@@ -998,5 +998,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtpqc6gx_jlujao",
+    "date": "2026-05-24",
+    "awayTeam": "NC 다이노스",
+    "homeTeam": "KT wiz",
+    "awayPitcher": "라일리",
+    "homePitcher": "배제성",
+    "awayScore": 8,
+    "homeScore": 5,
+    "awayMVP": "박건우",
+    "homeMVP": "",
+    "winPitcher": "라일리",
+    "losePitcher": "배제성",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "수원 케이티 위즈 파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
