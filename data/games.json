@@ -1038,5 +1038,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtpqe0sq_zvc103",
+    "date": "2026-05-28",
+    "awayTeam": "한화 이글스",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "황준서",
+    "homePitcher": "김태경",
+    "awayScore": 18,
+    "homeScore": 7,
+    "awayMVP": "강백호",
+    "homeMVP": "",
+    "winPitcher": "황준서",
+    "losePitcher": "임지민",
+    "savePitcher": "",
+    "holdPitcher": "박상원",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
