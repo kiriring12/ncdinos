@@ -1078,5 +1078,25 @@
     "watched": true,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtpqhtfn_fr90yy",
+    "date": "2026-05-30",
+    "awayTeam": "롯데 자이언츠",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "이민석",
+    "homePitcher": "라일리",
+    "awayScore": 2,
+    "homeScore": 6,
+    "awayMVP": "",
+    "homeMVP": "데이비슨, 김형준",
+    "winPitcher": "배재환",
+    "losePitcher": "홍민기",
+    "savePitcher": "",
+    "holdPitcher": "김진호, 임지민",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
