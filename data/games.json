@@ -1198,5 +1198,25 @@
     "watched": false,
     "canceled": false,
     "cancelReason": ""
+  },
+  {
+    "id": "g_mtwgkad3_rfi7xj",
+    "date": "2026-06-06",
+    "awayTeam": "LG 트윈스",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "톨허스터",
+    "homePitcher": "테일러",
+    "awayScore": 5,
+    "homeScore": 8,
+    "awayMVP": "",
+    "homeMVP": "오장한",
+    "winPitcher": "김진호",
+    "losePitcher": "김진수",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": ""
   }
 ]
