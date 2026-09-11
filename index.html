@@ -593,20 +593,27 @@
     return d.getUTCFullYear()+"-"+pad2(d.getUTCMonth()+1)+"-"+pad2(d.getUTCDate());
   }
 
-  function getNextSuggestedDate(){
-    if(!state.games.length) return new Date().toISOString().slice(0,10);
-    var withCreated = state.games.filter(function(g){ return !!g.createdAt; });
+  function getNextSuggestedDateFor(predicate){
+    var candidates = state.games.filter(predicate);
+    if(!candidates.length) return new Date().toISOString().slice(0,10);
+    var withCreated = candidates.filter(function(g){ return !!g.createdAt; });
     var sourceDate;
     if(withCreated.length){
       // Use the record that was actually entered last (by real save time), not the latest calendar date.
       var latest = withCreated.reduce(function(a,b){ return (b.createdAt > a.createdAt) ? b : a; });
       sourceDate = latest.date;
     } else {
-      // Legacy records with no createdAt: fall back to the latest calendar date.
-      var dates = state.games.map(function(g){ return g.date; }).filter(Boolean).sort();
+      // Legacy records with no createdAt: fall back to the latest calendar date among this group.
+      var dates = candidates.map(function(g){ return g.date; }).filter(Boolean).sort();
       sourceDate = dates[dates.length-1];
     }
     return addOneDayUTC(sourceDate);
+  }
+  function getNcNextDate(){
+    return getNextSuggestedDateFor(function(g){ return g.awayTeam===NC || g.homeTeam===NC; });
+  }
+  function getOtherNextDate(){
+    return getNextSuggestedDateFor(function(g){ return g.awayTeam!==NC && g.homeTeam!==NC; });
   }
   function fmtDate(y,m,d){ return y+"-"+pad2(m+1)+"-"+pad2(d); }
 
@@ -834,7 +841,7 @@
   });
   ncOpponentSel.value = OPPONENT_TEAMS[0];
 
-  document.getElementById("nc-date").value = getNextSuggestedDate();
+  document.getElementById("nc-date").value = getNcNextDate();
 
   var ncSide = "home"; // 'home' = NC is home team, 'away' = NC is away team
   var ncSideHomeBtn = document.getElementById("ncSideHomeBtn");
@@ -900,7 +907,7 @@
   function resetNcForm(){
     state.editingId = null;
     document.getElementById("ncEditingNotice").classList.remove("show");
-    document.getElementById("nc-date").value = getNextSuggestedDate();
+    document.getElementById("nc-date").value = getNcNextDate();
     ncOpponentSel.value = OPPONENT_TEAMS[0];
     setNcSide("home");
     document.getElementById("nc-awayPitcher").value = "";
@@ -1038,7 +1045,7 @@
   }
   buildObRows();
 
-  document.getElementById("ob-date").value = getNextSuggestedDate();
+  document.getElementById("ob-date").value = getOtherNextDate();
 
   function getObRow(i){
     return {
@@ -1089,7 +1096,7 @@
   }
 
   function resetOtherForm(){
-    document.getElementById("ob-date").value = getNextSuggestedDate();
+    document.getElementById("ob-date").value = getOtherNextDate();
     clearObRows();
   }
 
@@ -1520,8 +1527,8 @@
     renderOtherTab();
     renderRankingTab();
     renderHeadToHeadRanking();
-    document.getElementById("nc-date").value = getNextSuggestedDate();
-    document.getElementById("ob-date").value = getNextSuggestedDate();
+    document.getElementById("nc-date").value = getNcNextDate();
+    document.getElementById("ob-date").value = getOtherNextDate();
   }
 
   if(syncConfigured()){
