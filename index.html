@@ -584,6 +584,16 @@
   }
   function uid(){ return "g_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8); }
 
+  function getNextSuggestedDate(){
+    var dates = state.games.map(function(g){ return g.date; }).filter(Boolean);
+    if(!dates.length) return new Date().toISOString().slice(0,10);
+    dates.sort();
+    var last = dates[dates.length-1];
+    var d = new Date(last+"T00:00:00");
+    d.setDate(d.getDate()+1);
+    return d.toISOString().slice(0,10);
+  }
+
   function pad2(n){ return n<10 ? "0"+n : ""+n; }
   function fmtDate(y,m,d){ return y+"-"+pad2(m+1)+"-"+pad2(d); }
 
@@ -811,7 +821,7 @@
   });
   ncOpponentSel.value = OPPONENT_TEAMS[0];
 
-  document.getElementById("nc-date").value = new Date().toISOString().slice(0,10);
+  document.getElementById("nc-date").value = getNextSuggestedDate();
 
   var ncSide = "home"; // 'home' = NC is home team, 'away' = NC is away team
   var ncSideHomeBtn = document.getElementById("ncSideHomeBtn");
@@ -877,7 +887,7 @@
   function resetNcForm(){
     state.editingId = null;
     document.getElementById("ncEditingNotice").classList.remove("show");
-    document.getElementById("nc-date").value = new Date().toISOString().slice(0,10);
+    document.getElementById("nc-date").value = getNextSuggestedDate();
     ncOpponentSel.value = OPPONENT_TEAMS[0];
     setNcSide("home");
     document.getElementById("nc-awayPitcher").value = "";
@@ -1013,7 +1023,7 @@
   }
   buildObRows();
 
-  document.getElementById("ob-date").value = new Date().toISOString().slice(0,10);
+  document.getElementById("ob-date").value = getNextSuggestedDate();
 
   function getObRow(i){
     return {
@@ -1063,7 +1073,7 @@
   }
 
   function resetOtherForm(){
-    document.getElementById("ob-date").value = new Date().toISOString().slice(0,10);
+    document.getElementById("ob-date").value = getNextSuggestedDate();
     clearObRows();
   }
 
@@ -1493,6 +1503,8 @@
     renderOtherTab();
     renderRankingTab();
     renderHeadToHeadRanking();
+    document.getElementById("nc-date").value = getNextSuggestedDate();
+    document.getElementById("ob-date").value = getNextSuggestedDate();
   }
 
   if(syncConfigured()){
