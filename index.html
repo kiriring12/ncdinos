@@ -584,17 +584,30 @@
   }
   function uid(){ return "g_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8); }
 
-  function getNextSuggestedDate(){
-    var dates = state.games.map(function(g){ return g.date; }).filter(Boolean);
-    if(!dates.length) return new Date().toISOString().slice(0,10);
-    dates.sort();
-    var last = dates[dates.length-1];
-    var d = new Date(last+"T00:00:00");
-    d.setDate(d.getDate()+1);
-    return d.toISOString().slice(0,10);
+  function pad2(n){ return n<10 ? "0"+n : ""+n; }
+
+  function addOneDayUTC(dateStr){
+    var parts = dateStr.split("-").map(Number);
+    var d = new Date(Date.UTC(parts[0], parts[1]-1, parts[2]));
+    d.setUTCDate(d.getUTCDate()+1);
+    return d.getUTCFullYear()+"-"+pad2(d.getUTCMonth()+1)+"-"+pad2(d.getUTCDate());
   }
 
-  function pad2(n){ return n<10 ? "0"+n : ""+n; }
+  function getNextSuggestedDate(){
+    if(!state.games.length) return new Date().toISOString().slice(0,10);
+    var withCreated = state.games.filter(function(g){ return !!g.createdAt; });
+    var sourceDate;
+    if(withCreated.length){
+      // Use the record that was actually entered last (by real save time), not the latest calendar date.
+      var latest = withCreated.reduce(function(a,b){ return (b.createdAt > a.createdAt) ? b : a; });
+      sourceDate = latest.date;
+    } else {
+      // Legacy records with no createdAt: fall back to the latest calendar date.
+      var dates = state.games.map(function(g){ return g.date; }).filter(Boolean).sort();
+      sourceDate = dates[dates.length-1];
+    }
+    return addOneDayUTC(sourceDate);
+  }
   function fmtDate(y,m,d){ return y+"-"+pad2(m+1)+"-"+pad2(d); }
 
   // ---------------- GitHub Sync ----------------
@@ -917,6 +930,7 @@
     if(cancel && !cancelReason){ toast("취소 사유를 입력해주세요."); return; }
 
     var stadium = ncStadiumInput.value.trim() || STADIUM_MAP[teams.homeTeam] || "";
+    var existingNc = state.editingId ? state.games.find(function(g){ return g.id===state.editingId; }) : null;
 
     var rec = {
       id: state.editingId || uid(),
@@ -936,7 +950,8 @@
       stadium: stadium,
       watched: ncWatchCb.checked,
       canceled: cancel,
-      cancelReason: cancel ? cancelReason : ""
+      cancelReason: cancel ? cancelReason : "",
+      createdAt: existingNc ? existingNc.createdAt : Date.now()
     };
 
     if(state.editingId){
@@ -1048,7 +1063,7 @@
     }
   }
 
-  function buildOtherRecord(date, row, id, base){
+  function buildOtherRecord(date, row, id, base, createdAtOverride){
     var homeTeam = row.home;
     return {
       id: id,
@@ -1068,7 +1083,8 @@
       stadium: (base && base.stadium) || STADIUM_MAP[homeTeam] || "",
       watched: base ? !!base.watched : false,
       canceled: base ? !!base.canceled : false,
-      cancelReason: base ? (base.cancelReason||"") : ""
+      cancelReason: base ? (base.cancelReason||"") : "",
+      createdAt: base ? base.createdAt : (createdAtOverride || Date.now())
     };
   }
 
@@ -1121,11 +1137,12 @@
       exitOtherEditMode();
     } else {
       var added = 0, hadWarning = false;
+      var batchTs = Date.now();
       for(var i=0;i<OB_ROW_COUNT;i++){
         var r = getObRow(i);
         if(!r.away && !r.home) continue;
         if(!r.away || !r.home || r.away===r.home){ hadWarning = true; continue; }
-        state.games.push(buildOtherRecord(date, r, uid(), null));
+        state.games.push(buildOtherRecord(date, r, uid(), null, batchTs + i));
         added++;
       }
       if(added===0){
