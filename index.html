@@ -121,6 +121,7 @@
   .chip-toggle input{ display:none; }
   .chip-toggle.on-watch.checked{ background:var(--navy-soft); border-color:var(--navy); color:var(--navy-deep); }
   .chip-toggle.on-cancel.checked{ background:var(--loss-bg); border-color:var(--loss); color:var(--loss); }
+  .chip-toggle.checked{ background:var(--navy); border-color:var(--navy); color:#fff; }
   .cancel-reason-box{
     display:none; margin-top:6px;
   }
@@ -136,11 +137,11 @@
     font-size:14px; font-weight:600; cursor:pointer;
   }
   button.ghost:hover{ background:#F0F1EE; }
-  #editingNotice{
+  #ncEditingNotice, #otherEditingNotice{
     display:none; background:var(--draw-bg); color:var(--draw); border:1px solid #EAD6A0;
     padding:8px 12px; border-radius:7px; font-size:13px; font-weight:600; margin-bottom:14px;
   }
-  #editingNotice.show{ display:block; }
+  #ncEditingNotice.show{ display:block; }
   #toast{
     position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
     background:var(--navy-deep); color:#fff; padding:11px 20px; border-radius:8px; font-size:13.5px;
@@ -206,6 +207,18 @@
   }
   .detail-actions button:hover{ background:#F1F2EF; }
   .cancel-tag{ display:inline-block; background:var(--loss-bg); color:var(--loss); font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; }
+  .ob-row{
+    display:flex; align-items:flex-end; gap:10px; padding:14px 0; border-bottom:1px solid var(--line);
+  }
+  .ob-row:last-child{ border-bottom:none; }
+  .ob-row .ob-teamfield{ flex:2; min-width:120px; }
+  .ob-row .ob-scorefield{ width:64px; flex:none; }
+  .ob-row .ob-sep{ padding-bottom:9px; font-weight:700; color:var(--ink-soft); }
+  .ob-row .ob-rownum{
+    width:22px; height:22px; border-radius:50%; background:var(--navy-soft); color:var(--navy-deep);
+    font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:9px; flex:none;
+  }
+  #obRows.edit-mode .ob-row:not([data-row="0"]){ display:none; }
   .watch-tag{ display:inline-block; background:var(--navy-soft); color:var(--navy-deep); font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:6px;}
 
   .stats-panel{ padding:18px; }
@@ -278,101 +291,130 @@
   <!-- ================= INPUT TAB ================= -->
   <section id="tab-input">
     <div class="panel form-wrap">
-      <div id="editingNotice">✏️ 기존 경기를 수정하는 중입니다. <button type="button" class="row-btn" id="cancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
-      <h2 class="section-title">경기 기록 입력</h2>
+      <div class="toggle-row" style="margin-bottom:20px;">
+        <label class="chip-toggle" id="modeNcBtn">⚾ NC 다이노스 경기</label>
+        <label class="chip-toggle" id="modeOtherBtn">타 팀 경기 (일괄입력, 최대 4경기)</label>
+      </div>
 
-      <div class="field-row">
-        <div class="field" style="max-width:220px;">
+      <!-- NC GAME FORM -->
+      <div id="ncFormPanel">
+        <div id="ncEditingNotice">✏️ 기존 경기를 수정하는 중입니다. <button type="button" class="row-btn" id="ncCancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
+        <h2 class="section-title">NC 다이노스 경기 입력</h2>
+
+        <div class="field-row">
+          <div class="field" style="max-width:220px;">
+            <label>날짜</label>
+            <input type="date" id="nc-date">
+          </div>
+          <div class="field" style="max-width:260px;">
+            <label>구장 <span style="font-weight:400;">(비워두면 홈팀 기준 자동 입력)</span></label>
+            <input type="text" id="nc-stadium" placeholder="예: 창원NC파크">
+          </div>
+        </div>
+
+        <div class="toggle-row" style="margin:2px 0 14px;">
+          <label class="chip-toggle" id="ncSideHomeBtn">NC 홈 경기</label>
+          <label class="chip-toggle" id="ncSideAwayBtn">NC 어웨이 경기</label>
+        </div>
+
+        <div class="field" style="max-width:300px; margin-bottom:18px;">
+          <label>상대팀</label>
+          <select id="nc-opponent"></select>
+        </div>
+
+        <div class="matchup">
+          <div class="side-card away" id="ncAwayCard">
+            <div class="side-label away-c" id="ncAwayLabel">⬅ 어웨이팀</div>
+            <div class="field" style="margin-bottom:10px;">
+              <label>선발투수</label>
+              <input type="text" id="nc-awayPitcher" placeholder="선발투수 이름">
+            </div>
+            <div class="field" style="margin-bottom:10px;">
+              <label>점수</label>
+              <input type="number" id="nc-awayScore" min="0" placeholder="0">
+            </div>
+            <div class="field">
+              <label>MVP</label>
+              <input type="text" id="nc-awayMVP" placeholder="이 날의 MVP">
+            </div>
+          </div>
+          <div class="vs-mark">VS</div>
+          <div class="side-card home" id="ncHomeCard">
+            <div class="side-label home-c" id="ncHomeLabel">홈팀 ➡</div>
+            <div class="field" style="margin-bottom:10px;">
+              <label>선발투수</label>
+              <input type="text" id="nc-homePitcher" placeholder="선발투수 이름">
+            </div>
+            <div class="field" style="margin-bottom:10px;">
+              <label>점수</label>
+              <input type="number" id="nc-homeScore" min="0" placeholder="0">
+            </div>
+            <div class="field">
+              <label>MVP</label>
+              <input type="text" id="nc-homeMVP" placeholder="이 날의 MVP">
+            </div>
+          </div>
+        </div>
+        <div class="hint" id="nc-stadiumHint"></div>
+
+        <div class="field-row" style="margin-top:4px;">
+          <div class="field">
+            <label>승리투수</label>
+            <input type="text" id="nc-winPitcher" placeholder="승리투수 이름">
+          </div>
+          <div class="field">
+            <label>패전투수</label>
+            <input type="text" id="nc-losePitcher" placeholder="패전투수 이름">
+          </div>
+          <div class="field">
+            <label>세이브</label>
+            <input type="text" id="nc-savePitcher" placeholder="세이브투수 이름">
+          </div>
+          <div class="field">
+            <label>홀드 <span style="font-weight:400;">(여러 명은 쉼표로 구분)</span></label>
+            <input type="text" id="nc-holdPitcher" placeholder="예: 이용준, 김영규">
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <label class="chip-toggle on-watch" id="ncWatchToggle">
+            <input type="checkbox" id="nc-watch">
+            <span>⚾ 직관</span>
+          </label>
+          <label class="chip-toggle on-cancel" id="ncCancelToggle">
+            <input type="checkbox" id="nc-cancel">
+            <span>🚫 경기 취소</span>
+          </label>
+        </div>
+
+        <div class="field cancel-reason-box" id="ncCancelReasonBox">
+          <label>취소 사유</label>
+          <textarea id="nc-cancelReason" rows="2" placeholder="예: 우천취소"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="primary" id="ncSaveBtn">저장하기</button>
+          <button class="ghost" id="ncResetBtn">입력 초기화</button>
+        </div>
+      </div>
+
+      <!-- OTHER TEAMS BATCH FORM -->
+      <div id="otherFormPanel" style="display:none;">
+        <div id="otherEditingNotice" style="display:none;" class="show">✏️ 기존 경기를 수정하는 중입니다 (이 경기만 수정). <button type="button" class="row-btn" id="obCancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
+        <h2 class="section-title">타 팀 경기 입력</h2>
+        <p class="hint" style="margin-bottom:16px;">같은 날짜에 열린 NC 경기를 제외한 나머지 경기(최대 4경기)를 팀과 점수만으로 빠르게 입력할 수 있어요.</p>
+
+        <div class="field" style="max-width:220px; margin-bottom:18px;">
           <label>날짜</label>
-          <input type="date" id="f-date">
+          <input type="date" id="ob-date">
         </div>
-        <div class="field" style="max-width:260px;">
-          <label>구장 <span style="font-weight:400;">(비워두면 홈팀 기준 자동 입력)</span></label>
-          <input type="text" id="f-stadium" placeholder="예: 창원NC파크">
-        </div>
-      </div>
 
-      <div class="matchup">
-        <div class="side-card away">
-          <div class="side-label away-c">⬅ 어웨이팀</div>
-          <div class="field" style="margin-bottom:10px;">
-            <label>팀</label>
-            <select id="f-awayTeam"></select>
-          </div>
-          <div class="field" style="margin-bottom:10px;">
-            <label>선발투수</label>
-            <input type="text" id="f-awayPitcher" placeholder="선발투수 이름">
-          </div>
-          <div class="field" style="margin-bottom:10px;">
-            <label>점수</label>
-            <input type="number" id="f-awayScore" min="0" placeholder="0">
-          </div>
-          <div class="field">
-            <label>MVP</label>
-            <input type="text" id="f-awayMVP" placeholder="이 날의 MVP">
-          </div>
-        </div>
-        <div class="vs-mark">VS</div>
-        <div class="side-card home">
-          <div class="side-label home-c">홈팀 ➡</div>
-          <div class="field" style="margin-bottom:10px;">
-            <label>팀</label>
-            <select id="f-homeTeam"></select>
-          </div>
-          <div class="field" style="margin-bottom:10px;">
-            <label>선발투수</label>
-            <input type="text" id="f-homePitcher" placeholder="선발투수 이름">
-          </div>
-          <div class="field" style="margin-bottom:10px;">
-            <label>점수</label>
-            <input type="number" id="f-homeScore" min="0" placeholder="0">
-          </div>
-          <div class="field">
-            <label>MVP</label>
-            <input type="text" id="f-homeMVP" placeholder="이 날의 MVP">
-          </div>
-        </div>
-      </div>
-      <div class="hint" id="stadiumHint"></div>
+        <div id="obRows"></div>
 
-      <div class="field-row" style="margin-top:4px;">
-        <div class="field">
-          <label>승리투수</label>
-          <input type="text" id="f-winPitcher" placeholder="승리투수 이름">
+        <div class="form-actions">
+          <button class="primary" id="obSaveBtn">일괄 저장</button>
+          <button class="ghost" id="obResetBtn">입력 초기화</button>
         </div>
-        <div class="field">
-          <label>패전투수</label>
-          <input type="text" id="f-losePitcher" placeholder="패전투수 이름">
-        </div>
-        <div class="field">
-          <label>세이브</label>
-          <input type="text" id="f-savePitcher" placeholder="세이브투수 이름">
-        </div>
-        <div class="field">
-          <label>홀드 <span style="font-weight:400;">(여러 명은 쉼표로 구분)</span></label>
-          <input type="text" id="f-holdPitcher" placeholder="예: 이용준, 김영규">
-        </div>
-      </div>
-
-      <div class="toggle-row">
-        <label class="chip-toggle on-watch" id="watchToggle">
-          <input type="checkbox" id="f-watch">
-          <span>⚾ 직관</span>
-        </label>
-        <label class="chip-toggle on-cancel" id="cancelToggle">
-          <input type="checkbox" id="f-cancel">
-          <span>🚫 경기 취소</span>
-        </label>
-      </div>
-
-      <div class="field cancel-reason-box" id="cancelReasonBox">
-        <label>취소 사유</label>
-        <textarea id="f-cancelReason" rows="2" placeholder="예: 우천취소"></textarea>
-      </div>
-
-      <div class="form-actions">
-        <button class="primary" id="saveBtn">저장하기</button>
-        <button class="ghost" id="resetBtn">입력 초기화</button>
       </div>
     </div>
   </section>
@@ -736,16 +778,7 @@
     if(tab==="sync") renderSyncTab();
   }
 
-  // ---------------- Populate team selects ----------------
-  var awaySel = document.getElementById("f-awayTeam");
-  var homeSel = document.getElementById("f-homeTeam");
-  TEAMS.forEach(function(t){
-    var o1 = document.createElement("option"); o1.value=t; o1.textContent=t; awaySel.appendChild(o1);
-    var o2 = document.createElement("option"); o2.value=t; o2.textContent=t; homeSel.appendChild(o2);
-  });
-  awaySel.value = "롯데 자이언츠";
-  homeSel.value = NC;
-
+  // ---------------- Populate other-team filter dropdown ----------------
   var otherFilter = document.getElementById("otherFilter");
   var allOpt = document.createElement("option"); allOpt.value=""; allOpt.textContent="전체 팀";
   otherFilter.appendChild(allOpt);
@@ -754,113 +787,144 @@
   });
   otherFilter.addEventListener("change", renderOtherTab);
 
-  // default date = today
-  document.getElementById("f-date").value = new Date().toISOString().slice(0,10);
+  // ---------------- Input mode toggle (NC vs Other) ----------------
+  var ncFormPanel = document.getElementById("ncFormPanel");
+  var otherFormPanel = document.getElementById("otherFormPanel");
+  var modeNcBtn = document.getElementById("modeNcBtn");
+  var modeOtherBtn = document.getElementById("modeOtherBtn");
+  function setInputMode(mode){
+    ncFormPanel.style.display = (mode==="nc") ? "" : "none";
+    otherFormPanel.style.display = (mode==="other") ? "" : "none";
+    modeNcBtn.classList.toggle("checked", mode==="nc");
+    modeOtherBtn.classList.toggle("checked", mode==="other");
+  }
+  modeNcBtn.addEventListener("click", function(){ setInputMode("nc"); });
+  modeOtherBtn.addEventListener("click", function(){ setInputMode("other"); });
+  setInputMode("nc");
 
-  // ---------------- Stadium auto-fill ----------------
-  var stadiumInput = document.getElementById("f-stadium");
-  var stadiumHint = document.getElementById("stadiumHint");
-  function applyStadiumDefault(){
-    var homeTeam = homeSel.value;
-    var def = STADIUM_MAP[homeTeam] || "";
+  var OPPONENT_TEAMS = TEAMS.filter(function(t){ return t!==NC; });
+
+  // ---------------- NC form ----------------
+  var ncOpponentSel = document.getElementById("nc-opponent");
+  OPPONENT_TEAMS.forEach(function(t){
+    var o = document.createElement("option"); o.value=t; o.textContent=t; ncOpponentSel.appendChild(o);
+  });
+  ncOpponentSel.value = OPPONENT_TEAMS[0];
+
+  document.getElementById("nc-date").value = new Date().toISOString().slice(0,10);
+
+  var ncSide = "home"; // 'home' = NC is home team, 'away' = NC is away team
+  var ncSideHomeBtn = document.getElementById("ncSideHomeBtn");
+  var ncSideAwayBtn = document.getElementById("ncSideAwayBtn");
+  function setNcSide(side){
+    ncSide = side;
+    ncSideHomeBtn.classList.toggle("checked", side==="home");
+    ncSideAwayBtn.classList.toggle("checked", side==="away");
+    updateNcLabels();
+  }
+  ncSideHomeBtn.addEventListener("click", function(){ setNcSide("home"); });
+  ncSideAwayBtn.addEventListener("click", function(){ setNcSide("away"); });
+
+  var ncStadiumInput = document.getElementById("nc-stadium");
+  var ncStadiumHint = document.getElementById("nc-stadiumHint");
+
+  function ncCurrentTeams(){
+    var opp = ncOpponentSel.value;
+    return (ncSide==="home")
+      ? { awayTeam: opp, homeTeam: NC }
+      : { awayTeam: NC, homeTeam: opp };
+  }
+
+  function updateNcLabels(){
+    var t = ncCurrentTeams();
+    document.getElementById("ncAwayLabel").textContent = "⬅ " + t.awayTeam;
+    document.getElementById("ncHomeLabel").textContent = t.homeTeam + " ➡";
+    var def = STADIUM_MAP[t.homeTeam] || "";
     if(state.stadiumAutoOk){
-      stadiumInput.value = def;
+      ncStadiumInput.value = def;
     }
-    stadiumHint.textContent = def ? ("자동 입력값: " + def + " (직접 입력하면 그 값으로 저장돼요)") : "";
+    ncStadiumHint.textContent = def ? ("자동 입력값: " + def + " (직접 입력하면 그 값으로 저장돼요)") : "";
   }
-  homeSel.addEventListener("change", function(){
+  ncOpponentSel.addEventListener("change", function(){
     state.stadiumAutoOk = true;
-    applyStadiumDefault();
+    updateNcLabels();
   });
-  stadiumInput.addEventListener("input", function(){
-    state.stadiumAutoOk = (stadiumInput.value.trim()==="");
+  ncStadiumInput.addEventListener("input", function(){
+    state.stadiumAutoOk = (ncStadiumInput.value.trim()==="");
   });
-  applyStadiumDefault();
+  setNcSide("home");
 
-  // prevent same team both sides -> auto swap warning
-  function validateTeams(){
-    if(awaySel.value === homeSel.value){
-      return false;
-    }
-    return true;
-  }
-
-  // ---------------- Toggles ----------------
-  var watchToggle = document.getElementById("watchToggle");
-  var watchCb = document.getElementById("f-watch");
-  watchToggle.addEventListener("click", function(){
-    watchCb.checked = !watchCb.checked;
-    watchToggle.classList.toggle("checked", watchCb.checked);
+  // ---------------- NC toggles ----------------
+  var ncWatchToggle = document.getElementById("ncWatchToggle");
+  var ncWatchCb = document.getElementById("nc-watch");
+  ncWatchToggle.addEventListener("click", function(){
+    ncWatchCb.checked = !ncWatchCb.checked;
+    ncWatchToggle.classList.toggle("checked", ncWatchCb.checked);
   });
 
-  var cancelToggle = document.getElementById("cancelToggle");
-  var cancelCb = document.getElementById("f-cancel");
-  var cancelReasonBox = document.getElementById("cancelReasonBox");
-  cancelToggle.addEventListener("click", function(){
-    cancelCb.checked = !cancelCb.checked;
-    cancelToggle.classList.toggle("checked", cancelCb.checked);
-    cancelReasonBox.classList.toggle("show", cancelCb.checked);
+  var ncCancelToggle = document.getElementById("ncCancelToggle");
+  var ncCancelCb = document.getElementById("nc-cancel");
+  var ncCancelReasonBox = document.getElementById("ncCancelReasonBox");
+  ncCancelToggle.addEventListener("click", function(){
+    ncCancelCb.checked = !ncCancelCb.checked;
+    ncCancelToggle.classList.toggle("checked", ncCancelCb.checked);
+    ncCancelReasonBox.classList.toggle("show", ncCancelCb.checked);
   });
 
-  // ---------------- Save / Reset ----------------
-  document.getElementById("resetBtn").addEventListener("click", function(){
-    resetForm();
-  });
-  document.getElementById("cancelEditBtn").addEventListener("click", function(){
-    resetForm();
-  });
+  document.getElementById("ncResetBtn").addEventListener("click", function(){ resetNcForm(); });
+  document.getElementById("ncCancelEditBtn").addEventListener("click", function(){ resetNcForm(); });
 
-  function resetForm(){
+  function resetNcForm(){
     state.editingId = null;
-    document.getElementById("editingNotice").classList.remove("show");
-    document.getElementById("f-date").value = new Date().toISOString().slice(0,10);
-    awaySel.value = "롯데 자이언츠";
-    homeSel.value = NC;
-    document.getElementById("f-awayPitcher").value = "";
-    document.getElementById("f-homePitcher").value = "";
-    document.getElementById("f-awayScore").value = "";
-    document.getElementById("f-homeScore").value = "";
-    document.getElementById("f-awayMVP").value = "";
-    document.getElementById("f-homeMVP").value = "";
-    document.getElementById("f-winPitcher").value = "";
-    document.getElementById("f-losePitcher").value = "";
-    document.getElementById("f-savePitcher").value = "";
-    document.getElementById("f-holdPitcher").value = "";
-    watchCb.checked = false; watchToggle.classList.remove("checked");
-    cancelCb.checked = false; cancelToggle.classList.remove("checked");
-    cancelReasonBox.classList.remove("show");
-    document.getElementById("f-cancelReason").value = "";
+    document.getElementById("ncEditingNotice").classList.remove("show");
+    document.getElementById("nc-date").value = new Date().toISOString().slice(0,10);
+    ncOpponentSel.value = OPPONENT_TEAMS[0];
+    setNcSide("home");
+    document.getElementById("nc-awayPitcher").value = "";
+    document.getElementById("nc-homePitcher").value = "";
+    document.getElementById("nc-awayScore").value = "";
+    document.getElementById("nc-homeScore").value = "";
+    document.getElementById("nc-awayMVP").value = "";
+    document.getElementById("nc-homeMVP").value = "";
+    document.getElementById("nc-winPitcher").value = "";
+    document.getElementById("nc-losePitcher").value = "";
+    document.getElementById("nc-savePitcher").value = "";
+    document.getElementById("nc-holdPitcher").value = "";
+    ncWatchCb.checked = false; ncWatchToggle.classList.remove("checked");
+    ncCancelCb.checked = false; ncCancelToggle.classList.remove("checked");
+    ncCancelReasonBox.classList.remove("show");
+    document.getElementById("nc-cancelReason").value = "";
     state.stadiumAutoOk = true;
-    applyStadiumDefault();
+    updateNcLabels();
   }
 
-  document.getElementById("saveBtn").addEventListener("click", function(){
-    var date = document.getElementById("f-date").value;
+  document.getElementById("ncSaveBtn").addEventListener("click", function(){
+    var date = document.getElementById("nc-date").value;
     if(!date){ toast("날짜를 입력해주세요."); return; }
-    if(!validateTeams()){ toast("어웨이팀과 홈팀은 서로 달라야 합니다."); return; }
-    var cancel = cancelCb.checked;
-    var cancelReason = document.getElementById("f-cancelReason").value.trim();
+    var teams = ncCurrentTeams();
+    var cancel = ncCancelCb.checked;
+    var cancelReason = document.getElementById("nc-cancelReason").value.trim();
     if(cancel && !cancelReason){ toast("취소 사유를 입력해주세요."); return; }
 
-    var stadium = stadiumInput.value.trim() || STADIUM_MAP[homeSel.value] || "";
+    var stadium = ncStadiumInput.value.trim() || STADIUM_MAP[teams.homeTeam] || "";
 
     var rec = {
       id: state.editingId || uid(),
       date: date,
-      awayTeam: awaySel.value,
-      homeTeam: homeSel.value,
-      awayPitcher: document.getElementById("f-awayPitcher").value.trim(),
-      homePitcher: document.getElementById("f-homePitcher").value.trim(),
-      awayScore: toNumOrNull(document.getElementById("f-awayScore").value),
-      homeScore: toNumOrNull(document.getElementById("f-homeScore").value),
-      awayMVP: document.getElementById("f-awayMVP").value.trim(),
-      homeMVP: document.getElementById("f-homeMVP").value.trim(),
-      winPitcher: document.getElementById("f-winPitcher").value.trim(),
-      losePitcher: document.getElementById("f-losePitcher").value.trim(),
-      savePitcher: document.getElementById("f-savePitcher").value.trim(),
-      holdPitcher: document.getElementById("f-holdPitcher").value.trim(),
+      awayTeam: teams.awayTeam,
+      homeTeam: teams.homeTeam,
+      awayPitcher: document.getElementById("nc-awayPitcher").value.trim(),
+      homePitcher: document.getElementById("nc-homePitcher").value.trim(),
+      awayScore: toNumOrNull(document.getElementById("nc-awayScore").value),
+      homeScore: toNumOrNull(document.getElementById("nc-homeScore").value),
+      awayMVP: document.getElementById("nc-awayMVP").value.trim(),
+      homeMVP: document.getElementById("nc-homeMVP").value.trim(),
+      winPitcher: document.getElementById("nc-winPitcher").value.trim(),
+      losePitcher: document.getElementById("nc-losePitcher").value.trim(),
+      savePitcher: document.getElementById("nc-savePitcher").value.trim(),
+      holdPitcher: document.getElementById("nc-holdPitcher").value.trim(),
       stadium: stadium,
-      watched: watchCb.checked,
+      watched: ncWatchCb.checked,
       canceled: cancel,
       cancelReason: cancel ? cancelReason : ""
     };
@@ -873,9 +937,8 @@
     }
     save();
     toast(state.editingId ? "경기 기록을 수정했습니다." : "경기 기록을 저장했습니다.");
-    resetForm();
-    // if calendar is showing this date's month, refresh
-    renderCalendarTab();
+    resetNcForm();
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking();
     if(syncConfigured()) syncPush(true).then(function(ok){
       if(ok) toast("다른 기기와 동기화까지 완료했어요.");
     });
@@ -895,32 +958,179 @@
     t._timer = setTimeout(function(){ t.classList.remove("show"); }, 2200);
   }
 
-  function loadGameIntoForm(g){
+  function loadNcGameIntoForm(g){
     state.editingId = g.id;
-    document.getElementById("editingNotice").classList.add("show");
-    document.getElementById("f-date").value = g.date;
-    awaySel.value = g.awayTeam;
-    homeSel.value = g.homeTeam;
-    document.getElementById("f-awayPitcher").value = g.awayPitcher || "";
-    document.getElementById("f-homePitcher").value = g.homePitcher || "";
-    document.getElementById("f-awayScore").value = (g.awayScore===null||g.awayScore===undefined) ? "" : g.awayScore;
-    document.getElementById("f-homeScore").value = (g.homeScore===null||g.homeScore===undefined) ? "" : g.homeScore;
-    document.getElementById("f-awayMVP").value = g.awayMVP || "";
-    document.getElementById("f-homeMVP").value = g.homeMVP || "";
-    document.getElementById("f-winPitcher").value = g.winPitcher || "";
-    document.getElementById("f-losePitcher").value = g.losePitcher || "";
-    document.getElementById("f-savePitcher").value = g.savePitcher || "";
-    document.getElementById("f-holdPitcher").value = g.holdPitcher || "";
+    document.getElementById("ncEditingNotice").classList.add("show");
+    document.getElementById("nc-date").value = g.date;
+    var oppTeam = (g.homeTeam===NC) ? g.awayTeam : g.homeTeam;
+    ncOpponentSel.value = oppTeam;
+    setNcSide(g.homeTeam===NC ? "home" : "away");
+    document.getElementById("nc-awayPitcher").value = g.awayPitcher || "";
+    document.getElementById("nc-homePitcher").value = g.homePitcher || "";
+    document.getElementById("nc-awayScore").value = (g.awayScore===null||g.awayScore===undefined) ? "" : g.awayScore;
+    document.getElementById("nc-homeScore").value = (g.homeScore===null||g.homeScore===undefined) ? "" : g.homeScore;
+    document.getElementById("nc-awayMVP").value = g.awayMVP || "";
+    document.getElementById("nc-homeMVP").value = g.homeMVP || "";
+    document.getElementById("nc-winPitcher").value = g.winPitcher || "";
+    document.getElementById("nc-losePitcher").value = g.losePitcher || "";
+    document.getElementById("nc-savePitcher").value = g.savePitcher || "";
+    document.getElementById("nc-holdPitcher").value = g.holdPitcher || "";
     state.stadiumAutoOk = false;
-    stadiumInput.value = g.stadium || "";
-    stadiumHint.textContent = "";
-    watchCb.checked = !!g.watched; watchToggle.classList.toggle("checked", watchCb.checked);
-    cancelCb.checked = !!g.canceled; cancelToggle.classList.toggle("checked", cancelCb.checked);
-    cancelReasonBox.classList.toggle("show", cancelCb.checked);
-    document.getElementById("f-cancelReason").value = g.cancelReason || "";
+    ncStadiumInput.value = g.stadium || "";
+    ncStadiumHint.textContent = "";
+    ncWatchCb.checked = !!g.watched; ncWatchToggle.classList.toggle("checked", ncWatchCb.checked);
+    ncCancelCb.checked = !!g.canceled; ncCancelToggle.classList.toggle("checked", ncCancelCb.checked);
+    ncCancelReasonBox.classList.toggle("show", ncCancelCb.checked);
+    document.getElementById("nc-cancelReason").value = g.cancelReason || "";
+    setInputMode("nc");
     setActiveTab("input");
     window.scrollTo({top:0, behavior:"smooth"});
   }
+
+  // ---------------- Other teams batch form ----------------
+  var OB_ROW_COUNT = 4;
+  var obRows = document.getElementById("obRows");
+  var obOtherEditMode = false;
+
+  function buildObRows(){
+    var html = "";
+    for(var i=0;i<OB_ROW_COUNT;i++){
+      html += '<div class="ob-row" data-row="'+i+'">';
+      html += '<div class="ob-rownum">'+(i+1)+'</div>';
+      html += '<div class="field ob-teamfield"><label>어웨이팀</label><select class="ob-away" data-row="'+i+'"><option value="">선택 안함</option></select></div>';
+      html += '<div class="field ob-scorefield"><label>점수</label><input type="number" class="ob-awayScore" data-row="'+i+'" min="0" placeholder="0"></div>';
+      html += '<div class="ob-sep">:</div>';
+      html += '<div class="field ob-scorefield"><label>점수</label><input type="number" class="ob-homeScore" data-row="'+i+'" min="0" placeholder="0"></div>';
+      html += '<div class="field ob-teamfield"><label>홈팀</label><select class="ob-home" data-row="'+i+'"><option value="">선택 안함</option></select></div>';
+      html += '</div>';
+    }
+    obRows.innerHTML = html;
+    Array.prototype.forEach.call(obRows.querySelectorAll("select.ob-away, select.ob-home"), function(sel){
+      OPPONENT_TEAMS.forEach(function(t){
+        var o = document.createElement("option"); o.value=t; o.textContent=t; sel.appendChild(o);
+      });
+    });
+  }
+  buildObRows();
+
+  document.getElementById("ob-date").value = new Date().toISOString().slice(0,10);
+
+  function getObRow(i){
+    return {
+      away: obRows.querySelector('.ob-away[data-row="'+i+'"]').value,
+      home: obRows.querySelector('.ob-home[data-row="'+i+'"]').value,
+      awayScore: obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value,
+      homeScore: obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value
+    };
+  }
+  function setObRow(i, g){
+    obRows.querySelector('.ob-away[data-row="'+i+'"]').value = g.awayTeam;
+    obRows.querySelector('.ob-home[data-row="'+i+'"]').value = g.homeTeam;
+    obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value = (g.awayScore===null||g.awayScore===undefined) ? "" : g.awayScore;
+    obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value = (g.homeScore===null||g.homeScore===undefined) ? "" : g.homeScore;
+  }
+  function clearObRows(){
+    for(var i=0;i<OB_ROW_COUNT;i++){
+      obRows.querySelector('.ob-away[data-row="'+i+'"]').value = "";
+      obRows.querySelector('.ob-home[data-row="'+i+'"]').value = "";
+      obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value = "";
+      obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value = "";
+    }
+  }
+
+  function buildOtherRecord(date, row, id, base){
+    var homeTeam = row.home;
+    return {
+      id: id,
+      date: date,
+      awayTeam: row.away,
+      homeTeam: homeTeam,
+      awayPitcher: base ? (base.awayPitcher||"") : "",
+      homePitcher: base ? (base.homePitcher||"") : "",
+      awayScore: toNumOrNull(row.awayScore),
+      homeScore: toNumOrNull(row.homeScore),
+      awayMVP: base ? (base.awayMVP||"") : "",
+      homeMVP: base ? (base.homeMVP||"") : "",
+      winPitcher: base ? (base.winPitcher||"") : "",
+      losePitcher: base ? (base.losePitcher||"") : "",
+      savePitcher: base ? (base.savePitcher||"") : "",
+      holdPitcher: base ? (base.holdPitcher||"") : "",
+      stadium: (base && base.stadium) || STADIUM_MAP[homeTeam] || "",
+      watched: base ? !!base.watched : false,
+      canceled: base ? !!base.canceled : false,
+      cancelReason: base ? (base.cancelReason||"") : ""
+    };
+  }
+
+  function resetOtherForm(){
+    document.getElementById("ob-date").value = new Date().toISOString().slice(0,10);
+    clearObRows();
+  }
+
+  function enterOtherEditMode(g){
+    obOtherEditMode = true;
+    state.editingId = g.id;
+    setInputMode("other");
+    setActiveTab("input");
+    obRows.classList.add("edit-mode");
+    clearObRows();
+    setObRow(0, g);
+    document.getElementById("ob-date").value = g.date;
+    document.getElementById("obSaveBtn").textContent = "수정 저장";
+    document.getElementById("otherEditingNotice").style.display = "block";
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+  function exitOtherEditMode(){
+    obOtherEditMode = false;
+    state.editingId = null;
+    obRows.classList.remove("edit-mode");
+    document.getElementById("obSaveBtn").textContent = "일괄 저장";
+    document.getElementById("otherEditingNotice").style.display = "none";
+    resetOtherForm();
+  }
+
+  document.getElementById("obResetBtn").addEventListener("click", function(){
+    if(obOtherEditMode){ exitOtherEditMode(); } else { resetOtherForm(); }
+  });
+  document.getElementById("obCancelEditBtn").addEventListener("click", function(){ exitOtherEditMode(); });
+
+  document.getElementById("obSaveBtn").addEventListener("click", function(){
+    var date = document.getElementById("ob-date").value;
+    if(!date){ toast("날짜를 입력해주세요."); return; }
+
+    if(obOtherEditMode){
+      var row = getObRow(0);
+      if(!row.away || !row.home){ toast("어웨이팀과 홈팀을 모두 선택해주세요."); return; }
+      if(row.away===row.home){ toast("어웨이팀과 홈팀은 서로 달라야 합니다."); return; }
+      var origIdx = state.games.findIndex(function(g){ return g.id===state.editingId; });
+      var base = origIdx>-1 ? state.games[origIdx] : null;
+      var rec = buildOtherRecord(date, row, state.editingId, base);
+      if(origIdx>-1) state.games[origIdx] = rec;
+      save();
+      toast("경기 기록을 수정했습니다.");
+      exitOtherEditMode();
+    } else {
+      var added = 0, hadWarning = false;
+      for(var i=0;i<OB_ROW_COUNT;i++){
+        var r = getObRow(i);
+        if(!r.away && !r.home) continue;
+        if(!r.away || !r.home || r.away===r.home){ hadWarning = true; continue; }
+        state.games.push(buildOtherRecord(date, r, uid(), null));
+        added++;
+      }
+      if(added===0){
+        toast(hadWarning ? "팀 선택을 확인해주세요 (어웨이/홈 모두 선택, 서로 다른 팀)." : "최소 한 경기는 입력해주세요.");
+        return;
+      }
+      save();
+      toast(added + "경기를 저장했습니다." + (hadWarning ? " (일부 행은 건너뛰었어요)" : ""));
+      resetOtherForm();
+    }
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking();
+    if(syncConfigured()) syncPush(true).then(function(ok){
+      if(ok) toast("다른 기기와 동기화까지 완료했어요.");
+    });
+  });
 
   function deleteGame(id){
     if(!confirm("이 경기 기록을 삭제할까요?")) return;
@@ -936,7 +1146,12 @@
   window.__deleteGame = deleteGame;
   window.__editGame = function(id){
     var g = state.games.find(function(x){ return x.id===id; });
-    if(g) loadGameIntoForm(g);
+    if(!g) return;
+    if(g.awayTeam===NC || g.homeTeam===NC){
+      loadNcGameIntoForm(g);
+    } else {
+      enterOtherEditMode(g);
+    }
   };
 
   // ---------------- Result helpers ----------------
