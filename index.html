@@ -208,15 +208,28 @@
   .detail-actions button:hover{ background:#F1F2EF; }
   .cancel-tag{ display:inline-block; background:var(--loss-bg); color:var(--loss); font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; }
   .ob-row{
-    display:flex; align-items:flex-end; gap:10px; padding:14px 0; border-bottom:1px solid var(--line);
+    padding:14px 0; border-bottom:1px solid var(--line);
   }
   .ob-row:last-child{ border-bottom:none; }
+  .ob-row-top{ display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap; }
   .ob-row .ob-teamfield{ flex:2; min-width:120px; }
   .ob-row .ob-scorefield{ width:64px; flex:none; }
   .ob-row .ob-sep{ padding-bottom:9px; font-weight:700; color:var(--ink-soft); }
   .ob-row .ob-rownum{
     width:22px; height:22px; border-radius:50%; background:var(--navy-soft); color:var(--navy-deep);
     font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:9px; flex:none;
+  }
+  .ob-cancel-chip{
+    display:inline-flex; align-items:center; gap:5px; padding:7px 11px; border-radius:16px;
+    border:1px solid var(--line); background:#fff; cursor:pointer; font-size:12.5px; font-weight:600;
+    color:var(--ink-soft); user-select:none; margin-bottom:1px; flex:none;
+  }
+  .ob-cancel-chip input{ display:none; }
+  .ob-cancel-chip.checked{ background:var(--loss-bg); border-color:var(--loss); color:var(--loss); }
+  .ob-cancel-reason-row{ display:none; margin-top:8px; }
+  .ob-cancel-reason-row.show{ display:block; }
+  .ob-cancel-reason-row input{
+    width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:7px; font-size:13px; font-family:inherit;
   }
   #obRows.edit-mode .ob-row:not([data-row="0"]){ display:none; }
   .watch-tag{ display:inline-block; background:var(--navy-soft); color:var(--navy-deep); font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:6px;}
@@ -402,7 +415,7 @@
       <div id="otherFormPanel" style="display:none;">
         <div id="otherEditingNotice" style="display:none;" class="show">✏️ 기존 경기를 수정하는 중입니다 (이 경기만 수정). <button type="button" class="row-btn" id="obCancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
         <h2 class="section-title">타 팀 경기 입력</h2>
-        <p class="hint" style="margin-bottom:16px;">같은 날짜에 열린 NC 경기를 제외한 나머지 경기(최대 4경기)를 팀과 점수만으로 빠르게 입력할 수 있어요.</p>
+        <p class="hint" style="margin-bottom:16px;">같은 날짜에 열린 NC 경기를 제외한 나머지 경기(최대 4경기)를 팀과 점수만으로 빠르게 입력할 수 있어요. 점수를 모르는 예정 경기(내일 경기 등)도 팀만 먼저 입력해두면, 나중에 같은 날짜를 다시 선택했을 때 팀 칸이 자동으로 채워져서 점수만 입력하면 돼요. 우천취소 등은 '취소'를 체크하고 사유를 적어주세요 (승률에는 반영되지 않아요).</p>
 
         <div class="field" style="max-width:220px; margin-bottom:18px;">
           <label>날짜</label>
@@ -483,9 +496,17 @@
         <tbody id="h2hBody"></tbody>
       </table>
     </div>
+    <div class="panel rank-wrap" style="margin-top:16px;">
+      <h2 class="section-title">포스트시즌(5위) 진출 시나리오</h2>
+      <p class="hint" style="margin-bottom:14px;">정규시즌 144경기, 취소된 경기 제외, 아직 결과가 없는 예정 경기는 잔여경기로 계산한 참고용 수치예요. 5위·6위 경계 팀과의 1:1 비교(상대가 잔여 경기를 모두 이기거나 모두 진다고 가정)로 계산해서 실제 매직넘버와는 다를 수 있어요.</p>
+      <table class="rank-table">
+        <thead>
+          <tr><th>순위</th><th>팀</th><th>성적</th><th>승률</th><th>잔여경기</th><th>진출 시나리오</th></tr>
+        </thead>
+        <tbody id="postseasonBody"></tbody>
+      </table>
+    </div>
   </section>
-
-  <!-- ================= SYNC TAB ================= -->
   <section id="tab-sync" style="display:none;">
     <div class="panel form-wrap">
       <h2 class="section-title">기기 간 동기화 (GitHub 저장소 연동)</h2>
@@ -685,7 +706,7 @@
           save();
         }
         if(!silent) setSyncStatus("최신 기록을 불러왔습니다. (" + new Date().toLocaleString("ko-KR") + ")");
-        renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking();
+        renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
         return true;
       });
     }).catch(function(err){
@@ -804,7 +825,7 @@
     });
     if(tab==="calendar") renderCalendarTab();
     if(tab==="other") renderOtherTab();
-    if(tab==="ranking"){ renderRankingTab(); renderHeadToHeadRanking(); }
+    if(tab==="ranking"){ renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios(); }
     if(tab==="sync") renderSyncTab();
   }
 
@@ -970,7 +991,7 @@
     save();
     toast(state.editingId ? "경기 기록을 수정했습니다." : "경기 기록을 저장했습니다.");
     resetNcForm();
-    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking();
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
     if(syncConfigured()) syncPush(true).then(function(ok){
       if(ok) toast("다른 기기와 동기화까지 완료했어요.");
     });
@@ -1023,23 +1044,36 @@
   var OB_ROW_COUNT = 4;
   var obRows = document.getElementById("obRows");
   var obOtherEditMode = false;
+  var obRowGameId = [null, null, null, null]; // tracks which existing record each row corresponds to (add mode)
 
   function buildObRows(){
     var html = "";
     for(var i=0;i<OB_ROW_COUNT;i++){
       html += '<div class="ob-row" data-row="'+i+'">';
+      html += '<div class="ob-row-top">';
       html += '<div class="ob-rownum">'+(i+1)+'</div>';
       html += '<div class="field ob-teamfield"><label>어웨이팀</label><select class="ob-away" data-row="'+i+'"><option value="">선택 안함</option></select></div>';
       html += '<div class="field ob-scorefield"><label>점수</label><input type="number" class="ob-awayScore" data-row="'+i+'" min="0" placeholder="0"></div>';
       html += '<div class="ob-sep">:</div>';
       html += '<div class="field ob-scorefield"><label>점수</label><input type="number" class="ob-homeScore" data-row="'+i+'" min="0" placeholder="0"></div>';
       html += '<div class="field ob-teamfield"><label>홈팀</label><select class="ob-home" data-row="'+i+'"><option value="">선택 안함</option></select></div>';
+      html += '<label class="ob-cancel-chip" data-row="'+i+'"><input type="checkbox" class="ob-cancel" data-row="'+i+'"><span>취소</span></label>';
+      html += '</div>';
+      html += '<div class="ob-cancel-reason-row" data-row="'+i+'"><input type="text" class="ob-cancelReason" data-row="'+i+'" placeholder="취소 사유 (예: 우천취소)"></div>';
       html += '</div>';
     }
     obRows.innerHTML = html;
     Array.prototype.forEach.call(obRows.querySelectorAll("select.ob-away, select.ob-home"), function(sel){
       OPPONENT_TEAMS.forEach(function(t){
         var o = document.createElement("option"); o.value=t; o.textContent=t; sel.appendChild(o);
+      });
+    });
+    Array.prototype.forEach.call(obRows.querySelectorAll(".ob-cancel"), function(cb){
+      cb.addEventListener("change", function(){
+        var i = cb.getAttribute("data-row");
+        var reasonRow = obRows.querySelector('.ob-cancel-reason-row[data-row="'+i+'"]');
+        reasonRow.classList.toggle("show", cb.checked);
+        obRows.querySelector('.ob-cancel-chip[data-row="'+i+'"]').classList.toggle("checked", cb.checked);
       });
     });
   }
@@ -1052,7 +1086,9 @@
       away: obRows.querySelector('.ob-away[data-row="'+i+'"]').value,
       home: obRows.querySelector('.ob-home[data-row="'+i+'"]').value,
       awayScore: obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value,
-      homeScore: obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value
+      homeScore: obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value,
+      canceled: obRows.querySelector('.ob-cancel[data-row="'+i+'"]').checked,
+      cancelReason: obRows.querySelector('.ob-cancelReason[data-row="'+i+'"]').value.trim()
     };
   }
   function setObRow(i, g){
@@ -1060,6 +1096,11 @@
     obRows.querySelector('.ob-home[data-row="'+i+'"]').value = g.homeTeam;
     obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value = (g.awayScore===null||g.awayScore===undefined) ? "" : g.awayScore;
     obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value = (g.homeScore===null||g.homeScore===undefined) ? "" : g.homeScore;
+    var cb = obRows.querySelector('.ob-cancel[data-row="'+i+'"]');
+    cb.checked = !!g.canceled;
+    obRows.querySelector('.ob-cancel-chip[data-row="'+i+'"]').classList.toggle("checked", cb.checked);
+    obRows.querySelector('.ob-cancel-reason-row[data-row="'+i+'"]').classList.toggle("show", cb.checked);
+    obRows.querySelector('.ob-cancelReason[data-row="'+i+'"]').value = g.cancelReason || "";
   }
   function clearObRows(){
     for(var i=0;i<OB_ROW_COUNT;i++){
@@ -1067,8 +1108,32 @@
       obRows.querySelector('.ob-home[data-row="'+i+'"]').value = "";
       obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value = "";
       obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value = "";
+      var cb = obRows.querySelector('.ob-cancel[data-row="'+i+'"]');
+      cb.checked = false;
+      obRows.querySelector('.ob-cancel-chip[data-row="'+i+'"]').classList.remove("checked");
+      obRows.querySelector('.ob-cancel-reason-row[data-row="'+i+'"]').classList.remove("show");
+      obRows.querySelector('.ob-cancelReason[data-row="'+i+'"]').value = "";
+      obRowGameId[i] = null;
     }
   }
+
+  // When a date already has other-team games entered (played, scheduled, or canceled),
+  // auto-fill the rows with those teams so the person only needs to add/update scores.
+  function loadOtherRowsForDate(date){
+    clearObRows();
+    var existing = state.games.filter(function(g){
+      return g.date===date && g.awayTeam!==NC && g.homeTeam!==NC;
+    });
+    existing.slice(0, OB_ROW_COUNT).forEach(function(g, i){
+      setObRow(i, g);
+      obRowGameId[i] = g.id;
+    });
+  }
+  document.getElementById("ob-date").addEventListener("change", function(){
+    if(obOtherEditMode) return; // editing a single record: don't disturb it by auto-loading
+    loadOtherRowsForDate(this.value);
+  });
+  loadOtherRowsForDate(document.getElementById("ob-date").value);
 
   function buildOtherRecord(date, row, id, base, createdAtOverride){
     var homeTeam = row.home;
@@ -1079,8 +1144,8 @@
       homeTeam: homeTeam,
       awayPitcher: base ? (base.awayPitcher||"") : "",
       homePitcher: base ? (base.homePitcher||"") : "",
-      awayScore: toNumOrNull(row.awayScore),
-      homeScore: toNumOrNull(row.homeScore),
+      awayScore: row.canceled ? null : toNumOrNull(row.awayScore),
+      homeScore: row.canceled ? null : toNumOrNull(row.homeScore),
       awayMVP: base ? (base.awayMVP||"") : "",
       homeMVP: base ? (base.homeMVP||"") : "",
       winPitcher: base ? (base.winPitcher||"") : "",
@@ -1089,15 +1154,15 @@
       holdPitcher: base ? (base.holdPitcher||"") : "",
       stadium: (base && base.stadium) || STADIUM_MAP[homeTeam] || "",
       watched: base ? !!base.watched : false,
-      canceled: base ? !!base.canceled : false,
-      cancelReason: base ? (base.cancelReason||"") : "",
+      canceled: !!row.canceled,
+      cancelReason: row.canceled ? (row.cancelReason||"") : "",
       createdAt: base ? base.createdAt : (createdAtOverride || Date.now())
     };
   }
 
   function resetOtherForm(){
     document.getElementById("ob-date").value = getOtherNextDate();
-    clearObRows();
+    loadOtherRowsForDate(document.getElementById("ob-date").value);
   }
 
   function enterOtherEditMode(g){
@@ -1135,6 +1200,7 @@
       var row = getObRow(0);
       if(!row.away || !row.home){ toast("어웨이팀과 홈팀을 모두 선택해주세요."); return; }
       if(row.away===row.home){ toast("어웨이팀과 홈팀은 서로 달라야 합니다."); return; }
+      if(row.canceled && !row.cancelReason){ toast("취소 사유를 입력해주세요."); return; }
       var origIdx = state.games.findIndex(function(g){ return g.id===state.editingId; });
       var base = origIdx>-1 ? state.games[origIdx] : null;
       var rec = buildOtherRecord(date, row, state.editingId, base);
@@ -1143,24 +1209,36 @@
       toast("경기 기록을 수정했습니다.");
       exitOtherEditMode();
     } else {
-      var added = 0, hadWarning = false;
+      var added = 0, updated = 0, hadWarning = false;
       var batchTs = Date.now();
       for(var i=0;i<OB_ROW_COUNT;i++){
         var r = getObRow(i);
         if(!r.away && !r.home) continue;
         if(!r.away || !r.home || r.away===r.home){ hadWarning = true; continue; }
-        state.games.push(buildOtherRecord(date, r, uid(), null, batchTs + i));
-        added++;
+        if(r.canceled && !r.cancelReason){ hadWarning = true; continue; }
+        if(obRowGameId[i]){
+          var idx = state.games.findIndex(function(g){ return g.id===obRowGameId[i]; });
+          var baseRec = idx>-1 ? state.games[idx] : null;
+          var updatedRec = buildOtherRecord(date, r, obRowGameId[i], baseRec);
+          if(idx>-1){ state.games[idx] = updatedRec; updated++; }
+          else { state.games.push(updatedRec); added++; }
+        } else {
+          state.games.push(buildOtherRecord(date, r, uid(), null, batchTs + i));
+          added++;
+        }
       }
-      if(added===0){
-        toast(hadWarning ? "팀 선택을 확인해주세요 (어웨이/홈 모두 선택, 서로 다른 팀)." : "최소 한 경기는 입력해주세요.");
+      if(added===0 && updated===0){
+        toast(hadWarning ? "입력 내용을 확인해주세요 (어웨이/홈 모두 선택·서로 다른 팀, 취소 시 사유 필요)." : "최소 한 경기는 입력해주세요.");
         return;
       }
       save();
-      toast(added + "경기를 저장했습니다." + (hadWarning ? " (일부 행은 건너뛰었어요)" : ""));
+      var msgParts = [];
+      if(added) msgParts.push(added+"경기 저장");
+      if(updated) msgParts.push(updated+"경기 수정");
+      toast(msgParts.join(", ") + "했습니다." + (hadWarning ? " (일부 행은 건너뛰었어요)" : ""));
       resetOtherForm();
     }
-    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking();
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
     if(syncConfigured()) syncPush(true).then(function(ok){
       if(ok) toast("다른 기기와 동기화까지 완료했어요.");
     });
@@ -1174,6 +1252,7 @@
     renderOtherTab();
     renderRankingTab();
     renderHeadToHeadRanking();
+    renderPostseasonScenarios();
     toast("삭제했습니다.");
     if(syncConfigured()) syncPush(true);
   }
@@ -1503,6 +1582,92 @@
     body.innerHTML = html || '<tr class="empty-row"><td colspan="7">기록된 경기가 없습니다.</td></tr>';
   }
 
+  // ---------------- Postseason (5th place) scenario calculator ----------------
+  var TOTAL_SEASON_GAMES = 144;
+
+  function computeStandings(){
+    return TEAMS.map(function(team){
+      var teamGames = state.games.filter(function(g){
+        return (g.awayTeam===team || g.homeTeam===team) && !g.canceled;
+      });
+      var rec = computeRecord(teamGames, team);
+      var played = rec.w + rec.d + rec.l;
+      var remaining = Math.max(0, TOTAL_SEASON_GAMES - played);
+      return {
+        team: team, w: rec.w, d: rec.d, l: rec.l, rate: rec.rate,
+        played: played, remaining: remaining, maxWin: rec.w + remaining
+      };
+    }).sort(function(a,b){
+      var ar = a.rate===null ? -1 : a.rate;
+      var br = b.rate===null ? -1 : b.rate;
+      if(br!==ar) return br-ar;
+      return b.w-a.w;
+    });
+  }
+
+  function renderPostseasonScenarios(){
+    var body = document.getElementById("postseasonBody");
+    if(!body) return;
+    var standings = computeStandings();
+    if(standings.every(function(s){ return s.played===0; })){
+      body.innerHTML = '<tr class="empty-row"><td colspan="6">아직 입력된 경기 결과가 없습니다.</td></tr>';
+      return;
+    }
+    var rank5 = standings[4];
+    var rank6 = standings[5];
+    var html = "";
+
+    standings.forEach(function(s, i){
+      var rankNo = i+1;
+      var scenario;
+      if(s.played===0){
+        scenario = "아직 결과 없음";
+      } else if(rankNo<=5){
+        // In the top 5: how many more losses would guarantee dropping out, vs the rank-6 chaser winning out.
+        if(!rank6 || rank6.played===0){
+          scenario = "경쟁 상대 데이터 부족";
+        } else {
+          var diff = s.maxWin - rank6.maxWin;
+          var N = Math.max(0, Math.floor(diff) + 1);
+          if(N >= s.remaining && s.remaining>0){
+            scenario = "잔여 " + s.remaining + "경기 전패해도 " + rank6.team + "의 잔여 전승 기준보다 앞서, 사실상 5위 마지노선 안전권";
+          } else if(s.remaining===0){
+            scenario = "시즌 종료";
+          } else {
+            scenario = "앞으로 " + N + "패 하면 (" + rank6.team + "이(가) 잔여 전승 시 기준) 5위 진출 실패 위험";
+          }
+        }
+      } else {
+        // Outside top 5: how many more wins to guarantee passing the rank-5 team.
+        if(!rank5 || rank5.played===0){
+          scenario = "경쟁 상대 데이터 부족";
+        } else {
+          var diff2 = rank5.maxWin - s.w;
+          var M = Math.max(0, Math.floor(diff2) + 1);
+          if(M<=s.remaining){
+            scenario = "앞으로 " + M + "승 추가하면 (" + rank5.team + "이(가) 잔여 전승 시 기준으로도) 5위 진출 확정";
+          } else {
+            var requiredXLosses = s.maxWin - rank5.maxWin + 1;
+            if(requiredXLosses<=0 || requiredXLosses> rank5.remaining){
+              scenario = "현재 기록상 자력·타력 모두 진출이 수학적으로 어려움";
+            } else {
+              scenario = "자력 진출 불가 · " + rank5.team + "이(가) " + requiredXLosses + "패 이상 하고 남은 " + s.remaining + "경기를 모두 이기면 진출 가능";
+            }
+          }
+        }
+      }
+      html += "<tr" + (s.team===NC ? ' class="nc-row"' : "") + ">";
+      html += '<td class="rank-no'+(rankNo===1?" top1":"")+'">'+rankNo+'</td>';
+      html += "<td>"+escapeHtml(s.team)+"</td>";
+      html += '<td class="tabular">'+s.w+'승 '+s.d+'무 '+s.l+'패</td>';
+      html += '<td class="rate-cell tabular">'+fmtRate(s.rate)+"</td>";
+      html += '<td class="tabular">'+s.remaining+"</td>";
+      html += "<td>"+escapeHtml(scenario)+"</td>";
+      html += "</tr>";
+    });
+    body.innerHTML = html;
+  }
+
   function escapeHtml(s){
     if(s===null||s===undefined) return "";
     return String(s).replace(/[&<>"']/g, function(c){
@@ -1527,8 +1692,10 @@
     renderOtherTab();
     renderRankingTab();
     renderHeadToHeadRanking();
+    renderPostseasonScenarios();
     document.getElementById("nc-date").value = getNcNextDate();
     document.getElementById("ob-date").value = getOtherNextDate();
+    if(!obOtherEditMode) loadOtherRowsForDate(document.getElementById("ob-date").value);
   }
 
   if(syncConfigured()){
