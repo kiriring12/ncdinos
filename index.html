@@ -415,7 +415,7 @@
       <div id="otherFormPanel" style="display:none;">
         <div id="otherEditingNotice" style="display:none;" class="show">✏️ 기존 경기를 수정하는 중입니다 (이 경기만 수정). <button type="button" class="row-btn" id="obCancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
         <h2 class="section-title">타 팀 경기 입력</h2>
-        <p class="hint" style="margin-bottom:16px;">같은 날짜에 열린 NC 경기를 제외한 나머지 경기(최대 4경기)를 팀과 점수만으로 빠르게 입력할 수 있어요. 점수를 모르는 예정 경기(내일 경기 등)도 팀만 먼저 입력해두면, 나중에 같은 날짜를 다시 선택했을 때 팀 칸이 자동으로 채워져서 점수만 입력하면 돼요. 우천취소 등은 '취소'를 체크하고 사유를 적어주세요 (승률에는 반영되지 않아요).</p>
+        <p class="hint" style="margin-bottom:16px;">같은 날짜에 열린 NC 경기를 제외한 나머지 경기(최대 4경기)를 팀과 점수만으로 빠르게 입력할 수 있어요. 화요일 경기를 입력하면 같은 대진으로 수·목요일 경기도(점수 없이) 자동으로 만들어지고, 금요일 경기를 입력하면 토·일요일도 자동으로 만들어져요 — KBO 3연전 규칙(화수목 / 금토일)에 맞춘 기능이라 수·목·토·일에 입력할 땐 자동으로 다른 날짜가 채워지지 않아요. 점수를 모르는 예정 경기도 팀만 먼저 입력해두면, 나중에 같은 날짜를 다시 선택했을 때 팀 칸이 자동으로 채워져서 점수만 입력하면 돼요. 우천취소 등은 '취소'를 체크하고 사유를 적어주세요 (승률에는 반영되지 않아요).</p>
 
         <div class="field" style="max-width:220px; margin-bottom:18px;">
           <label>날짜</label>
@@ -630,6 +630,20 @@
     }
     return addOneDayUTC(sourceDate);
   }
+  function getWeekdayUTC(dateStr){
+    var p = dateStr.split("-").map(Number);
+    var d = new Date(Date.UTC(p[0], p[1]-1, p[2]));
+    return d.getUTCDay(); // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
+  }
+  // KBO plays Tue-Wed-Thu and Fri-Sat-Sun 3-game series. Only the FIRST day of a set
+  // (Tue or Fri) triggers auto-filling the other two days of that same set.
+  function seriesFollowUpDates(dateStr){
+    var wd = getWeekdayUTC(dateStr);
+    if(wd===2){ return [addOneDayUTC(dateStr), addOneDayUTC(addOneDayUTC(dateStr))]; } // Tue -> Wed, Thu
+    if(wd===5){ return [addOneDayUTC(dateStr), addOneDayUTC(addOneDayUTC(dateStr))]; } // Fri -> Sat, Sun
+    return [];
+  }
+
   function getNcNextDate(){
     return getNextSuggestedDateFor(function(g){ return g.awayTeam===NC || g.homeTeam===NC; });
   }
@@ -1211,6 +1225,7 @@
     } else {
       var added = 0, updated = 0, hadWarning = false;
       var batchTs = Date.now();
+      var validPairs = [];
       for(var i=0;i<OB_ROW_COUNT;i++){
         var r = getObRow(i);
         if(!r.away && !r.home) continue;
@@ -1226,16 +1241,38 @@
           state.games.push(buildOtherRecord(date, r, uid(), null, batchTs + i));
           added++;
         }
+        validPairs.push({ away: r.away, home: r.home });
       }
       if(added===0 && updated===0){
         toast(hadWarning ? "입력 내용을 확인해주세요 (어웨이/홈 모두 선택·서로 다른 팀, 취소 시 사유 필요)." : "최소 한 경기는 입력해주세요.");
         return;
       }
+
+      // Auto-fill the rest of the KBO 3-game series (Tue->Wed,Thu / Fri->Sat,Sun only).
+      var seriesAdded = 0;
+      var followDates = seriesFollowUpDates(date);
+      if(followDates.length && validPairs.length){
+        followDates.forEach(function(fd, fi){
+          validPairs.forEach(function(pair, pi){
+            var exists = state.games.some(function(g){
+              return g.date===fd && g.awayTeam===pair.away && g.homeTeam===pair.home;
+            });
+            if(!exists){
+              var placeholder = buildOtherRecord(fd, { away: pair.away, home: pair.home, awayScore: "", homeScore: "", canceled: false, cancelReason: "" }, uid(), null, batchTs + 100 + fi*10 + pi);
+              state.games.push(placeholder);
+              seriesAdded++;
+            }
+          });
+        });
+      }
+
       save();
       var msgParts = [];
       if(added) msgParts.push(added+"경기 저장");
       if(updated) msgParts.push(updated+"경기 수정");
-      toast(msgParts.join(", ") + "했습니다." + (hadWarning ? " (일부 행은 건너뛰었어요)" : ""));
+      var msg = msgParts.join(", ") + "했습니다." + (hadWarning ? " (일부 행은 건너뛰었어요)" : "");
+      if(seriesAdded) msg += " 같은 시리즈 " + seriesAdded + "경기도 팀만 자동으로 채워뒀어요 (점수는 나중에 입력).";
+      toast(msg);
       resetOtherForm();
     }
     renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
