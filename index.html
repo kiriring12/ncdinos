@@ -1158,13 +1158,28 @@
     obRows.querySelector('.ob-awayScore[data-row="'+i+'"]').value = (g.awayScore===null||g.awayScore===undefined) ? "" : g.awayScore;
     obRows.querySelector('.ob-homeScore[data-row="'+i+'"]').value = (g.homeScore===null||g.homeScore===undefined) ? "" : g.homeScore;
     Array.prototype.forEach.call(obRows.querySelectorAll('.ob-winner-btn[data-row="'+i+'"]'), function(b){ b.classList.remove("active"); });
+
+    // Persisted winner marker (only set when the record was actually saved via the quick buttons).
     if(g.winner){
       rowEl.setAttribute("data-winner", g.winner);
-      var activeBtn = obRows.querySelector('.ob-winner-btn[data-row="'+i+'"][data-value="'+g.winner+'"]');
-      if(activeBtn) activeBtn.classList.add("active");
     } else {
       rowEl.removeAttribute("data-winner");
     }
+
+    // Visual-only: if the record already has a numeric score (e.g. entered via the detailed
+    // NC form), highlight the matching win/draw button just to show the known result,
+    // WITHOUT setting data-winner (so saving unchanged keeps the real score, not a marker).
+    var displayWinner = g.winner || null;
+    if(!displayWinner && g.awayScore!==null && g.awayScore!==undefined && g.homeScore!==null && g.homeScore!==undefined){
+      if(g.awayScore > g.homeScore) displayWinner = "away";
+      else if(g.awayScore < g.homeScore) displayWinner = "home";
+      else displayWinner = "draw";
+    }
+    if(displayWinner){
+      var activeBtn = obRows.querySelector('.ob-winner-btn[data-row="'+i+'"][data-value="'+displayWinner+'"]');
+      if(activeBtn) activeBtn.classList.add("active");
+    }
+
     var cb = obRows.querySelector('.ob-cancel[data-row="'+i+'"]');
     cb.checked = !!g.canceled;
     obRows.querySelector('.ob-cancel-chip[data-row="'+i+'"]').classList.toggle("checked", cb.checked);
