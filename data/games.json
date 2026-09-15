@@ -942,6 +942,7 @@
     "homePitcher": "",
     "awayScore": null,
     "homeScore": null,
+    "winner": null,
     "awayMVP": "",
     "homeMVP": "",
     "winPitcher": "",
@@ -5132,13 +5133,13 @@
   {
     "id": "g_mu1xtnrr_ixvouc",
     "date": "2026-05-20",
-    "awayTeam": "NC 다이노스",
-    "homeTeam": "두산 베어스",
+    "awayTeam": "SSG 랜더스",
+    "homeTeam": "키움 히어로즈",
     "awayPitcher": "",
     "homePitcher": "",
     "awayScore": null,
     "homeScore": null,
-    "winner": null,
+    "winner": "home",
     "awayMVP": "",
     "homeMVP": "",
     "winPitcher": "",
@@ -5169,8 +5170,8 @@
     "holdPitcher": "",
     "stadium": "대구 삼성 라이온즈 파크",
     "watched": false,
-    "canceled": false,
-    "cancelReason": "",
+    "canceled": true,
+    "cancelReason": "우천 취소",
     "createdAt": 1789432357627
   },
   {
@@ -5191,8 +5192,8 @@
     "holdPitcher": "",
     "stadium": "광주-기아 챔피언스 필드",
     "watched": false,
-    "canceled": false,
-    "cancelReason": "",
+    "canceled": true,
+    "cancelReason": "우천 취소",
     "createdAt": 1789432357628
   },
   {
@@ -5213,8 +5214,8 @@
     "holdPitcher": "",
     "stadium": "대전 한화생명 볼파크",
     "watched": false,
-    "canceled": false,
-    "cancelReason": "",
+    "canceled": true,
+    "cancelReason": "우천 취소",
     "createdAt": 1789432357629
   },
   {
