@@ -5595,5 +5595,26 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789432529925
+  },
+  {
+    "id": "g_mu1y0z4i_lmke9n",
+    "date": "2026-05-26",
+    "awayTeam": "한화 이글스",
+    "homeTeam": "NC 다이노스",
+    "awayPitcher": "에르난데스",
+    "homePitcher": "테일러",
+    "awayScore": null,
+    "homeScore": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "창원NC파크",
+    "watched": false,
+    "canceled": true,
+    "cancelReason": "우천 취소",
+    "createdAt": 1789432698834
   }
 ]
