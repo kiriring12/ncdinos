@@ -6072,7 +6072,7 @@
     "homePitcher": "",
     "awayScore": null,
     "homeScore": null,
-    "winner": null,
+    "winner": "home",
     "awayMVP": "",
     "homeMVP": "",
     "winPitcher": "",
