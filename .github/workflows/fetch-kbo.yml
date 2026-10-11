@@ -1,0 +1,38 @@
+on:
+  schedule:
+    - cron: "10 15 * * *"   # UTC 15:10 = 한국 시간 00:10
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  SEASON_START: "2026-03-28"   # 새 시즌에는 이 두 날짜만 바꿔주세요
+  SEASON_END: "2026-10-12"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 네이버에서 경기 결과 수집
+        run: |
+          mkdir -p data
+          python fetch_naver_kbo.py --from "$SEASON_START" --to "$SEASON_END" --out data/kbo_results.csv --strict
+
+      - name: 바뀐 경우에만 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kbo_results.csv
+          if git diff --cached --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "KBO 결과 자동 업데이트 $(TZ=Asia/Seoul date +'%F %R')"
+            git push
+          fi
