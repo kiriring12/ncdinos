@@ -303,6 +303,7 @@
     <button data-tab="calendar">캘린더</button>
     <button data-tab="other">타 팀 기록</button>
     <button data-tab="ranking">랭킹</button>
+    <button data-tab="import">일정 가져오기</button>
     <button data-tab="sync">기기 간 동기화</button>
   </nav>
 </header>
@@ -423,7 +424,11 @@
       <div id="otherFormPanel" style="display:none;">
         <div id="otherEditingNotice" style="display:none;" class="show">✏️ 기존 경기를 수정하는 중입니다 (이 경기만 수정). <button type="button" class="row-btn" id="obCancelEditBtn" style="margin-left:8px;">수정 취소</button></div>
         <h2 class="section-title">경기 정보 입력</h2>
-        <p class="hint" style="margin-bottom:16px;">하루 최대 5경기(10개 팀 전체 포함, NC도 선택 가능)를 팀과 점수만으로 빠르게 입력할 수 있어요. 점수를 모르면 각 경기 밑의 '어웨이 승 / 무 / 홈 승' 버튼으로 결과만 먼저 기록해도 승률 계산에 그대로 반영돼요. 화요일 경기를 입력하면 같은 대진으로 수·목요일 경기도(결과 없이) 자동으로 만들어지고, 금요일 경기를 입력하면 토·일요일도 자동으로 만들어져요 — KBO 3연전 규칙(화수목 / 금토일)에 맞춘 기능이라 수·목·토·일에 입력할 땐 자동으로 다른 날짜가 채워지지 않아요. 점수도 결과도 모르는 예정 경기는 팀만 먼저 입력해두면, 나중에 같은 날짜를 다시 선택했을 때 팀 칸이 자동으로 채워져서 결과만 입력하면 돼요. 우천취소 등은 '취소'를 체크하고 사유를 적어주세요 (승률에는 반영되지 않아요).</p>
+        <div class="toggle-row" style="margin:0 0 12px;">
+          <label class="chip-toggle" id="seriesAutoToggle"><span id="seriesAutoText">3연전 자동 채우기: ON</span></label>
+          <span class="hint" style="margin:0;">추가 경기처럼 한 경기씩 진행될 땐 OFF로 두세요. (이 기기에 기억돼요)</span>
+        </div>
+        <p class="hint" style="margin-bottom:16px;">하루 최대 5경기(10개 팀 전체 포함, NC도 선택 가능)를 팀과 점수만으로 빠르게 입력할 수 있어요. 점수를 모르면 각 경기 밑의 '어웨이 승 / 무 / 홈 승' 버튼으로 결과만 먼저 기록해도 승률 계산에 그대로 반영돼요. 위의 '3연전 자동 채우기'가 ON이면, 화요일 경기를 입력할 때 수·목요일이, 금요일 경기를 입력할 때 토·일요일이 같은 대진으로(결과 없이) 자동으로 만들어져요. 수·목·토·일에 입력할 땐 다른 날짜가 채워지지 않아요. 점수도 결과도 모르는 예정 경기는 팀만 먼저 입력해두면, 나중에 같은 날짜를 다시 선택했을 때 팀 칸이 자동으로 채워져서 결과만 입력하면 돼요. 우천취소 등은 '취소'를 체크하고 사유를 적어주세요 (승률에는 반영되지 않아요).</p>
 
         <div class="field" style="max-width:220px; margin-bottom:18px;">
           <label>날짜</label>
@@ -515,6 +520,38 @@
       </table>
     </div>
   </section>
+  <!-- ================= IMPORT TAB ================= -->
+  <section id="tab-import" style="display:none;">
+    <div class="panel form-wrap">
+      <h2 class="section-title">엑셀 / 구글 시트로 일정·결과 가져오기</h2>
+      <p class="hint" style="margin-bottom:14px;">
+        시즌 일정을 엑셀이나 구글 시트에 정리해서 한 번에 가져올 수 있어요. 첫 줄은 제목 줄이고, <b>날짜 · 어웨이 · 홈</b> 열은 꼭 필요해요.
+        지난 경기라면 점수, 승리투수, 패전투수, 홀드, 세이브 등을 같이 적어두면 함께 들어가요. 이미 같은 날짜·같은 대진의 기록이 있으면 비어있지 않은 칸만 덮어써서 갱신하고, 없으면 새로 추가해요.
+      </p>
+      <div class="form-actions" style="flex-wrap:wrap; margin-top:0;">
+        <button class="ghost" id="impTemplateBtn">양식(CSV) 내려받기</button>
+        <button class="ghost" id="impExportBtn">현재 기록 CSV로 내보내기</button>
+      </div>
+      <div class="field" style="margin-top:18px;">
+        <label>파일 선택 (.csv / .xlsx / .xls)</label>
+        <input type="file" id="impFile" accept=".csv,.tsv,.txt,.xlsx,.xls">
+      </div>
+      <div class="field" style="margin-top:12px;">
+        <label>또는 엑셀·시트에서 복사한 내용을 붙여넣기 (제목 줄 포함)</label>
+        <textarea id="impText" rows="8" placeholder="날짜&#9;어웨이&#9;홈&#9;어웨이점수&#9;홈점수&#9;승리투수&#9;패전투수&#9;홀드&#9;세이브"></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="primary" id="impPreviewBtn">미리보기</button>
+        <button class="primary" id="impApplyBtn" disabled>가져오기 적용</button>
+      </div>
+      <div id="impResult" style="margin-top:16px; font-size:13px;"></div>
+      <p class="hint" style="margin-top:18px;">
+        인식하는 제목: 날짜, 어웨이(원정), 홈, 어웨이점수, 홈점수, 결과(어웨이 승/홈 승/무), 구장, 어웨이선발, 홈선발, 승리투수, 패전투수, 홀드, 세이브, 어웨이MVP, 홈MVP, 취소(O), 취소사유.
+        팀 이름은 "두산", "LG", "KT", "키움"처럼 줄여 써도 돼요. 날짜는 2026-03-28, 2026.3.28, 3/28 모두 괜찮아요.
+      </p>
+    </div>
+  </section>
+
   <section id="tab-sync" style="display:none;">
     <div class="panel form-wrap">
       <h2 class="section-title">기기 간 동기화 (GitHub 저장소 연동)</h2>
@@ -570,6 +607,7 @@
   <div style="background:var(--navy-deep);padding:18px 26px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.3);">불러오는 중...</div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -839,7 +877,7 @@
   });
   function setActiveTab(tab){
     state.activeTab = tab;
-    ["input","calendar","other","ranking","sync"].forEach(function(t){
+    ["input","calendar","other","ranking","import","sync"].forEach(function(t){
       document.getElementById("tab-"+t).style.display = (t===tab) ? "" : "none";
     });
     Array.prototype.forEach.call(tabNav.querySelectorAll("button"), function(b){
@@ -1063,6 +1101,23 @@
   }
 
   // ---------------- Other teams batch form ----------------
+  // ---------------- 3-game series auto-fill ON/OFF ----------------
+  var SERIES_KEY = "nc_dinos_series_autofill_v1";
+  var seriesAutoOn = (function(){
+    try{ return localStorage.getItem(SERIES_KEY) !== "0"; }catch(e){ return true; }
+  })();
+  var seriesAutoToggle = document.getElementById("seriesAutoToggle");
+  function renderSeriesToggle(){
+    seriesAutoToggle.classList.toggle("checked", seriesAutoOn);
+    document.getElementById("seriesAutoText").textContent = "3연전 자동 채우기: " + (seriesAutoOn ? "ON" : "OFF");
+  }
+  seriesAutoToggle.addEventListener("click", function(){
+    seriesAutoOn = !seriesAutoOn;
+    try{ localStorage.setItem(SERIES_KEY, seriesAutoOn ? "1" : "0"); }catch(e){}
+    renderSeriesToggle();
+  });
+  renderSeriesToggle();
+
   var OB_ROW_COUNT = 5;
   var obRows = document.getElementById("obRows");
   var obOtherEditMode = false;
@@ -1322,7 +1377,7 @@
 
       // Auto-fill the rest of the KBO 3-game series (Tue->Wed,Thu / Fri->Sat,Sun only).
       var seriesAdded = 0;
-      var followDates = seriesFollowUpDates(date);
+      var followDates = seriesAutoOn ? seriesFollowUpDates(date) : [];
       if(followDates.length && validPairs.length){
         followDates.forEach(function(fd, fi){
           validPairs.forEach(function(pair, pi){
@@ -1799,6 +1854,362 @@
       return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
     });
   }
+
+  // ---------------- Import / Export (CSV, TSV, XLSX) ----------------
+  function normKey(s){ return String(s===null||s===undefined ? "" : s).replace(/\s+/g,"").toLowerCase(); }
+
+  var TEAM_ALIAS_MAP = (function(){
+    var raw = {
+      "NC 다이노스": ["nc","엔씨","nc다이노스","다이노스"],
+      "롯데 자이언츠": ["롯데","롯데자이언츠","자이언츠"],
+      "삼성 라이온즈": ["삼성","삼성라이온즈","라이온즈"],
+      "KIA 타이거즈": ["kia","기아","kia타이거즈","기아타이거즈","타이거즈"],
+      "한화 이글스": ["한화","한화이글스","이글스"],
+      "KT wiz": ["kt","ktwiz","케이티","케이티위즈","위즈"],
+      "두산 베어스": ["두산","두산베어스","베어스"],
+      "LG 트윈스": ["lg","lg트윈스","엘지","트윈스"],
+      "SSG 랜더스": ["ssg","ssg랜더스","랜더스"],
+      "키움 히어로즈": ["키움","키움히어로즈","히어로즈"]
+    };
+    var map = {};
+    TEAMS.forEach(function(t){ map[normKey(t)] = t; });
+    Object.keys(raw).forEach(function(full){
+      raw[full].forEach(function(a){ map[normKey(a)] = full; });
+    });
+    return map;
+  })();
+  function normTeam(v){ return TEAM_ALIAS_MAP[normKey(v)] || null; }
+
+  function ymd(y, mo, d){
+    y = Number(y); mo = Number(mo); d = Number(d);
+    if(!y || mo<1 || mo>12 || d<1 || d>31) return null;
+    return y + "-" + pad2(mo) + "-" + pad2(d);
+  }
+  function normDate(v){
+    if(v===null || v===undefined) return null;
+    if(typeof v==="number"){
+      if(v>20000 && v<80000){
+        var dd = new Date(Date.UTC(1899,11,30) + Math.round(v)*86400000);
+        return dd.getUTCFullYear() + "-" + pad2(dd.getUTCMonth()+1) + "-" + pad2(dd.getUTCDate());
+      }
+      return null;
+    }
+    var s = String(v).trim();
+    if(!s) return null;
+    var m;
+    if((m = s.match(/^(\d{4})\D+(\d{1,2})\D+(\d{1,2})/))) return ymd(m[1], m[2], m[3]);
+    if((m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/))){
+      var yy = Number(m[3]); if(yy<100) yy += 2000;
+      return ymd(yy, m[1], m[2]);
+    }
+    if((m = s.match(/^(\d{1,2})[\/\.\-](\d{1,2})$/))) return ymd(state.calYear || new Date().getFullYear(), m[1], m[2]);
+    if(/^\d{8}$/.test(s)) return ymd(s.slice(0,4), s.slice(4,6), s.slice(6,8));
+    if(/^\d{5}$/.test(s)) return normDate(Number(s));
+    return null;
+  }
+
+  var HEADER_ALIASES = {
+    date: ["날짜","일자","경기일","date"],
+    away: ["어웨이","어웨이팀","원정","원정팀","away","awayteam"],
+    home: ["홈","홈팀","home","hometeam"],
+    awayScore: ["어웨이점수","원정점수","어웨이득점","원정득점","awayscore"],
+    homeScore: ["홈점수","홈득점","homescore"],
+    result: ["결과","승패"],
+    stadium: ["구장","경기장","stadium"],
+    awayPitcher: ["어웨이선발","원정선발","어웨이선발투수","원정선발투수"],
+    homePitcher: ["홈선발","홈선발투수"],
+    winPitcher: ["승리투수","승리","승투수"],
+    losePitcher: ["패전투수","패배투수","패투수"],
+    holdPitcher: ["홀드","홀드투수"],
+    savePitcher: ["세이브","세이브투수"],
+    awayMVP: ["어웨이mvp","원정mvp"],
+    homeMVP: ["홈mvp"],
+    canceled: ["취소","취소여부"],
+    cancelReason: ["취소사유","사유"]
+  };
+  var HEADER_LOOKUP = (function(){
+    var m = {};
+    Object.keys(HEADER_ALIASES).forEach(function(field){
+      HEADER_ALIASES[field].forEach(function(a){ m[normKey(a)] = field; });
+    });
+    return m;
+  })();
+
+  function parseDelimited(text){
+    text = String(text).replace(/^\uFEFF/, "");
+    var firstLine = text.split(/\r?\n/)[0] || "";
+    var delim = (firstLine.indexOf("\t") > -1) ? "\t" : ",";
+    var rows = [], row = [], cell = "", inQ = false;
+    for(var i=0;i<text.length;i++){
+      var c = text.charAt(i);
+      if(inQ){
+        if(c==='"'){
+          if(text.charAt(i+1)==='"'){ cell += '"'; i++; } else { inQ = false; }
+        } else { cell += c; }
+      } else {
+        if(c==='"'){ inQ = true; }
+        else if(c===delim){ row.push(cell); cell = ""; }
+        else if(c==="\n"){ row.push(cell); rows.push(row); row = []; cell = ""; }
+        else if(c==="\r"){ /* ignore */ }
+        else { cell += c; }
+      }
+    }
+    if(cell!=="" || row.length){ row.push(cell); rows.push(row); }
+    return rows.filter(function(r){
+      return r.some(function(x){ return String(x).trim()!==""; });
+    });
+  }
+
+  function parseResultCell(v){
+    var k = normKey(v);
+    if(!k) return "";
+    if(k==="무" || k==="무승부" || k==="draw") return "draw";
+    if(k.indexOf("어웨이")===0 || k.indexOf("원정")===0 || k==="away") return "away";
+    if(k.indexOf("홈")===0 || k==="home") return "home";
+    return "";
+  }
+  function isTruthyCell(v){
+    var k = normKey(v);
+    return ["o","y","yes","true","1","취소","✓","v","ㅇ"].indexOf(k) > -1;
+  }
+
+  function buildImportPlan(table){
+    var errors = [];
+    if(!table.length){ return { items: [], errors: ["내용이 비어있어요."] }; }
+    var colField = [];
+    table[0].forEach(function(h, idx){ colField[idx] = HEADER_LOOKUP[normKey(h)] || null; });
+    var has = function(f){ return colField.indexOf(f) > -1; };
+    if(!has("date") || !has("away") || !has("home")){
+      return { items: [], errors: ["필수 제목(날짜, 어웨이, 홈)을 첫 줄에서 찾지 못했어요. 양식을 내려받아 확인해보세요."] };
+    }
+    var pending = {}, order = [];
+    for(var r=1; r<table.length; r++){
+      var line = r + 1;
+      var row = table[r], f = {};
+      colField.forEach(function(field, idx){
+        if(field && row[idx]!==undefined && row[idx]!==null){ f[field] = row[idx]; }
+      });
+      var date = normDate(f.date);
+      var away = normTeam(f.away);
+      var home = normTeam(f.home);
+      if(!date){ errors.push(line + "줄: 날짜를 읽을 수 없어요 (" + (f.date===undefined?"":f.date) + ")"); continue; }
+      if(!away || !home){ errors.push(line + "줄: 팀 이름을 알 수 없어요 (" + (f.away||"") + " / " + (f.home||"") + ")"); continue; }
+      if(away===home){ errors.push(line + "줄: 어웨이와 홈이 같은 팀이에요"); continue; }
+
+      var patch = {};
+      var aS = String(f.awayScore===undefined ? "" : f.awayScore).trim();
+      var hS = String(f.homeScore===undefined ? "" : f.homeScore).trim();
+      if(aS!=="" || hS!==""){
+        var an = Number(aS), hn = Number(hS);
+        if(aS==="" || hS==="" || isNaN(an) || isNaN(hn)){
+          errors.push(line + "줄: 점수는 어웨이·홈 둘 다 숫자로 적어주세요"); continue;
+        }
+        patch.hasScore = true; patch.awayScore = an; patch.homeScore = hn;
+      } else {
+        var res = parseResultCell(f.result);
+        if(res) patch.winner = res;
+      }
+      ["stadium","awayPitcher","homePitcher","winPitcher","losePitcher","savePitcher","holdPitcher","awayMVP","homeMVP"].forEach(function(k){
+        var v = (f[k]===undefined) ? "" : String(f[k]).trim();
+        if(v) patch[k] = v;
+      });
+      if(f.canceled!==undefined && isTruthyCell(f.canceled)){
+        patch.canceled = true;
+        patch.cancelReason = (f.cancelReason===undefined ? "" : String(f.cancelReason).trim()) || "취소";
+      }
+
+      var key = date + "|" + away + "|" + home;
+      var p = pending[key];
+      if(!p){
+        var existing = state.games.find(function(g){
+          return g.date===date && g.awayTeam===away && g.homeTeam===home;
+        }) || null;
+        p = pending[key] = { date: date, away: away, home: home, existing: existing, patch: {} };
+        order.push(key);
+      }
+      Object.keys(patch).forEach(function(k){ p.patch[k] = patch[k]; });
+    }
+    return { items: order.map(function(k){ return pending[k]; }), errors: errors };
+  }
+
+  function applyPatchToGame(g, p){
+    ["stadium","awayPitcher","homePitcher","winPitcher","losePitcher","savePitcher","holdPitcher","awayMVP","homeMVP"].forEach(function(k){
+      if(p[k]) g[k] = p[k];
+    });
+    if(p.hasScore){
+      g.awayScore = p.awayScore; g.homeScore = p.homeScore; g.winner = null;
+      g.canceled = false; g.cancelReason = "";
+    } else if(p.winner && (g.awayScore===null || g.awayScore===undefined)){
+      g.winner = p.winner; g.canceled = false; g.cancelReason = "";
+    }
+    if(p.canceled){
+      g.canceled = true; g.cancelReason = p.cancelReason || g.cancelReason || "취소";
+      g.awayScore = null; g.homeScore = null; g.winner = null;
+    }
+  }
+
+  function applyImportPlan(plan){
+    var added = 0, updated = 0, ts = Date.now();
+    plan.items.forEach(function(it, i){
+      if(it.existing){
+        applyPatchToGame(it.existing, it.patch);
+        updated++;
+      } else {
+        var rec = {
+          id: uid(), date: it.date, awayTeam: it.away, homeTeam: it.home,
+          awayPitcher: "", homePitcher: "", awayScore: null, homeScore: null, winner: null,
+          awayMVP: "", homeMVP: "", winPitcher: "", losePitcher: "", savePitcher: "", holdPitcher: "",
+          stadium: STADIUM_MAP[it.home] || "", watched: false, canceled: false, cancelReason: "",
+          createdAt: ts + i
+        };
+        applyPatchToGame(rec, it.patch);
+        state.games.push(rec);
+        added++;
+      }
+    });
+    return { added: added, updated: updated };
+  }
+
+  function describeItem(it){
+    var p = it.patch, bits = [];
+    if(p.canceled) bits.push("취소");
+    else if(p.hasScore) bits.push(p.awayScore + " : " + p.homeScore);
+    else if(p.winner) bits.push(p.winner==="draw" ? "무" : (p.winner==="away" ? "어웨이 승" : "홈 승"));
+    else bits.push("예정");
+    if(p.winPitcher) bits.push("승 " + p.winPitcher);
+    if(p.losePitcher) bits.push("패 " + p.losePitcher);
+    if(p.holdPitcher) bits.push("홀드 " + p.holdPitcher);
+    if(p.savePitcher) bits.push("세 " + p.savePitcher);
+    return bits.join(" · ");
+  }
+
+  var importPlan = null;
+  var impText = document.getElementById("impText");
+  var impResult = document.getElementById("impResult");
+  var impApplyBtn = document.getElementById("impApplyBtn");
+
+  function decodeBuffer(buf){
+    try{ return new TextDecoder("utf-8", { fatal: true }).decode(buf); }
+    catch(e){
+      try{ return new TextDecoder("euc-kr").decode(buf); }
+      catch(e2){ return new TextDecoder("utf-8").decode(buf); }
+    }
+  }
+
+  document.getElementById("impFile").addEventListener("change", function(){
+    var file = this.files && this.files[0];
+    if(!file) return;
+    var name = file.name.toLowerCase();
+    var reader = new FileReader();
+    reader.onload = function(){
+      try{
+        if(/\.(xlsx|xls)$/.test(name)){
+          if(typeof XLSX === "undefined"){
+            impResult.innerHTML = '<span style="color:#C64B4B;">엑셀 파일을 읽는 도구를 불러오지 못했어요. 엑셀에서 "CSV로 저장"한 파일을 선택하거나, 셀을 복사해서 아래에 붙여넣어 주세요.</span>';
+            return;
+          }
+          var wb = XLSX.read(new Uint8Array(reader.result), { type: "array" });
+          var ws = wb.Sheets[wb.SheetNames[0]];
+          var aoa = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "" });
+          impText.value = aoa.map(function(r){
+            return r.map(function(c){ return String(c).replace(/[\t\r\n]+/g, " "); }).join("\t");
+          }).join("\n");
+        } else {
+          impText.value = decodeBuffer(reader.result).replace(/^\uFEFF/, "");
+        }
+        runImportPreview();
+      }catch(err){
+        impResult.innerHTML = '<span style="color:#C64B4B;">파일을 읽지 못했어요: ' + escapeHtml(err.message) + '</span>';
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  function runImportPreview(){
+    var text = impText.value.trim();
+    importPlan = null;
+    impApplyBtn.disabled = true;
+    if(!text){ impResult.textContent = "파일을 선택하거나 내용을 붙여넣어 주세요."; return; }
+    var plan = buildImportPlan(parseDelimited(text));
+    var adds = plan.items.filter(function(it){ return !it.existing; }).length;
+    var ups = plan.items.length - adds;
+    var html = '<div style="font-weight:700; margin-bottom:8px;">새 경기 ' + adds + '개 추가 · 기존 ' + ups + '개 갱신' +
+      (plan.errors.length ? ' · <span style="color:#C64B4B;">확인 필요 ' + plan.errors.length + '줄</span>' : '') + '</div>';
+    if(plan.items.length){
+      html += '<div style="overflow-x:auto;"><table class="data-table" style="min-width:520px;"><thead><tr><th>구분</th><th>날짜</th><th>어웨이</th><th>홈</th><th>내용</th></tr></thead><tbody>';
+      plan.items.slice(0, 12).forEach(function(it){
+        html += '<tr><td>' + (it.existing ? "갱신" : "추가") + '</td><td>' + it.date + '</td><td>' + escapeHtml(it.away) + '</td><td>' + escapeHtml(it.home) + '</td><td>' + escapeHtml(describeItem(it)) + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+      if(plan.items.length > 12) html += '<div class="hint" style="margin-top:6px;">…외 ' + (plan.items.length - 12) + '개</div>';
+    }
+    if(plan.errors.length){
+      html += '<div style="margin-top:10px; color:#C64B4B;">' + plan.errors.slice(0, 8).map(escapeHtml).join("<br>") +
+        (plan.errors.length > 8 ? "<br>…외 " + (plan.errors.length - 8) + "건" : "") + '<br><span class="hint">오류가 있는 줄은 건너뛰고 나머지만 가져와요.</span></div>';
+    }
+    impResult.innerHTML = html;
+    if(plan.items.length){ importPlan = plan; impApplyBtn.disabled = false; }
+  }
+  document.getElementById("impPreviewBtn").addEventListener("click", runImportPreview);
+
+  impApplyBtn.addEventListener("click", function(){
+    if(!importPlan || !importPlan.items.length) return;
+    // rebuild against the current data so "existing" matches are fresh
+    var plan = buildImportPlan(parseDelimited(impText.value.trim()));
+    var res = applyImportPlan(plan);
+    save();
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
+    if(!obOtherEditMode) loadOtherRowsForDate(document.getElementById("ob-date").value);
+    document.getElementById("nc-date").value = getNcNextDate();
+    importPlan = null; impApplyBtn.disabled = true;
+    impResult.innerHTML = '<div style="font-weight:700;">가져오기 완료: ' + res.added + '개 추가, ' + res.updated + '개 갱신했어요.</div>';
+    toast(res.added + "개 추가, " + res.updated + "개 갱신했어요.");
+    if(syncConfigured()) syncPush(true);
+  });
+
+  // --- Export / template ---
+  var EXPORT_COLS = [
+    ["날짜","date"],["어웨이","awayTeam"],["홈","homeTeam"],["어웨이점수","awayScore"],["홈점수","homeScore"],
+    ["결과","winner"],["구장","stadium"],["어웨이선발","awayPitcher"],["홈선발","homePitcher"],
+    ["승리투수","winPitcher"],["패전투수","losePitcher"],["홀드","holdPitcher"],["세이브","savePitcher"],
+    ["어웨이MVP","awayMVP"],["홈MVP","homeMVP"],["취소","canceled"],["취소사유","cancelReason"]
+  ];
+  function csvCell(v){
+    var s = (v===null || v===undefined) ? "" : String(v);
+    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function gameToExportCell(g, key){
+    if(key==="winner") return g.winner==="away" ? "어웨이 승" : (g.winner==="home" ? "홈 승" : (g.winner==="draw" ? "무" : ""));
+    if(key==="canceled") return g.canceled ? "O" : "";
+    return g[key];
+  }
+  function downloadCsv(filename, lines){
+    var blob = new Blob(["\uFEFF" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  document.getElementById("impTemplateBtn").addEventListener("click", function(){
+    var header = EXPORT_COLS.map(function(c){ return c[0]; }).join(",");
+    downloadCsv("경기일정_양식.csv", [
+      header,
+      "2026-03-28,두산 베어스,NC 다이노스,0,6,,창원NC파크,플렉센,구창모,구창모,플렉센,배재환,,,,,",
+      "2026-04-09,LG 트윈스,NC 다이노스,,,,,,,,,,,,,O,우천 취소",
+      "2026-09-12,KIA 타이거즈,NC 다이노스,,,,,,,,,,,,,,"
+    ]);
+  });
+  document.getElementById("impExportBtn").addEventListener("click", function(){
+    var games = state.games.slice().sort(function(a,b){ return a.date.localeCompare(b.date); });
+    var lines = [EXPORT_COLS.map(function(c){ return c[0]; }).join(",")];
+    games.forEach(function(g){
+      lines.push(EXPORT_COLS.map(function(c){ return csvCell(gameToExportCell(g, c[1])); }).join(","));
+    });
+    downloadCsv("경기기록_" + new Date().toISOString().slice(0,10) + ".csv", lines);
+    toast(games.length + "개 경기를 내보냈어요.");
+  });
 
   // init: jump calendar to most recent NC game month if exists, else current month
   function positionCalendarToLatest(){
