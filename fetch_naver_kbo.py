@@ -1,25 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-네이버 스포츠에서 KBO 경기 결과를 받아서, 기록판의 '일정 가져오기' 탭에 올릴 수 있는 CSV로 저장합니다.
-
-필요한 것: Python 3.8 이상 (추가 설치 없음 - 기본 라이브러리만 사용)
-
-사용 예
-  # 시즌 전체(일정 + 지난 경기 결과) 한 번에
-  python fetch_naver_kbo.py --from 2026-03-28 --to 2026-10-12
-
-  # 매일 업데이트용 (옵션 없이 실행하면 최근 3일 ~ 오늘)
-  python fetch_naver_kbo.py
-
-  # 결과가 나온 경기/취소 경기만 (예정 경기는 제외)
-  python fetch_naver_kbo.py --results-only
-
-실행하면 kbo_results.csv 가 만들어져요. 기록판 > '일정 가져오기' 탭에서 그 파일을 선택하세요.
-
-※ 네이버의 비공식(공개 문서 없음) 주소를 사용해요. 예고 없이 바뀔 수 있어요.
-   문제가 생기면 --probe 경기ID 로 원본 응답을 확인할 수 있어요.
-"""
 import argparse
 import csv
 import json
@@ -36,7 +14,6 @@ HEADERS = {
     "Referer": "https://m.sports.naver.com/",
 }
 
-# 기록판 '일정 가져오기' 탭이 인식하는 제목 (순서 그대로)
 COLUMNS = [
     "날짜", "어웨이", "홈", "어웨이점수", "홈점수", "결과", "구장",
     "어웨이선발", "홈선발", "승리투수", "패전투수", "홀드", "세이브",
