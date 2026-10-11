@@ -529,6 +529,7 @@
         지난 경기라면 점수, 승리투수, 패전투수, 홀드, 세이브 등을 같이 적어두면 함께 들어가요. 이미 같은 날짜·같은 대진의 기록이 있으면 비어있지 않은 칸만 덮어써서 갱신하고, 없으면 새로 추가해요.
       </p>
       <div class="form-actions" style="flex-wrap:wrap; margin-top:0;">
+        <button class="primary" id="impRepoBtn">자동 수집된 최신 CSV 불러오기</button>
         <button class="ghost" id="impTemplateBtn">양식(CSV) 내려받기</button>
         <button class="ghost" id="impExportBtn">현재 기록 CSV로 내보내기</button>
       </div>
@@ -540,6 +541,10 @@
         <label>또는 엑셀·시트에서 복사한 내용을 붙여넣기 (제목 줄 포함)</label>
         <textarea id="impText" rows="8" placeholder="날짜&#9;어웨이&#9;홈&#9;어웨이점수&#9;홈점수&#9;승리투수&#9;패전투수&#9;홀드&#9;세이브"></textarea>
       </div>
+      <label style="display:flex; gap:8px; align-items:center; font-size:13px; margin-top:14px; cursor:pointer;">
+        <input type="checkbox" id="impProtect"> 이미 적어둔 투수·MVP·구장은 덮어쓰지 않고, 빈 칸만 채우기
+      </label>
+      <div class="hint" style="margin-top:4px;">CSV에서 비어 있는 칸(예: 홀드, 세이브)은 체크 여부와 상관없이 기존 기록을 지우지 않아요. 점수·결과·취소는 항상 CSV 내용으로 갱신돼요.</div>
       <div class="form-actions">
         <button class="primary" id="impPreviewBtn">미리보기</button>
         <button class="primary" id="impApplyBtn" disabled>가져오기 적용</button>
@@ -2032,9 +2037,9 @@
     return { items: order.map(function(k){ return pending[k]; }), errors: errors };
   }
 
-  function applyPatchToGame(g, p){
+  function applyPatchToGame(g, p, protect){
     ["stadium","awayPitcher","homePitcher","winPitcher","losePitcher","savePitcher","holdPitcher","awayMVP","homeMVP"].forEach(function(k){
-      if(p[k]) g[k] = p[k];
+      if(p[k] && !(protect && g[k])) g[k] = p[k];
     });
     if(p.hasScore){
       g.awayScore = p.awayScore; g.homeScore = p.homeScore; g.winner = null;
@@ -2048,11 +2053,11 @@
     }
   }
 
-  function applyImportPlan(plan){
+  function applyImportPlan(plan, protect){
     var added = 0, updated = 0, ts = Date.now();
     plan.items.forEach(function(it, i){
       if(it.existing){
-        applyPatchToGame(it.existing, it.patch);
+        applyPatchToGame(it.existing, it.patch, protect);
         updated++;
       } else {
         var rec = {
@@ -2156,7 +2161,7 @@
     if(!importPlan || !importPlan.items.length) return;
     // rebuild against the current data so "existing" matches are fresh
     var plan = buildImportPlan(parseDelimited(impText.value.trim()));
-    var res = applyImportPlan(plan);
+    var res = applyImportPlan(plan, document.getElementById("impProtect").checked);
     save();
     renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
     if(!obOtherEditMode) loadOtherRowsForDate(document.getElementById("ob-date").value);
@@ -2165,6 +2170,38 @@
     impResult.innerHTML = '<div style="font-weight:700;">가져오기 완료: ' + res.added + '개 추가, ' + res.updated + '개 갱신했어요.</div>';
     toast(res.added + "개 추가, " + res.updated + "개 갱신했어요.");
     if(syncConfigured()) syncPush(true);
+  });
+
+  // --- Load the CSV that GitHub Actions keeps up to date (data/kbo_results.csv) ---
+  var REPO_CSV_PATH = "data/kbo_results.csv";
+  function fetchRepoCsvBuffer(){
+    if(syncConfigured()){
+      var url = "https://api.github.com/repos/" + encodeURIComponent(syncCfg.owner) + "/" + encodeURIComponent(syncCfg.repo) +
+        "/contents/" + REPO_CSV_PATH + "?ref=" + encodeURIComponent(syncCfg.branch || "main");
+      return fetch(url, { headers: { "Authorization": "Bearer " + syncCfg.token, "Accept": "application/vnd.github.raw+json" } })
+        .then(function(res){
+          if(res.status===404) throw new Error("NOTFOUND");
+          if(!res.ok) throw new Error("HTTP " + res.status);
+          return res.arrayBuffer();
+        });
+    }
+    return fetch(REPO_CSV_PATH + "?t=" + Date.now(), { cache: "no-store" }).then(function(res){
+      if(res.status===404) throw new Error("NOTFOUND");
+      if(!res.ok) throw new Error("HTTP " + res.status);
+      return res.arrayBuffer();
+    });
+  }
+  document.getElementById("impRepoBtn").addEventListener("click", function(){
+    impResult.textContent = "저장소에서 불러오는 중...";
+    fetchRepoCsvBuffer().then(function(buf){
+      impText.value = decodeBuffer(buf).replace(/^\uFEFF/, "");
+      runImportPreview();
+    }).catch(function(err){
+      var msg = (err.message==="NOTFOUND")
+        ? "저장소에 " + REPO_CSV_PATH + " 파일이 아직 없어요. GitHub Actions를 한 번 실행했는지 확인해주세요."
+        : "불러오지 못했어요: " + err.message + (syncConfigured() ? " (동기화 탭의 저장소·토큰 설정을 확인해주세요)" : " (동기화 탭에 저장소를 연결하면 비공개 저장소에서도 불러올 수 있어요)");
+      impResult.innerHTML = '<span style="color:#C64B4B;">' + escapeHtml(msg) + '</span>';
+    });
   });
 
   // --- Export / template ---
