@@ -283,6 +283,22 @@
   .rank-no.top1{ color:var(--gold); }
   td.rate-cell{ font-weight:800; color:var(--navy-deep); }
 
+  /* ---------- Rank clinch matrix ---------- */
+  table.ps-matrix{ width:100%; min-width:640px; border-collapse:separate; border-spacing:2px; font-size:12.5px; }
+  table.ps-matrix th, table.ps-matrix td{ text-align:center; padding:9px 6px; color:#fff; font-weight:700; border-radius:3px; }
+  table.ps-matrix th.ps-team{ background:#16202A; width:116px; white-space:nowrap; }
+  table.ps-matrix thead th{ background:#16202A; }
+  table.ps-matrix thead th.ps-h-in{ background:#1F3F86; }
+  table.ps-matrix thead th.ps-h-out{ background:#7A3535; }
+  table.ps-matrix tr.ps-nc th.ps-team{ background:var(--gold); color:#16202A; }
+  td.ps-r1{ background:#0B1B33; } td.ps-r2{ background:#12306B; }
+  td.ps-sec{ background:#1F4FA0; } td.ps-sec2{ background:#2F6DB5; }
+  td.ps-imp{ background:#9B3B3B; } td.ps-none{ background:#8A7A1E; }
+  td.ps-magic{ background:#2F8F5B; }
+  td.ps-split{ }
+  .ps-legend{ display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:12px; font-size:12px; color:var(--ink-soft); }
+  .ps-legend i{ display:inline-block; width:11px; height:11px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+
   @media (max-width:720px){
     .matchup{ grid-template-columns:1fr; }
     .vs-mark{ padding-top:0; }
@@ -510,14 +526,30 @@
       </table>
     </div>
     <div class="panel rank-wrap" style="margin-top:16px;">
-      <h2 class="section-title">포스트시즌(5위) 진출 시나리오</h2>
-      <p class="hint" style="margin-bottom:14px;">정규시즌 144경기, 취소된 경기 제외, 아직 결과가 없는 예정 경기는 잔여경기로 계산한 참고용 수치예요. 5위·6위 경계 팀과의 1:1 비교(상대가 잔여 경기를 모두 이기거나 모두 진다고 가정)로 계산해서 실제 매직넘버와는 다를 수 있어요.</p>
-      <table class="rank-table">
+      <h2 class="section-title">포스트시즌(5위) 진출 · 순위 확정 현황</h2>
+      <div id="psNote" class="hint" style="margin-bottom:14px; line-height:1.6;"></div>
+      <div style="overflow-x:auto;">
+      <table class="rank-table" style="min-width:760px;">
         <thead>
-          <tr><th>순위</th><th>팀</th><th>성적</th><th>승률</th><th>잔여경기</th><th>진출 시나리오</th></tr>
+          <tr><th>순위</th><th>팀</th><th>성적</th><th>잔여</th><th>매직넘버</th><th>트래직넘버</th><th>5위 이내 진출 시나리오</th></tr>
         </thead>
         <tbody id="postseasonBody"></tbody>
       </table>
+      </div>
+      <div id="psMatrixWrap" style="display:none; margin-top:26px;">
+        <h2 class="section-title">순위 확정 현황 (남은 경기 전체 경우의 수 기준)</h2>
+        <div style="overflow-x:auto;"><table class="ps-matrix" id="psMatrix"></table></div>
+        <div class="ps-legend">
+          <span><i style="background:#2F6DB5"></i>확보</span>
+          <span><i style="background:#2F8F5B"></i>매직넘버 (본인이 이 승수를 거두면 확정)</span>
+          <span><i style="background:#8A7A1E"></i>자력 확정 불가</span>
+          <span><i style="background:#7A1515"></i>트래직넘버 (이 패수를 당하면 불가 확정)</span>
+          <span><i style="background:#9B3B3B"></i>불가</span>
+        </div>
+        <div class="hint" style="margin-top:6px;">칸에 "1 / 1"처럼 적힌 건 매직넘버 / 트래직넘버예요. 칸에 마우스를 올리면 설명이 나와요.</div>
+        <h3 style="font-size:14px; margin:20px 0 8px; color:var(--navy-deep);">경기 결과 하나로 순위가 갈리는 경기</h3>
+        <ul id="psGameNotes" style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;"></ul>
+      </div>
     </div>
   </section>
   <!-- ================= IMPORT TAB ================= -->
@@ -1767,8 +1799,10 @@
     body.innerHTML = html || '<tr class="empty-row"><td colspan="7">기록된 경기가 없습니다.</td></tr>';
   }
 
-  // ---------------- Postseason (5th place) scenario calculator ----------------
+  // ---------------- Postseason / rank-clinch calculator ----------------
   var TOTAL_SEASON_GAMES = 144;
+  var EXACT_LIMIT = 12;      // enumerate every W/D/L outcome when this many games (or fewer) remain
+  var CUT_RANK = 5;          // 5th place and above reach the postseason
 
   function computeStandings(){
     return TEAMS.map(function(team){
@@ -1778,10 +1812,7 @@
       var rec = computeRecord(teamGames, team);
       var played = rec.w + rec.d + rec.l;
       var remaining = Math.max(0, TOTAL_SEASON_GAMES - played);
-      return {
-        team: team, w: rec.w, d: rec.d, l: rec.l, rate: rec.rate,
-        played: played, remaining: remaining, maxWin: rec.w + remaining
-      };
+      return { team: team, w: rec.w, d: rec.d, l: rec.l, rate: rec.rate, played: played, remaining: remaining, maxWin: rec.w + remaining };
     }).sort(function(a,b){
       var ar = a.rate===null ? -1 : a.rate;
       var br = b.rate===null ? -1 : b.rate;
@@ -1790,67 +1821,370 @@
     });
   }
 
+  // PS-CORE-START  (pure functions: no DOM access)
+  // Exact analysis: tries every win/draw/loss combination of the remaining games.
+  // Ranking is by win% = W/(W+L) (draws excluded). Exact ties are kept as a rank range [lo, hi].
+  function psExact(base, future){
+    var n = base.length, N = future.length, i, j, k;
+    var W0 = [], L0 = [], ga = [], gh = [], R = [];
+    for(i=0;i<n;i++){ W0[i] = base[i].w; L0[i] = base[i].l; R[i] = 0; }
+    for(k=0;k<N;k++){ ga[k] = future[k].a; gh[k] = future[k].h; R[ga[k]]++; R[gh[k]]++; }
+    var best = [], worst = [], maxHi = [], minLo = [];
+    for(i=0;i<n;i++){
+      best[i] = 99; worst[i] = 0; maxHi[i] = []; minLo[i] = [];
+      for(j=0;j<=R[i];j++){ maxHi[i][j] = -1; minLo[i][j] = 99; }
+    }
+    var gs = [];
+    for(k=0;k<N;k++){ gs[k] = [0,1,2].map(function(){ return { loA:99, hiA:0, loH:99, hiH:0 }; }); }
+    var total = Math.pow(3, N);
+    var out = new Array(N), w = new Array(n), l = new Array(n), tw = new Array(n), tl = new Array(n), lo = new Array(n), hi = new Array(n);
+    for(var c=0;c<total;c++){
+      var x = c;
+      for(k=0;k<N;k++){ out[k] = x % 3; x = (x - out[k]) / 3; }
+      for(i=0;i<n;i++){ w[i] = W0[i]; l[i] = L0[i]; tw[i] = 0; tl[i] = 0; }
+      for(k=0;k<N;k++){
+        var a = ga[k], h = gh[k], o = out[k];
+        if(o===0){ w[a]++; tw[a]++; l[h]++; tl[h]++; }
+        else if(o===1){ w[h]++; tw[h]++; l[a]++; tl[a]++; }
+      }
+      for(i=0;i<n;i++){
+        var better = 0, tied = 0, di = w[i] + l[i];
+        for(j=0;j<n;j++){
+          if(j===i) continue;
+          var cmp = w[j]*di - w[i]*(w[j]+l[j]);
+          if(cmp>0) better++; else if(cmp===0) tied++;
+        }
+        lo[i] = 1 + better; hi[i] = 1 + better + tied;
+        if(lo[i] < best[i]) best[i] = lo[i];
+        if(hi[i] > worst[i]) worst[i] = hi[i];
+        if(hi[i] > maxHi[i][tw[i]]) maxHi[i][tw[i]] = hi[i];
+        if(lo[i] < minLo[i][tl[i]]) minLo[i][tl[i]] = lo[i];
+      }
+      for(k=0;k<N;k++){
+        var s = gs[k][out[k]], a2 = ga[k], h2 = gh[k];
+        if(lo[a2] < s.loA) s.loA = lo[a2];
+        if(hi[a2] > s.hiA) s.hiA = hi[a2];
+        if(lo[h2] < s.loH) s.loH = lo[h2];
+        if(hi[h2] > s.hiH) s.hiH = hi[h2];
+      }
+    }
+    return { R: R, best: best, worst: worst, maxHi: maxHi, minLo: minLo, gs: gs, N: N };
+  }
+
+  // Status of "team T finishes at rank r or better".
+  function psCell(ex, T, r){
+    if(ex.worst[T] <= r) return { kind: "secured" };
+    if(ex.best[T] > r) return { kind: "impossible" };
+    var R = ex.R[T], mh = ex.maxHi[T], ml = ex.minLo[T], k;
+    var magic = null, tragic = null;
+    var sufMax = new Array(R+2), sufMin = new Array(R+2);
+    sufMax[R+1] = -1; sufMin[R+1] = 99;
+    for(k=R;k>=0;k--){ sufMax[k] = Math.max(sufMax[k+1], mh[k]); sufMin[k] = Math.min(sufMin[k+1], ml[k]); }
+    // magic: fewest wins by T alone that guarantees rank <= r no matter what others do
+    for(k=0;k<=R;k++){ if(sufMax[k] <= r){ magic = k; break; } }
+    // tragic: fewest losses by T that guarantees rank > r no matter what others do
+    for(k=0;k<=R;k++){ if(sufMin[k] > r){ tragic = k; break; } }
+    return { kind: "open", magic: magic, tragic: tragic, R: R };
+  }
+
+  // If T cannot clinch rank <= r alone: with T winning every remaining game, which outcomes of other games are required?
+  function psNeeded(base, future, T, r){
+    var n = base.length, N = future.length, i, k;
+    var forced = [], free = [];
+    for(k=0;k<N;k++){
+      if(future[k].a===T) forced[k] = 0;
+      else if(future[k].h===T) forced[k] = 1;
+      else { forced[k] = -1; free.push(k); }
+    }
+    var F = free.length, total = Math.pow(3, F), seen = [], sat = 0;
+    for(i=0;i<F;i++) seen[i] = 0;
+    var out = new Array(N), w = new Array(n), l = new Array(n);
+    for(var c=0;c<total;c++){
+      var x = c;
+      for(k=0;k<N;k++) out[k] = forced[k];
+      for(i=0;i<F;i++){ out[free[i]] = x % 3; x = (x - out[free[i]]) / 3; }
+      for(i=0;i<n;i++){ w[i] = base[i].w; l[i] = base[i].l; }
+      for(k=0;k<N;k++){
+        var a = future[k].a, h = future[k].h;
+        if(out[k]===0){ w[a]++; l[h]++; } else if(out[k]===1){ w[h]++; l[a]++; }
+      }
+      var better = 0, tied = 0, di = w[T] + l[T];
+      for(i=0;i<n;i++){
+        if(i===T) continue;
+        var cmp = w[i]*di - w[T]*(w[i]+l[i]);
+        if(cmp>0) better++; else if(cmp===0) tied++;
+      }
+      if(1 + better + tied <= r){
+        sat++;
+        for(i=0;i<F;i++) seen[i] |= (1 << out[free[i]]);
+      }
+    }
+    var conds = [];
+    if(sat>0){
+      for(i=0;i<F;i++){
+        if(seen[i]!==7){
+          var f = future[free[i]];
+          conds.push(psDescribeMask(seen[i], TEAMS[f.a], TEAMS[f.h]));
+        }
+      }
+    }
+    return { sat: sat, conds: conds };
+  }
+
+  function psDescribeMask(mask, A, H){
+    if(mask===1) return A + "가 " + H + "에게 승리";
+    if(mask===2) return H + "가 " + A + "에게 승리";
+    if(mask===4) return A + "–" + H + " 무승부";
+    if(mask===5) return H + "가 " + A + "에게 승리하지 못함 (패배 또는 무승부)";
+    if(mask===6) return A + "가 " + H + "에게 승리하지 못함 (패배 또는 무승부)";
+    if(mask===3) return A + "–" + H + " 경기가 무승부로 끝나지 않음";
+    return A + "–" + H + " 경기 결과";
+  }
+
+  // Games whose single result decides the final rank of both teams.
+  // Win/loss results must settle both ranks exactly; a draw may leave a 2-rank tie range (win% tied).
+  function psGameNotes(ex, future){
+    var notes = [], k, o;
+    for(k=0;k<ex.N;k++){
+      var ok = true, tuples = [];
+      for(o=0;o<3;o++){
+        var s = ex.gs[k][o];
+        var wA = s.hiA - s.loA, wH = s.hiH - s.loH;
+        if(o<2 ? (wA!==0 || wH!==0) : (wA>1 || wH>1)){ ok = false; break; }
+        tuples.push([[s.loA, s.hiA], [s.loH, s.hiH]]);
+      }
+      if(!ok) continue;
+      var t0 = tuples[0], t1 = tuples[1];
+      if(t0[0][0]===t1[0][0] && t0[1][0]===t1[1][0]) continue;   // the result doesn't change anything
+      notes.push({ k: k, tuples: tuples });
+    }
+    return notes;
+  }
+
+  // Rough estimate used while many games remain (assumes 144 games each; ignores draws and tie-breakers).
+  function psApprox(base, remaining, cut){
+    var n = base.length, res = [], i, j;
+    var maxW = base.map(function(b, idx){ return b.w + remaining[idx]; });
+    for(i=0;i<n;i++){
+      var others = [];
+      for(j=0;j<n;j++) if(j!==i) others.push(j);
+      var maxs = others.map(function(j2){ return maxW[j2]; }).sort(function(a,b){ return b-a; });
+      var curs = others.map(function(j2){ return base[j2].w; }).sort(function(a,b){ return b-a; });
+      var fifth = maxs[cut-1], X = curs[cut-1];
+      var Tfinal = maxW[i], Ri = remaining[i];
+      var magicNeed = fifth - base[i].w + 1;
+      var tragicNeed = Tfinal - X + 1;
+      var r = { kind: "open", magic: null, tragic: null, R: Ri, need: [] };
+      if(magicNeed <= 0){ r.kind = "secured"; }
+      else if(tragicNeed <= 0){ r.kind = "impossible"; }
+      else {
+        if(magicNeed <= Ri) r.magic = magicNeed;
+        if(tragicNeed <= Ri) r.tragic = tragicNeed;
+        if(r.magic===null){
+          var threats = others.filter(function(j2){ return maxW[j2] >= Tfinal; });
+          var c = threats.length - (cut-1);
+          var cand = threats.map(function(j2){ return { j: j2, n: maxW[j2] - Tfinal + 1 }; })
+            .filter(function(t){ return t.n <= remaining[t.j]; })
+            .sort(function(a,b){ return a.n - b.n; });
+          if(c > 0 && cand.length >= c) r.need = cand.slice(0, c);
+          else if(c > 0) r.need = null;
+        }
+      }
+      res.push(r);
+    }
+    return res;
+  }
+  // PS-CORE-END
+
+  function todayLocalStr(){
+    var d = new Date();
+    return d.getFullYear() + "-" + pad2(d.getMonth()+1) + "-" + pad2(d.getDate());
+  }
+
+  function psSnapshot(){
+    var base = TEAMS.map(function(team, i){
+      var rec = computeRecord(state.games.filter(function(g){
+        return (g.awayTeam===team || g.homeTeam===team) && !g.canceled;
+      }), team);
+      return { team: team, i: i, w: rec.w, d: rec.d, l: rec.l, played: rec.w + rec.d + rec.l };
+    });
+    var today = todayLocalStr();
+    var future = [], stale = 0;
+    state.games.forEach(function(g){
+      if(g.canceled || resultFor(g, g.awayTeam)!=="sched") return;
+      var a = TEAMS.indexOf(g.awayTeam), h = TEAMS.indexOf(g.homeTeam);
+      if(a<0 || h<0) return;
+      if(g.date >= today) future.push({ a: a, h: h, g: g }); else stale++;
+    });
+    future.sort(function(x, y){ return x.g.date.localeCompare(y.g.date); });
+    var cnt = TEAMS.map(function(){ return 0; });
+    future.forEach(function(f){ cnt[f.a]++; cnt[f.h]++; });
+    var over = base.some(function(b, i){ return b.played + cnt[i] > TOTAL_SEASON_GAMES; });
+    var complete = !over && base.every(function(b, i){ return b.played + cnt[i] >= TOTAL_SEASON_GAMES - 4; });
+    return { base: base, future: future, stale: stale, cnt: cnt, over: over, complete: complete,
+             exact: complete && future.length <= EXACT_LIMIT };
+  }
+
+  var PS_RANK_LABEL = {
+    1: "한국시리즈 직행 (정규시즌 우승)",
+    2: "플레이오프 직행 (정규시즌 2위)",
+    3: "준플레이오프 직행 (정규시즌 3위)",
+    4: "와일드카드 결정전 진출 (정규시즌 4위 · 홈 어드밴티지)",
+    5: "와일드카드 결정전 진출 (정규시즌 5위)"
+  };
+  function psRankText(r){
+    return PS_RANK_LABEL[r] || ("포스트시즌 진출 실패 (정규시즌 " + r + "위)");
+  }
+  function psRangeText(lo, hi){ return lo===hi ? (lo + "위") : (lo + "~" + hi + "위"); }
+
   function renderPostseasonScenarios(){
     var body = document.getElementById("postseasonBody");
     if(!body) return;
-    var standings = computeStandings();
-    if(standings.every(function(s){ return s.played===0; })){
-      body.innerHTML = '<tr class="empty-row"><td colspan="6">아직 입력된 경기 결과가 없습니다.</td></tr>';
+    var note = document.getElementById("psNote");
+    var wrap = document.getElementById("psMatrixWrap");
+    var snap = psSnapshot();
+    if(snap.base.every(function(b){ return b.played===0; })){
+      body.innerHTML = '<tr class="empty-row"><td colspan="8">아직 입력된 경기 결과가 없습니다.</td></tr>';
+      note.textContent = ""; wrap.style.display = "none";
       return;
     }
-    var rank5 = standings[4];
-    var rank6 = standings[5];
-    var html = "";
+    var order = computeStandings().map(function(s){ return TEAMS.indexOf(s.team); });
+    var rows = [], noteHtml = "";
 
-    standings.forEach(function(s, i){
-      var rankNo = i+1;
-      var scenario;
-      if(s.played===0){
-        scenario = "아직 결과 없음";
-      } else if(rankNo<=5){
-        // In the top 5: how many more losses would guarantee dropping out, vs the rank-6 chaser winning out.
-        if(!rank6 || rank6.played===0){
-          scenario = "경쟁 상대 데이터 부족";
+    if(snap.exact){
+      var ex = psExact(snap.base, snap.future);
+      noteHtml = snap.future.length===0
+        ? '<b>최종 순위 기준</b> · 남은 경기가 없어서 지금 성적으로 순위를 확정했어요. 승률이 완전히 같을 땐 상대전적 등 타이브레이커를 반영하지 않아 순위를 확정하지 않아요.'
+        : '<b>정확 계산</b> · 남은 일정 ' + snap.future.length + '경기가 모두 들어와 있어서, 가능한 모든 결과(승·무·패)를 직접 따져서 계산했어요. 승률이 완전히 같을 땐 상대전적 등 타이브레이커를 반영하지 않아 순위를 확정하지 않아요.';
+      order.forEach(function(T, pos){
+        var cell = psCell(ex, T, CUT_RANK);
+        var s = snap.base[T];
+        var rec = s.w + "승 " + s.d + "무 " + s.l + "패";
+        var rng = psRangeText(ex.best[T], ex.worst[T]);
+        var magicTxt = "-", tragicTxt = "-", desc = "";
+        if(cell.kind==="secured"){
+          magicTxt = "확정"; desc = "포스트시즌(5위 이내) 진출 확정 · 최종 " + rng;
+        } else if(cell.kind==="impossible"){
+          tragicTxt = "탈락 확정"; desc = "포스트시즌 진출 실패 확정 · 최종 " + rng;
         } else {
-          var diff = s.maxWin - rank6.maxWin;
-          var N = Math.max(0, Math.floor(diff) + 1);
-          if(N >= s.remaining && s.remaining>0){
-            scenario = "잔여 " + s.remaining + "경기 전패해도 " + rank6.team + "의 잔여 전승 기준보다 앞서, 사실상 5위 마지노선 안전권";
-          } else if(s.remaining===0){
-            scenario = "시즌 종료";
+          var bits = [];
+          if(cell.magic!==null){
+            magicTxt = cell.magic + "승";
+            bits.push("남은 " + cell.R + "경기 중 " + cell.magic + "승을 거두면 5위 이내 확정");
           } else {
-            scenario = "앞으로 " + N + "패 하면 (" + rank6.team + "이(가) 잔여 전승 시 기준) 5위 진출 실패 위험";
+            magicTxt = "자력 불가";
+            var nd = psNeeded(snap.base, snap.future, T, CUT_RANK);
+            var prefix = cell.R>0 ? ("남은 " + cell.R + "경기 전승 + ") : "남은 경기가 없어 ";
+            bits.push("자력 확정 불가 — " + prefix + "필요 조건: " + (nd.conds.length ? nd.conds.slice(0,4).join(" / ") + (nd.conds.length>4 ? " 외 " + (nd.conds.length-4) + "건" : "") : "다른 경기 결과"));
           }
-        }
-      } else {
-        // Outside top 5: how many more wins to guarantee passing the rank-5 team.
-        if(!rank5 || rank5.played===0){
-          scenario = "경쟁 상대 데이터 부족";
-        } else {
-          var diff2 = rank5.maxWin - s.w;
-          var M = Math.max(0, Math.floor(diff2) + 1);
-          if(M<=s.remaining){
-            scenario = "앞으로 " + M + "승 추가하면 (" + rank5.team + "이(가) 잔여 전승 시 기준으로도) 5위 진출 확정";
-          } else {
-            var requiredXLosses = s.maxWin - rank5.maxWin + 1;
-            if(requiredXLosses<=0 || requiredXLosses> rank5.remaining){
-              scenario = "현재 기록상 자력·타력 모두 진출이 수학적으로 어려움";
-            } else {
-              scenario = "자력 진출 불가 · " + rank5.team + "이(가) " + requiredXLosses + "패 이상 하고 남은 " + s.remaining + "경기를 모두 이기면 진출 가능";
-            }
+          if(cell.tragic!==null){
+            tragicTxt = cell.tragic + "패";
+            bits.push(cell.tragic + "패 하면 진출 실패 확정");
           }
+          desc = bits.join(" · ") + " · 최종 가능 순위 " + rng;
         }
-      }
-      html += "<tr" + (s.team===NC ? ' class="nc-row"' : "") + ">";
-      html += '<td class="rank-no'+(rankNo===1?" top1":"")+'">'+rankNo+'</td>';
-      html += "<td>"+escapeHtml(s.team)+"</td>";
-      html += '<td class="tabular">'+s.w+'승 '+s.d+'무 '+s.l+'패</td>';
-      html += '<td class="rate-cell tabular">'+fmtRate(s.rate)+"</td>";
-      html += '<td class="tabular">'+s.remaining+"</td>";
-      html += "<td>"+escapeHtml(scenario)+"</td>";
+        rows.push({ pos: pos, T: T, rec: rec, R: ex.R[T], magic: magicTxt, tragic: tragicTxt, desc: desc, kind: cell.kind });
+      });
+      renderPsMatrix(snap, ex, order);
+      wrap.style.display = "";
+    } else {
+      var remaining = snap.complete ? snap.cnt : snap.base.map(function(b){ return Math.max(0, TOTAL_SEASON_GAMES - b.played); });
+      var ap = psApprox(snap.base, remaining, CUT_RANK);
+      var why = snap.over ? "예정 경기 중 144경기를 넘는 팀이 있어(실제와 다른 예정 항목이 있을 수 있어요)"
+              : (!snap.complete ? "남은 일정이 아직 다 들어오지 않아서" : "남은 경기가 " + snap.future.length + "경기로 많아서");
+      noteHtml = '<b>근사 계산</b> · ' + why + ' 팀당 144경기를 기준으로 승수만 비교한 단순 계산이에요(무승부·타이브레이커 미반영). 일정이 모두 들어오고 남은 경기가 ' + EXACT_LIMIT + '경기 이하가 되면 정확 계산과 순위 확정표가 나와요.';
+      order.forEach(function(T, pos){
+        var a = ap[T], s = snap.base[T];
+        var rec = s.w + "승 " + s.d + "무 " + s.l + "패";
+        var magicTxt = "-", tragicTxt = "-", desc = "";
+        if(a.kind==="secured"){ magicTxt = "확정"; desc = "포스트시즌(5위 이내) 진출 확정"; }
+        else if(a.kind==="impossible"){ tragicTxt = "탈락 확정"; desc = "포스트시즌 진출 실패 확정"; }
+        else {
+          var bits = [];
+          if(a.magic!==null){ magicTxt = a.magic + "승"; bits.push("남은 " + a.R + "경기 중 " + a.magic + "승이면 5위 이내 확정"); }
+          else {
+            magicTxt = "자력 불가";
+            if(a.need===null) bits.push("전승해도 다른 팀 결과와 무관하게 확정되기 어려움");
+            else if(a.need.length) bits.push("자력 확정 불가 — 전승 + " + a.need.map(function(t){ return TEAMS[t.j] + " " + t.n + "패 이상"; }).join(", "));
+            else bits.push("자력 확정 불가");
+          }
+          if(a.tragic!==null){ tragicTxt = a.tragic + "패"; bits.push(a.tragic + "패 하면 진출 실패 확정"); }
+          desc = bits.join(" · ");
+        }
+        rows.push({ pos: pos, T: T, rec: rec, R: a.R, magic: magicTxt, tragic: tragicTxt, desc: desc, kind: a.kind });
+      });
+      wrap.style.display = "none";
+    }
+    if(snap.stale>0){
+      noteHtml += '<br><span style="color:#B4862E;">⚠ 지난 날짜인데 결과가 없는 예정 경기 ' + snap.stale + '개는 계산에서 제외했어요. 결과를 입력하거나 취소 처리해주세요.</span>';
+    }
+    note.innerHTML = noteHtml;
+
+    var recMap = computeStandings();
+    var html = "";
+    rows.forEach(function(r){
+      var st = recMap.filter(function(x){ return x.team===TEAMS[r.T]; })[0];
+      var color = r.kind==="secured" ? "var(--win)" : (r.kind==="impossible" ? "var(--loss)" : "var(--ink)");
+      html += "<tr" + (TEAMS[r.T]===NC ? ' class="nc-row"' : "") + ">";
+      html += '<td class="rank-no' + (r.pos===0 ? " top1" : "") + '">' + (r.pos+1) + "</td>";
+      html += "<td>" + escapeHtml(TEAMS[r.T]) + "</td>";
+      html += '<td class="tabular">' + r.rec + "</td>";
+      html += '<td class="tabular">' + r.R + "</td>";
+      html += '<td class="tabular" style="font-weight:700;color:var(--win);">' + escapeHtml(r.magic) + "</td>";
+      html += '<td class="tabular" style="font-weight:700;color:var(--loss);">' + escapeHtml(r.tragic) + "</td>";
+      html += '<td style="color:' + color + ';">' + escapeHtml(r.desc) + "</td>";
       html += "</tr>";
     });
     body.innerHTML = html;
+  }
+
+  function renderPsMatrix(snap, ex, order){
+    var table = document.getElementById("psMatrix");
+    var COLS = 9;
+    var h = '<thead><tr><th rowspan="2" class="ps-team">구단</th><th colspan="' + COLS + '">순위</th></tr><tr>';
+    for(var r=1;r<=COLS;r++) h += '<th class="' + (r<=CUT_RANK ? "ps-h-in" : "ps-h-out") + '">' + r + "</th>";
+    h += "</tr></thead><tbody>";
+    order.forEach(function(T){
+      var b = ex.best[T], w = ex.worst[T];
+      h += '<tr' + (TEAMS[T]===NC ? ' class="ps-nc"' : "") + '><th class="ps-team">' + escapeHtml(TEAMS[T]) + "</th>";
+      if(b===w){
+        var cls = b<=1 ? "ps-r1" : (b===2 ? "ps-r2" : (b<=5 ? "ps-sec" : "ps-imp"));
+        h += '<td colspan="' + COLS + '" class="' + cls + '">' + escapeHtml(psRankText(b)) + "</td>";
+      } else {
+        if(b>1) h += '<td colspan="' + (b-1) + '" class="ps-imp">' + (b-1) + "위 불가</td>";
+        var lastOpen = Math.min(w-1, COLS);
+        for(var rr=b; rr<=lastOpen; rr++){
+          var c = psCell(ex, T, rr);
+          var mg = c.magic!==null, tg = c.tragic!==null;
+          var txt, style = "", cl;
+          if(mg && tg){ txt = c.magic + " / " + c.tragic; cl = "ps-split"; style = "background:linear-gradient(110deg,#2F8F5B 50%,#7A1515 50%);"; }
+          else if(mg){ txt = String(c.magic); cl = "ps-magic"; }
+          else if(tg){ txt = "– / " + c.tragic; cl = "ps-split"; style = "background:linear-gradient(110deg,#8A7A1E 50%,#7A1515 50%);"; }
+          else { txt = "–"; cl = "ps-none"; }
+          var tip = rr + "위 이내: " + (mg ? ("매직넘버 " + c.magic + " (본인 " + c.magic + "승이면 확정)") : "자력 확정 불가") + (tg ? (" / 트래직넘버 " + c.tragic + " (" + c.tragic + "패 하면 불가 확정)") : "");
+          h += '<td class="' + cl + '" style="' + style + '" title="' + escapeHtml(tip) + '">' + txt + "</td>";
+        }
+        if(w<=COLS) h += '<td colspan="' + (COLS-w+1) + '" class="ps-sec2">' + w + "위 확보</td>";
+      }
+      h += "</tr>";
+    });
+    h += "</tbody>";
+    table.innerHTML = h;
+
+    var notes = psGameNotes(ex, snap.future);
+    var ul = document.getElementById("psGameNotes");
+    if(!notes.length){ ul.innerHTML = '<li class="hint">남은 경기 중 결과 하나로 두 팀의 순위가 확정되는 경기는 없어요.</li>'; return; }
+    ul.innerHTML = notes.map(function(n){
+      var f = snap.future[n.k], A = TEAMS[f.a], H = TEAMS[f.h];
+      var md = f.g.date.slice(5).replace("-", "/");
+      var place = f.g.stadium ? (" " + f.g.stadium) : "";
+      var labels = [A + " 승", H + " 승", "무승부"];
+      var parts = n.tuples.map(function(t, idx){
+        var tie = (t[0][0]!==t[0][1] || t[1][0]!==t[1][1]);
+        return labels[idx] + " → " + A + " " + psRangeText(t[0][0], t[0][1]) + " · " + H + " " + psRangeText(t[1][0], t[1][1]) + (tie ? " (승률 동률, 타이브레이커 필요)" : "");
+      });
+      return "<li><b>" + md + escapeHtml(place) + " " + escapeHtml(A) + " vs " + escapeHtml(H) + "</b>: " + escapeHtml(parts.join(" / ")) + "</li>";
+    }).join("");
   }
 
   function escapeHtml(s){
