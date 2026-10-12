@@ -576,6 +576,9 @@
       <label style="display:flex; gap:8px; align-items:center; font-size:13px; margin-top:14px; cursor:pointer;">
         <input type="checkbox" id="impProtect"> 이미 적어둔 투수·MVP·구장은 덮어쓰지 않고, 빈 칸만 채우기
       </label>
+      <label style="display:flex; gap:8px; align-items:center; font-size:13px; margin-top:12px; cursor:pointer;">
+        <input type="checkbox" id="impCleanup"> 파일에 없는 기존 기록 삭제 (파일의 날짜 범위 안에서만, 파일 내용 기준으로 맞추기)
+      </label>
       <div class="hint" style="margin-top:4px;">CSV에서 비어 있는 칸(예: 홀드, 세이브)은 체크 여부와 상관없이 기존 기록을 지우지 않아요. 점수·결과·취소는 항상 CSV 내용으로 갱신돼요.</div>
       <div class="form-actions">
         <button class="primary" id="impPreviewBtn">미리보기</button>
@@ -2360,15 +2363,46 @@
       var key = date + "|" + away + "|" + home;
       var p = pending[key];
       if(!p){
+        var taken = {};
+        order.forEach(function(k2){ if(pending[k2].existing) taken[pending[k2].existing.id] = true; });
         var existing = state.games.find(function(g){
-          return g.date===date && g.awayTeam===away && g.homeTeam===home;
+          return !taken[g.id] && g.date===date && g.awayTeam===away && g.homeTeam===home;
         }) || null;
-        p = pending[key] = { date: date, away: away, home: home, existing: existing, patch: {} };
+        var reversed = false;
+        if(!existing){
+          existing = state.games.find(function(g){
+            return !taken[g.id] && g.date===date && g.awayTeam===home && g.homeTeam===away;
+          }) || null;
+          reversed = !!existing;
+        }
+        p = pending[key] = { date: date, away: away, home: home, existing: existing, reversed: reversed, patch: {} };
         order.push(key);
       }
       Object.keys(patch).forEach(function(k){ p.patch[k] = patch[k]; });
     }
-    return { items: order.map(function(k){ return pending[k]; }), errors: errors };
+    var items = order.map(function(k){ return pending[k]; });
+    // Existing records inside the file's date range that match no row of the file (wrong team/date entered by hand, leftover placeholders...)
+    var stale = [], range = null;
+    if(items.length && !errors.length){
+      var dates = items.map(function(it){ return it.date; }).sort();
+      range = [dates[0], dates[dates.length-1]];
+      var used = {};
+      items.forEach(function(it){ if(it.existing) used[it.existing.id] = true; });
+      stale = state.games.filter(function(g){ return g.date>=range[0] && g.date<=range[1] && !used[g.id]; })
+        .sort(function(a,b){ return a.date.localeCompare(b.date); });
+    }
+    return { items: items, errors: errors, stale: stale, range: range };
+  }
+
+  // A record entered with home/away swapped: flip it so the sides (scores, starters, MVP) line up again
+  function swapSides(g){
+    var oldHome = g.homeTeam, t;
+    t = g.awayTeam; g.awayTeam = g.homeTeam; g.homeTeam = t;
+    t = g.awayScore; g.awayScore = g.homeScore; g.homeScore = t;
+    t = g.awayPitcher; g.awayPitcher = g.homePitcher; g.homePitcher = t;
+    t = g.awayMVP; g.awayMVP = g.homeMVP; g.homeMVP = t;
+    if(g.winner==="away") g.winner = "home"; else if(g.winner==="home") g.winner = "away";
+    if(!g.stadium || g.stadium===STADIUM_MAP[oldHome]) g.stadium = STADIUM_MAP[g.homeTeam] || "";
   }
 
   function applyPatchToGame(g, p, protect){
@@ -2387,10 +2421,11 @@
     }
   }
 
-  function applyImportPlan(plan, protect){
-    var added = 0, updated = 0, ts = Date.now();
+  function applyImportPlan(plan, protect, cleanup){
+    var added = 0, updated = 0, fixed = 0, removed = 0, ts = Date.now();
     plan.items.forEach(function(it, i){
       if(it.existing){
+        if(it.reversed){ swapSides(it.existing); fixed++; }
         applyPatchToGame(it.existing, it.patch, protect);
         updated++;
       } else {
@@ -2406,7 +2441,22 @@
         added++;
       }
     });
-    return { added: added, updated: updated };
+    if(cleanup && plan.stale && plan.stale.length){
+      var drop = {};
+      plan.stale.forEach(function(g){ drop[g.id] = true; });
+      var before = state.games.length;
+      state.games = state.games.filter(function(g){ return !drop[g.id]; });
+      removed = before - state.games.length;
+    }
+    return { added: added, updated: updated, fixed: fixed, removed: removed };
+  }
+
+  function describeGameBrief(g){
+    if(g.canceled) return "취소";
+    var r = resultFor(g, g.awayTeam);
+    if(g.winner) return g.winner==="draw" ? "무" : (g.winner==="away" ? "어웨이 승" : "홈 승");
+    if(r==="sched") return "예정";
+    return g.awayScore + " : " + g.homeScore;
   }
 
   function describeItem(it){
@@ -2472,12 +2522,14 @@
     var plan = buildImportPlan(parseDelimited(text));
     var adds = plan.items.filter(function(it){ return !it.existing; }).length;
     var ups = plan.items.length - adds;
+    var revCount = plan.items.filter(function(it){ return it.reversed; }).length;
     var html = '<div style="font-weight:700; margin-bottom:8px;">새 경기 ' + adds + '개 추가 · 기존 ' + ups + '개 갱신' +
+      (revCount ? ' (그중 홈/어웨이 정정 ' + revCount + '개)' : '') +
       (plan.errors.length ? ' · <span style="color:#C64B4B;">확인 필요 ' + plan.errors.length + '줄</span>' : '') + '</div>';
     if(plan.items.length){
       html += '<div style="overflow-x:auto;"><table class="data-table" style="min-width:520px;"><thead><tr><th>구분</th><th>날짜</th><th>어웨이</th><th>홈</th><th>내용</th></tr></thead><tbody>';
       plan.items.slice(0, 12).forEach(function(it){
-        html += '<tr><td>' + (it.existing ? "갱신" : "추가") + '</td><td>' + it.date + '</td><td>' + escapeHtml(it.away) + '</td><td>' + escapeHtml(it.home) + '</td><td>' + escapeHtml(describeItem(it)) + '</td></tr>';
+        html += '<tr><td>' + (it.existing ? (it.reversed ? "갱신(홈·어웨이 정정)" : "갱신") : "추가") + '</td><td>' + it.date + '</td><td>' + escapeHtml(it.away) + '</td><td>' + escapeHtml(it.home) + '</td><td>' + escapeHtml(describeItem(it)) + '</td></tr>';
       });
       html += '</tbody></table></div>';
       if(plan.items.length > 12) html += '<div class="hint" style="margin-top:6px;">…외 ' + (plan.items.length - 12) + '개</div>';
@@ -2485,6 +2537,20 @@
     if(plan.errors.length){
       html += '<div style="margin-top:10px; color:#C64B4B;">' + plan.errors.slice(0, 8).map(escapeHtml).join("<br>") +
         (plan.errors.length > 8 ? "<br>…외 " + (plan.errors.length - 8) + "건" : "") + '<br><span class="hint">오류가 있는 줄은 건너뛰고 나머지만 가져와요.</span></div>';
+    }
+    if(plan.stale && plan.stale.length){
+      html += '<div style="margin-top:16px; padding:12px; border:1px solid #EAD6A0; background:var(--draw-bg); border-radius:8px;">' +
+        '<div style="font-weight:700; color:var(--draw); margin-bottom:6px;">⚠ 파일에 없는 기존 기록 ' + plan.stale.length + '개 (' + plan.range[0] + ' ~ ' + plan.range[1] + ')</div>' +
+        '<div class="hint" style="margin-bottom:8px;">직접 입력하면서 팀이나 날짜가 잘못 들어간 기록일 수 있어요. 이런 기록이 남아 있으면 승패가 중복으로 계산돼요. 아래 "파일에 없는 기존 기록 삭제"를 체크하고 적용하면 지워져요.</div>' +
+        '<div style="overflow-x:auto;"><table class="data-table" style="min-width:480px;"><thead><tr><th>날짜</th><th>어웨이</th><th>홈</th><th>내용</th></tr></thead><tbody>';
+      plan.stale.slice(0, 30).forEach(function(g){
+        html += '<tr><td>' + g.date + '</td><td>' + escapeHtml(g.awayTeam) + '</td><td>' + escapeHtml(g.homeTeam) + '</td><td>' + escapeHtml(describeGameBrief(g)) + '</td></tr>';
+      });
+      html += '</tbody></table></div>' + (plan.stale.length > 30 ? '<div class="hint" style="margin-top:6px;">…외 ' + (plan.stale.length - 30) + '개</div>' : '') + '</div>';
+    } else if(plan.errors.length){
+      html += '<div class="hint" style="margin-top:10px;">오류 줄이 있어서 "파일에 없는 기존 기록" 확인은 건너뛰었어요.</div>';
+    } else if(plan.items.length){
+      html += '<div class="hint" style="margin-top:10px; color:var(--win);">✓ 파일과 어긋나는 기존 기록이 없어요.</div>';
     }
     impResult.innerHTML = html;
     if(plan.items.length){ importPlan = plan; impApplyBtn.disabled = false; }
@@ -2495,14 +2561,15 @@
     if(!importPlan || !importPlan.items.length) return;
     // rebuild against the current data so "existing" matches are fresh
     var plan = buildImportPlan(parseDelimited(impText.value.trim()));
-    var res = applyImportPlan(plan, document.getElementById("impProtect").checked);
+    var res = applyImportPlan(plan, document.getElementById("impProtect").checked, document.getElementById("impCleanup").checked);
     save();
     renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
     if(!obOtherEditMode) loadOtherRowsForDate(document.getElementById("ob-date").value);
     document.getElementById("nc-date").value = getNcNextDate();
     importPlan = null; impApplyBtn.disabled = true;
-    impResult.innerHTML = '<div style="font-weight:700;">가져오기 완료: ' + res.added + '개 추가, ' + res.updated + '개 갱신했어요.</div>';
-    toast(res.added + "개 추가, " + res.updated + "개 갱신했어요.");
+    var doneMsg = res.added + "개 추가, " + res.updated + "개 갱신" + (res.fixed ? " (홈/어웨이 정정 " + res.fixed + "개)" : "") + (res.removed ? ", 잘못된 기존 기록 " + res.removed + "개 삭제" : "");
+    impResult.innerHTML = '<div style="font-weight:700;">가져오기 완료: ' + escapeHtml(doneMsg) + '했어요.</div>';
+    toast(doneMsg + "했어요.");
     if(syncConfigured()) syncPush(true);
   });
 
