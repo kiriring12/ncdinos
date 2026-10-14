@@ -8,7 +8,7 @@ permissions:
 
 env:
   SEASON_START: "2026-03-28"   # 새 시즌에는 이 두 날짜만 바꿔주세요
-  SEASON_END: "2026-10-12"
+  SEASON_END: "2026-10-14"
 
 jobs:
   fetch:
