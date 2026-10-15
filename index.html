@@ -285,6 +285,22 @@
   .rank-no.top1{ color:var(--gold); }
   td.rate-cell{ font-weight:800; color:var(--navy-deep); }
 
+  .season-bar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .season-bar .sb-label{ font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-right:2px; }
+  .season-bar button{
+    border:1px solid var(--line); background:#fff; color:var(--ink-soft); padding:7px 16px; border-radius:18px;
+    font-size:13.5px; font-weight:700; cursor:pointer;
+  }
+  .season-bar button:hover{ background:#F1F2EF; }
+  .season-bar button.active{ background:var(--navy); border-color:var(--navy); color:#fff; }
+  .badge.post{ background:#FBF0D5; color:#9A6B00; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; vertical-align:bottom; }
+  .post-tag{ display:inline-block; background:#FBF0D5; color:#9A6B00; font-size:11px; font-weight:800; padding:2px 7px; border-radius:5px; margin-left:6px; }
+  .series-block{ border:1px solid var(--line); border-radius:9px; padding:14px; margin-bottom:14px; }
+  .series-block.nc{ border-color:var(--navy); background:#F7FAFD; }
+  .series-head{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .series-round{ font-size:12px; font-weight:800; color:#9A6B00; }
+  .series-teams{ font-size:15px; font-weight:800; color:var(--navy-deep); }
+  .series-score{ font-size:20px; font-weight:800; color:var(--navy-deep); }
   /* ---------- Rank clinch matrix ---------- */
   table.ps-matrix{ width:100%; min-width:640px; border-collapse:separate; border-spacing:2px; font-size:12.5px; }
   table.ps-matrix th, table.ps-matrix td{ text-align:center; padding:9px 6px; color:#fff; font-weight:700; border-radius:3px; }
@@ -321,12 +337,15 @@
     <button data-tab="calendar">캘린더</button>
     <button data-tab="other">타 팀 기록</button>
     <button data-tab="ranking">랭킹</button>
+    <button data-tab="post">포스트시즌</button>
     <button data-tab="import">일정 가져오기</button>
     <button data-tab="sync">기기 간 동기화</button>
   </nav>
 </header>
 
 <main>
+
+  <div id="seasonBar" class="season-bar" style="display:none;"></div>
 
   <!-- ================= INPUT TAB ================= -->
   <section id="tab-input">
@@ -350,6 +369,14 @@
           <div class="field" style="max-width:260px;">
             <label>구장 <span style="font-weight:400;">(비워두면 홈팀 기준 자동 입력)</span></label>
             <input type="text" id="nc-stadium" placeholder="예: 창원NC파크">
+          </div>
+          <div class="field" style="max-width:170px;">
+            <label>시즌 구분</label>
+            <select id="nc-phase"><option value="regular">정규시즌</option><option value="post">포스트시즌</option></select>
+          </div>
+          <div class="field" id="ncRoundField" style="max-width:200px; display:none;">
+            <label>라운드</label>
+            <select id="nc-round"><option value="">라운드 선택</option><option>와일드카드 결정전</option><option>준플레이오프</option><option>플레이오프</option><option>한국시리즈</option></select>
           </div>
         </div>
 
@@ -524,9 +551,19 @@
         </div>
         <p class="hint" style="margin-bottom:16px;">하루 최대 5경기(10개 팀 전체 포함, NC도 선택 가능)를 팀과 점수만으로 빠르게 입력할 수 있어요. 점수를 모르면 각 경기 밑의 '어웨이 승 / 무 / 홈 승' 버튼으로 결과만 먼저 기록해도 승률 계산에 그대로 반영돼요. 위의 '3연전 자동 채우기'가 ON이면, 화요일 경기를 입력할 때 수·목요일이, 금요일 경기를 입력할 때 토·일요일이 같은 대진으로(결과 없이) 자동으로 만들어져요. 수·목·토·일에 입력할 땐 다른 날짜가 채워지지 않아요. 점수도 결과도 모르는 예정 경기는 팀만 먼저 입력해두면, 나중에 같은 날짜를 다시 선택했을 때 팀 칸이 자동으로 채워져서 결과만 입력하면 돼요. 우천취소 등은 '취소'를 체크하고 사유를 적어주세요 (승률에는 반영되지 않아요).</p>
 
-        <div class="field" style="max-width:220px; margin-bottom:18px;">
-          <label>날짜</label>
-          <input type="date" id="ob-date">
+        <div class="field-row" style="margin-bottom:6px;">
+          <div class="field" style="max-width:220px;">
+            <label>날짜</label>
+            <input type="date" id="ob-date">
+          </div>
+          <div class="field" style="max-width:170px;">
+            <label>시즌 구분</label>
+            <select id="ob-phase"><option value="regular">정규시즌</option><option value="post">포스트시즌</option></select>
+          </div>
+          <div class="field" id="obRoundField" style="max-width:200px; display:none;">
+            <label>라운드</label>
+            <select id="ob-round"><option value="">라운드 선택</option><option>와일드카드 결정전</option><option>준플레이오프</option><option>플레이오프</option><option>한국시리즈</option></select>
+          </div>
         </div>
 
         <div id="obRows"></div>
@@ -569,8 +606,11 @@
   <section id="tab-other" style="display:none;">
     <div class="panel table-wrap">
       <div class="table-toolbar">
-        <h2 class="section-title" style="margin:0;">타 팀 기록 <span style="font-weight:400;">(팀을 선택하면 NC와의 경기도 함께 표시돼요)</span></h2>
-        <select class="filter-select" id="otherFilter"></select>
+        <h2 class="section-title" style="margin:0;"><span id="otherTitle">경기 기록</span> <span style="font-weight:400;">(팀을 선택하면 NC와의 경기도 함께 표시돼요)</span></h2>
+        <span style="display:flex; gap:8px; flex-wrap:wrap;">
+          <select class="filter-select" id="otherPhase"><option value="">정규+포스트</option><option value="regular">정규시즌만</option><option value="post">포스트시즌만</option></select>
+          <select class="filter-select" id="otherFilter"></select>
+        </span>
       </div>
       <table class="data-table">
         <thead>
@@ -586,7 +626,7 @@
   <!-- ================= RANKING TAB ================= -->
   <section id="tab-ranking" style="display:none;">
     <div class="panel rank-wrap">
-      <h2 class="section-title">2026시즌 팀 순위 (승률순 · 입력된 경기 기준)</h2>
+      <h2 class="section-title" id="rankTitle">시즌 팀 순위</h2>
       <table class="rank-table">
         <thead>
           <tr><th>순위</th><th>팀</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th></tr>
@@ -595,7 +635,7 @@
       </table>
     </div>
     <div class="panel rank-wrap" style="margin-top:16px;">
-      <h2 class="section-title">NC 다이노스 상대전적 (상대팀별 · NC 기준 승률순)</h2>
+      <h2 class="section-title" id="h2hTitle">NC 다이노스 상대전적</h2>
       <table class="rank-table">
         <thead>
           <tr><th>순위</th><th>상대팀</th><th>경기</th><th>NC 승</th><th>무</th><th>NC 패</th><th>NC 승률</th></tr>
@@ -630,6 +670,21 @@
       </div>
     </div>
   </section>
+  <!-- ================= POSTSEASON TAB ================= -->
+  <section id="tab-post" style="display:none;">
+    <div class="panel rank-wrap">
+      <h2 class="section-title" id="postTitle">포스트시즌</h2>
+      <div id="postSeries"></div>
+    </div>
+    <div class="panel rank-wrap" style="margin-top:16px;">
+      <h2 class="section-title">포스트시즌 팀별 성적 <span style="font-weight:400;">(정규시즌 성적과 별도)</span></h2>
+      <table class="rank-table">
+        <thead><tr><th>팀</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th></tr></thead>
+        <tbody id="postTeamBody"></tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- ================= IMPORT TAB ================= -->
   <section id="tab-import" style="display:none;">
     <div class="panel form-wrap">
@@ -753,6 +808,7 @@
     calYear: new Date().getFullYear(),
     calMonth: new Date().getMonth(), // 0-indexed
     selectedDate: null,
+    seasonYear: new Date().getFullYear(),
     stadiumAutoOk: true
   };
   // Default calendar to a month that actually has data if current month/year unset properly.
@@ -768,6 +824,19 @@
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games)); }catch(e){}
   }
   function uid(){ return "g_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8); }
+
+  // ---- season (year) + phase (regular / postseason) helpers ----
+  var ROUND_NAMES = ["와일드카드 결정전","준플레이오프","플레이오프","한국시리즈"];
+  var ROUND_SHORT = { "와일드카드 결정전":"WC", "준플레이오프":"준PO", "플레이오프":"PO", "한국시리즈":"KS" };
+  function gameYear(g){ return parseInt(String(g.date).slice(0,4), 10); }
+  function isPost(g){ return g.phase==="post"; }
+  function seasonGames(year, phase){
+    return state.games.filter(function(g){
+      if(gameYear(g)!==year) return false;
+      if(!phase) return true;
+      return (isPost(g) ? "post" : "regular")===phase;
+    });
+  }
 
   function pad2(n){ return n<10 ? "0"+n : ""+n; }
 
@@ -995,7 +1064,7 @@
   });
   function setActiveTab(tab){
     state.activeTab = tab;
-    ["input","calendar","other","ranking","import","sync"].forEach(function(t){
+    ["input","calendar","other","ranking","post","import","sync"].forEach(function(t){
       document.getElementById("tab-"+t).style.display = (t===tab) ? "" : "none";
     });
     Array.prototype.forEach.call(tabNav.querySelectorAll("button"), function(b){
@@ -1004,7 +1073,9 @@
     if(tab==="calendar") renderCalendarTab();
     if(tab==="other") renderOtherTab();
     if(tab==="ranking"){ renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios(); }
+    if(tab==="post") renderPostTab();
     if(tab==="sync") renderSyncTab();
+    renderSeasonBar();
   }
 
   // ---------------- Populate other-team filter dropdown ----------------
@@ -1015,6 +1086,7 @@
     var o = document.createElement("option"); o.value=t; o.textContent=t; otherFilter.appendChild(o);
   });
   otherFilter.addEventListener("change", renderOtherTab);
+  document.getElementById("otherPhase").addEventListener("change", renderOtherTab);
 
   // ---------------- Input mode toggle (NC vs Other) ----------------
   var ncFormPanel = document.getElementById("ncFormPanel");
@@ -1138,8 +1210,13 @@
   document.getElementById("ncResetBtn").addEventListener("click", function(){ resetNcForm(); });
   document.getElementById("ncCancelEditBtn").addEventListener("click", function(){ resetNcForm(); });
 
+  var ncPhaseSel = document.getElementById("nc-phase"), ncRoundSel = document.getElementById("nc-round");
+  function applyNcPhaseUI(){ document.getElementById("ncRoundField").style.display = (ncPhaseSel.value==="post") ? "" : "none"; }
+  ncPhaseSel.addEventListener("change", applyNcPhaseUI);
+
   function resetNcForm(){
     state.editingId = null;
+    ncPhaseSel.value = "regular"; ncRoundSel.value = ""; applyNcPhaseUI();
     document.getElementById("ncEditingNotice").classList.remove("show");
     document.getElementById("nc-date").value = getNcNextDate();
     ncOpponentSel.value = OPPONENT_TEAMS[0];
@@ -1198,6 +1275,8 @@
       cancelReason: cancel ? cancelReason : "",
       noRecord: ncNoRecordCb.checked,
       tag: ncNoRecordCb.checked ? document.getElementById("nc-tag").value.trim() : "",
+      phase: ncPhaseSel.value,
+      round: ncPhaseSel.value==="post" ? ncRoundSel.value : "",
       createdAt: existingNc ? existingNc.createdAt : Date.now()
     };
 
@@ -1232,6 +1311,7 @@
 
   function loadNcGameIntoForm(g){
     state.editingId = g.id;
+    ncPhaseSel.value = isPost(g) ? "post" : "regular"; ncRoundSel.value = g.round || ""; applyNcPhaseUI();
     document.getElementById("ncEditingNotice").classList.add("show");
     document.getElementById("nc-date").value = g.date;
     var oppTeam = (g.homeTeam===NC) ? g.awayTeam : g.homeTeam;
@@ -1357,6 +1437,15 @@
   renderSeriesToggle();
 
   var OB_ROW_COUNT = 5;
+  var obPhaseSel = document.getElementById("ob-phase"), obRoundSel = document.getElementById("ob-round");
+  function applyObPhaseUI(){ document.getElementById("obRoundField").style.display = (obPhaseSel.value==="post") ? "" : "none"; }
+  obPhaseSel.addEventListener("change", applyObPhaseUI);
+  function setObPhaseFrom(g){
+    obPhaseSel.value = isPost(g) ? "post" : "regular";
+    obRoundSel.value = g.round || "";
+    applyObPhaseUI();
+  }
+
   var obRows = document.getElementById("obRows");
   var obOtherEditMode = false;
   var obRowGameId = [null, null, null, null, null]; // tracks which existing record each row corresponds to (add mode)
@@ -1507,6 +1596,7 @@
       setObRow(i, g);
       obRowGameId[i] = g.id;
     });
+    if(existing.length) setObPhaseFrom(existing[0]);
   }
   document.getElementById("ob-date").addEventListener("change", function(){
     if(obOtherEditMode) return; // editing a single record: don't disturb it by auto-loading
@@ -1518,6 +1608,8 @@
     var homeTeam = row.home;
     var hasWinner = !row.canceled && !!row.winner;
     return {
+      phase: obPhaseSel.value,
+      round: obPhaseSel.value==="post" ? obRoundSel.value : "",
       id: id,
       date: date,
       awayTeam: row.away,
@@ -1554,6 +1646,7 @@
     obRows.classList.add("edit-mode");
     clearObRows();
     setObRow(0, g);
+    setObPhaseFrom(g);
     document.getElementById("ob-date").value = g.date;
     document.getElementById("obSaveBtn").textContent = "수정 저장";
     document.getElementById("otherEditingNotice").style.display = "block";
@@ -1617,7 +1710,7 @@
 
       // Auto-fill the rest of the KBO 3-game series (Tue->Wed,Thu / Fri->Sat,Sun only).
       var seriesAdded = 0;
-      var followDates = seriesAutoOn ? seriesFollowUpDates(date) : [];
+      var followDates = (seriesAutoOn && obPhaseSel.value==="regular") ? seriesFollowUpDates(date) : [];
       if(followDates.length && validPairs.length){
         followDates.forEach(function(fd, fi){
           validPairs.forEach(function(pair, pi){
@@ -1714,14 +1807,16 @@
   document.getElementById("prevMonth").addEventListener("click", function(){
     state.calMonth--;
     if(state.calMonth<0){ state.calMonth=11; state.calYear--; }
+    state.seasonYear = state.calYear;
     state.selectedDate = null;
-    renderCalendarTab();
+    renderCalendarTab(); renderSeasonBar();
   });
   document.getElementById("nextMonth").addEventListener("click", function(){
     state.calMonth++;
     if(state.calMonth>11){ state.calMonth=0; state.calYear++; }
+    state.seasonYear = state.calYear;
     state.selectedDate = null;
-    renderCalendarTab();
+    renderCalendarTab(); renderSeasonBar();
   });
 
   function gamesOnDate(dateStr, teamFilter){
@@ -1735,7 +1830,7 @@
   // NC games + every "기록 반영 X" game (친선전, 국가대표...) are shown on the calendar
   function calendarGamesOnDate(dateStr){
     return state.games.filter(function(g){
-      return g.date===dateStr && (g.awayTeam===NC || g.homeTeam===NC || g.noRecord);
+      return g.date===dateStr && (g.awayTeam===NC || g.homeTeam===NC || g.noRecord || isPost(g));
     });
   }
   var RES_LABEL = { win:"승", loss:"패", draw:"무" };
@@ -1769,10 +1864,15 @@
       if(dateStr===state.selectedDate) classes.push("selected");
       var badges = ncGames.map(function(g){
         if(g.noRecord && !g.canceled) return norecBadgeHtml(g);
+        var watchMark = g.watched ? '<span class="watch-dot">●</span>' : "";
+        var short = isPost(g) ? ((ROUND_SHORT[g.round] || "PS") + " ") : "";
+        if(isPost(g) && g.awayTeam!==NC && g.homeTeam!==NC){
+          var tip = g.awayTeam + " " + (g.awayScore===null||g.awayScore===undefined ? "-" : g.awayScore) + " : " + (g.homeScore===null||g.homeScore===undefined ? "-" : g.homeScore) + " " + g.homeTeam;
+          return '<span class="badge post" title="' + escapeHtml(tip) + '">' + escapeHtml(short.trim()) + watchMark + '</span>';
+        }
         var r = resultFor(g, NC);
         var label = {win:"승", loss:"패", draw:"무", cancel:"취소", sched:"예정"}[r] || "";
-        var watchMark = g.watched ? '<span class="watch-dot">●</span>' : "";
-        return '<span class="badge '+r+'">'+label+watchMark+'</span>';
+        return '<span class="badge '+r+'">'+short+label+watchMark+'</span>';
       }).join("");
       cellsHtml.push('<td class="'+classes.join(" ")+'" data-date="'+dateStr+'"><div class="day-num">'+d+'</div>'+badges+'</td>');
     }
@@ -1821,6 +1921,7 @@
       if(g.canceled) headBadge = '<span class="cancel-tag">취소</span>';
       else if(g.noRecord) headBadge = norecBadgeHtml(g) + '<span class="norec-tag">기록 반영 X</span>';
       else headBadge = '<span class="badge '+r+'">'+({win:"승",loss:"패",draw:"무",sched:"예정"}[r]||"")+'</span>';
+      if(isPost(g) && !g.canceled) headBadge += '<span class="post-tag">' + escapeHtml(g.round || "포스트시즌") + '</span>';
       html += '<div>'+headBadge;
       if(g.watched) html += '<span class="watch-tag">⚾ 직관</span>';
       html += '</div></div>';
@@ -1884,46 +1985,54 @@
 
   function renderStatsPanel(){
     var panel = document.getElementById("statsPanel");
-    var monthGames = state.games.filter(function(g){
-      if(g.awayTeam!==NC && g.homeTeam!==NC) return false;
-      var dt = new Date(g.date+"T00:00:00");
-      return dt.getFullYear()===state.calYear && dt.getMonth()===state.calMonth;
-    });
-    var yearGames = state.games.filter(function(g){
-      if(g.awayTeam!==NC && g.homeTeam!==NC) return false;
-      var dt = new Date(g.date+"T00:00:00");
-      return dt.getFullYear()===state.calYear;
-    });
-    var m = computeRecord(monthGames, NC);
-    var y = computeRecord(yearGames, NC);
+    var year = state.calYear, mon = state.calMonth;
+    var ncOnly = function(g){ return g.awayTeam===NC || g.homeTeam===NC; };
+    var inMonth = function(g){ return new Date(g.date+"T00:00:00").getMonth()===mon; };
+    var reg = seasonGames(year, "regular").filter(ncOnly);
+    var post = seasonGames(year, "post").filter(ncOnly);
+    var m = computeRecord(reg.filter(inMonth), NC);
+    var y = computeRecord(reg, NC);
+    var pm = computeRecord(post.filter(inMonth), NC);
+    var py = computeRecord(post, NC);
+    var playedReg = y.w + y.d + y.l;
 
     var html = "";
     html += '<div class="stat-block">';
-    html += '<div class="label">'+(state.calMonth+1)+'월 성적</div>';
-    html += '<div class="stat-record tabular">'+m.w+'승 '+m.d+'무 '+m.l+'패</div>';
-    html += '<div class="stat-rate">'+(state.calMonth+1)+'월 승률 <b class="tabular">'+fmtRate(m.rate)+'</b></div>';
+    html += '<div class="label">' + (mon+1) + '월 정규시즌 성적</div>';
+    html += '<div class="stat-record tabular">' + m.w + '승 ' + m.d + '무 ' + m.l + '패</div>';
+    html += '<div class="stat-rate">' + (mon+1) + '월 승률 <b class="tabular">' + fmtRate(m.rate) + '</b></div>';
+    if(pm.w + pm.d + pm.l > 0){
+      html += '<div class="stat-rate" style="margin-top:6px;">' + (mon+1) + '월 포스트시즌 <b class="tabular">' + pm.w + '승 ' + pm.d + '무 ' + pm.l + '패</b></div>';
+    }
     html += '</div>';
     html += '<div class="stat-block">';
-    html += '<div class="label">'+state.calYear+'시즌 성적</div>';
-    html += '<div class="stat-record tabular">'+y.w+'승 '+y.d+'무 '+y.l+'패</div>';
-    html += '<div class="stat-rate">'+state.calYear+'시즌 승률 <b class="tabular">'+fmtRate(y.rate)+'</b></div>';
+    html += '<div class="label">' + year + '시즌 정규시즌 성적 <span style="font-weight:400;">(' + playedReg + '경기 / 144경기)</span></div>';
+    html += '<div class="stat-record tabular">' + y.w + '승 ' + y.d + '무 ' + y.l + '패</div>';
+    html += '<div class="stat-rate">' + year + '시즌 승률 <b class="tabular">' + fmtRate(y.rate) + '</b></div>';
     html += '</div>';
+    if(post.length){
+      html += '<div class="stat-block">';
+      html += '<div class="label">' + year + ' 포스트시즌 성적 <span style="font-weight:400;">(정규시즌과 별도)</span></div>';
+      html += '<div class="stat-record tabular">' + py.w + '승 ' + py.d + '무 ' + py.l + '패</div>';
+      html += '<div class="stat-rate">포스트시즌 승률 <b class="tabular">' + fmtRate(py.rate) + '</b></div>';
+      html += '</div>';
+    }
     panel.innerHTML = html;
   }
 
   // ---------------- Other Teams Tab ----------------
   function renderOtherTab(){
     var filter = otherFilter.value;
+    var phaseSel = document.getElementById("otherPhase").value;
     var body = document.getElementById("otherBody");
-    var rows;
-    if(filter){
-      // Show every game involving this team, including matchups against NC.
-      rows = state.games.filter(function(g){ return g.awayTeam===filter || g.homeTeam===filter; });
-    } else {
-      // No team selected: show all non-NC-vs-NC-only overview, but still include NC matchups
-      // since they belong to the other team's record too.
-      rows = state.games.slice();
-    }
+    document.getElementById("otherTitle").textContent = state.seasonYear + "시즌 경기 기록";
+    var rows = state.games.filter(function(g){
+      if(gameYear(g)!==state.seasonYear) return false;
+      if(phaseSel==="regular" && isPost(g)) return false;
+      if(phaseSel==="post" && !isPost(g)) return false;
+      if(filter && g.awayTeam!==filter && g.homeTeam!==filter) return false;
+      return true;
+    });
     rows.sort(function(a,b){ return b.date.localeCompare(a.date); });
 
     if(!rows.length){
@@ -1942,6 +2051,7 @@
       }
       var noteTxt = g.canceled ? ('<span class="cancel-tag">취소</span> '+escapeHtml(g.cancelReason||"")) : "";
       if(g.noRecord) noteTxt += '<span class="norec-tag" style="margin-left:0;">기록 반영 X</span> ' + escapeHtml(g.tag||"");
+      if(isPost(g)) noteTxt += '<span class="post-tag">포스트시즌</span> ' + escapeHtml(g.round||"");
       var decisionBitsO = [];
       if(g.winPitcher) decisionBitsO.push('승 '+g.winPitcher);
       if(g.losePitcher) decisionBitsO.push('패 '+g.losePitcher);
@@ -1971,8 +2081,11 @@
   // ---------------- Ranking Tab ----------------
   function renderRankingTab(){
     var body = document.getElementById("rankBody");
+    var year = state.seasonYear;
+    var pool = seasonGames(year, "regular");
+    document.getElementById("rankTitle").textContent = year + "시즌 정규시즌 팀 순위 (승률순 · 입력된 경기 기준)";
     var results = TEAMS.map(function(team){
-      var teamGames = state.games.filter(function(g){ return (g.awayTeam===team || g.homeTeam===team) && !g.canceled; });
+      var teamGames = pool.filter(function(g){ return (g.awayTeam===team || g.homeTeam===team) && !g.canceled; });
       var rec = computeRecord(teamGames, team);
       var played = rec.w+rec.d+rec.l;
       return { team:team, played:played, w:rec.w, d:rec.d, l:rec.l, rate:rec.rate };
@@ -2002,8 +2115,10 @@
   function renderHeadToHeadRanking(){
     var body = document.getElementById("h2hBody");
     if(!body) return;
+    document.getElementById("h2hTitle").textContent = "NC 다이노스 상대전적 (" + state.seasonYear + "시즌 정규시즌 · 상대팀별 · NC 기준 승률순)";
+    var h2hPool = seasonGames(state.seasonYear, "regular");
     var results = TEAMS.filter(function(t){ return t!==NC; }).map(function(opp){
-      var h2hGames = state.games.filter(function(g){
+      var h2hGames = h2hPool.filter(function(g){
         if(g.canceled) return false;
         return (g.awayTeam===NC && g.homeTeam===opp) || (g.awayTeam===opp && g.homeTeam===NC);
       });
@@ -2033,14 +2148,127 @@
     body.innerHTML = html || '<tr class="empty-row"><td colspan="7">기록된 경기가 없습니다.</td></tr>';
   }
 
+  // ---------------- Season (year) bar ----------------
+  function seasonYears(){
+    var ys = {};
+    state.games.forEach(function(g){ var y = gameYear(g); if(y) ys[y] = true; });
+    ys[new Date().getFullYear()] = true;
+    ys[state.seasonYear] = true;
+    return Object.keys(ys).map(Number).sort(function(a,b){ return b-a; });
+  }
+  function renderSeasonBar(){
+    var bar = document.getElementById("seasonBar");
+    if(!bar) return;
+    var show = ["calendar","other","ranking","post"].indexOf(state.activeTab) > -1;
+    bar.style.display = show ? "flex" : "none";
+    if(!show) return;
+    var html = '<span class="sb-label">시즌</span>';
+    seasonYears().forEach(function(y){
+      html += '<button type="button" data-year="' + y + '" class="' + (y===state.seasonYear ? "active" : "") + '">' + y + '</button>';
+    });
+    bar.innerHTML = html;
+    Array.prototype.forEach.call(bar.querySelectorAll("button"), function(b){
+      b.addEventListener("click", function(){ setSeasonYear(parseInt(b.getAttribute("data-year"), 10)); });
+    });
+  }
+  function setSeasonYear(y){
+    state.seasonYear = y;
+    state.calYear = y;
+    state.selectedDate = null;
+    var ncIn = state.games.filter(function(g){ return gameYear(g)===y && (g.awayTeam===NC || g.homeTeam===NC) && !g.noRecord; });
+    if(ncIn.length){
+      ncIn.sort(function(a,b){ return b.date.localeCompare(a.date); });
+      state.calMonth = new Date(ncIn[0].date + "T00:00:00").getMonth();
+    }
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
+  }
+
+  // ---------------- 포스트시즌 tab ----------------
+  function renderPostTab(){
+    var wrap = document.getElementById("postSeries");
+    if(!wrap) return;
+    var year = state.seasonYear;
+    document.getElementById("postTitle").textContent = year + " 포스트시즌";
+    var games = seasonGames(year, "post").filter(function(g){ return !g.noRecord; })
+      .sort(function(a,b){ return a.date.localeCompare(b.date); });
+    var teamBody = document.getElementById("postTeamBody");
+    if(!games.length){
+      wrap.innerHTML = '<div class="detail-empty">' + year + '시즌 포스트시즌 경기가 아직 없어요. "경기 정보 입력" 또는 NC 입력에서 <b>시즌 구분 → 포스트시즌</b>으로 저장하거나, 자동 수집 CSV를 가져오면 여기에 나타나요.</div>';
+      teamBody.innerHTML = '<tr class="empty-row"><td colspan="6">기록이 없습니다.</td></tr>';
+      return;
+    }
+    // group into series: same round + same two teams
+    var series = {}, order = [];
+    games.forEach(function(g){
+      var pair = [g.awayTeam, g.homeTeam].sort();
+      var key = (g.round || "라운드 미지정") + "|" + pair.join("|");
+      if(!series[key]){ series[key] = { round: g.round || "라운드 미지정", a: pair[0], b: pair[1], games: [] }; order.push(key); }
+      series[key].games.push(g);
+    });
+    order.sort(function(k1, k2){
+      var r1 = ROUND_NAMES.indexOf(series[k1].round), r2 = ROUND_NAMES.indexOf(series[k2].round);
+      if(r1<0) r1 = 99; if(r2<0) r2 = 99;
+      if(r1!==r2) return r1 - r2;
+      return series[k1].games[0].date.localeCompare(series[k2].games[0].date);
+    });
+    var html = "";
+    order.forEach(function(k){
+      var sr = series[k], wa = 0, wb = 0, dr = 0;
+      sr.games.forEach(function(g){
+        var r = resultFor(g, sr.a);
+        if(r==="win") wa++; else if(r==="loss") wb++; else if(r==="draw") dr++;
+      });
+      var hasNC = (sr.a===NC || sr.b===NC);
+      html += '<div class="series-block' + (hasNC ? " nc" : "") + '">';
+      html += '<div class="series-head"><div><div class="series-round">' + escapeHtml(sr.round) + '</div><div class="series-teams">' + escapeHtml(sr.a) + ' vs ' + escapeHtml(sr.b) + '</div></div>';
+      html += '<div class="series-score tabular">' + escapeHtml(sr.a) + ' ' + wa + ' : ' + wb + ' ' + escapeHtml(sr.b) + (dr ? ' <span style="font-size:12px;font-weight:600;color:var(--ink-soft);">(무 ' + dr + ')</span>' : '') + '</div></div>';
+      html += '<div style="overflow-x:auto;"><table class="data-table" style="min-width:640px;"><thead><tr><th>날짜</th><th>경기</th><th>결과</th><th>구장</th><th>승·패 투수</th><th></th></tr></thead><tbody>';
+      sr.games.forEach(function(g){
+        var res;
+        if(g.canceled) res = '<span class="cancel-tag">취소</span> ' + escapeHtml(g.cancelReason || "");
+        else if(g.winner) res = (g.winner==="draw") ? "무" : (escapeHtml(g.winner==="away" ? g.awayTeam : g.homeTeam) + " 승");
+        else if(g.awayScore===null || g.awayScore===undefined) res = "예정";
+        else res = g.awayScore + " : " + g.homeScore;
+        var pit = [];
+        if(g.winPitcher) pit.push("승 " + g.winPitcher);
+        if(g.losePitcher) pit.push("패 " + g.losePitcher);
+        if(g.savePitcher) pit.push("세 " + g.savePitcher);
+        html += '<tr><td>' + g.date + '</td><td>' + escapeHtml(g.awayTeam) + ' @ ' + escapeHtml(g.homeTeam) + '</td><td class="tabular">' + res + '</td><td>' + escapeHtml(g.stadium || "-") + '</td><td>' + escapeHtml(pit.join(" · ")) + '</td>' +
+          '<td><button class="row-btn" data-edit="' + g.id + '">수정</button><button class="row-btn" data-del="' + g.id + '">삭제</button></td></tr>';
+      });
+      html += '</tbody></table></div></div>';
+    });
+    wrap.innerHTML = html;
+    Array.prototype.forEach.call(wrap.querySelectorAll("[data-edit]"), function(b){
+      b.addEventListener("click", function(){ window.__editGame(b.getAttribute("data-edit")); });
+    });
+    Array.prototype.forEach.call(wrap.querySelectorAll("[data-del]"), function(b){
+      b.addEventListener("click", function(){ window.__deleteGame(b.getAttribute("data-del")); });
+    });
+
+    // postseason record per team (separate from the regular season)
+    var rows = TEAMS.map(function(team){
+      var tg = games.filter(function(g){ return g.awayTeam===team || g.homeTeam===team; });
+      var rec = computeRecord(tg, team);
+      return { team: team, w: rec.w, d: rec.d, l: rec.l, rate: rec.rate, n: rec.w + rec.d + rec.l };
+    }).filter(function(r){ return r.n > 0; }).sort(function(a,b){
+      var ar = a.rate===null ? -1 : a.rate, br = b.rate===null ? -1 : b.rate;
+      return (br - ar) || (b.w - a.w);
+    });
+    teamBody.innerHTML = rows.length ? rows.map(function(r){
+      return '<tr' + (r.team===NC ? ' class="nc-row"' : '') + '><td>' + escapeHtml(r.team) + '</td><td class="tabular">' + r.n + '</td><td class="tabular">' + r.w + '</td><td class="tabular">' + r.d + '</td><td class="tabular">' + r.l + '</td><td class="rate-cell tabular">' + fmtRate(r.rate) + '</td></tr>';
+    }).join("") : '<tr class="empty-row"><td colspan="6">결과가 입력된 경기가 아직 없어요.</td></tr>';
+  }
+
   // ---------------- Postseason / rank-clinch calculator ----------------
   var TOTAL_SEASON_GAMES = 144;
   var EXACT_LIMIT = 12;      // enumerate every W/D/L outcome when this many games (or fewer) remain
   var CUT_RANK = 5;          // 5th place and above reach the postseason
 
-  function computeStandings(){
+  function computeStandings(year){
+    var pool = seasonGames(year, "regular");
     return TEAMS.map(function(team){
-      var teamGames = state.games.filter(function(g){
+      var teamGames = pool.filter(function(g){
         return (g.awayTeam===team || g.homeTeam===team) && !g.canceled;
       });
       var rec = computeRecord(teamGames, team);
@@ -2236,15 +2464,16 @@
   }
 
   function psSnapshot(){
+    var poolAll = seasonGames(state.seasonYear, "regular");
     var base = TEAMS.map(function(team, i){
-      var rec = computeRecord(state.games.filter(function(g){
+      var rec = computeRecord(poolAll.filter(function(g){
         return (g.awayTeam===team || g.homeTeam===team) && !g.canceled;
       }), team);
       return { team: team, i: i, w: rec.w, d: rec.d, l: rec.l, played: rec.w + rec.d + rec.l };
     });
     var today = todayLocalStr();
     var future = [], stale = 0;
-    state.games.forEach(function(g){
+    poolAll.forEach(function(g){
       if(g.canceled || resultFor(g, g.awayTeam)!=="sched") return;
       var a = TEAMS.indexOf(g.awayTeam), h = TEAMS.indexOf(g.homeTeam);
       if(a<0 || h<0) return;
@@ -2272,6 +2501,7 @@
   function psRangeText(lo, hi){ return lo===hi ? (lo + "위") : (lo + "~" + hi + "위"); }
 
   function renderPostseasonScenarios(){
+    renderSeasonBar(); renderPostTab();   // every place that refreshes records calls this, so the season bar and 포스트시즌 tab stay in sync
     var body = document.getElementById("postseasonBody");
     if(!body) return;
     var note = document.getElementById("psNote");
@@ -2282,7 +2512,7 @@
       note.textContent = ""; wrap.style.display = "none";
       return;
     }
-    var order = computeStandings().map(function(s){ return TEAMS.indexOf(s.team); });
+    var order = computeStandings(state.seasonYear).map(function(s){ return TEAMS.indexOf(s.team); });
     var rows = [], noteHtml = "";
 
     if(snap.exact){
@@ -2354,7 +2584,7 @@
     }
     note.innerHTML = noteHtml;
 
-    var recMap = computeStandings();
+    var recMap = computeStandings(state.seasonYear);
     var html = "";
     rows.forEach(function(r){
       var st = recMap.filter(function(x){ return x.team===TEAMS[r.T]; })[0];
@@ -2500,7 +2730,9 @@
     canceled: ["취소","취소여부"],
     cancelReason: ["취소사유","사유"],
     noRecord: ["기록제외","기록반영x","기록반영안함"],
-    tag: ["구분","대회","태그"]
+    tag: ["구분","대회","태그"],
+    phase: ["시즌구분","시즌","phase"],
+    round: ["라운드","시리즈","round"]
   };
   var HEADER_LOOKUP = (function(){
     var m = {};
@@ -2542,6 +2774,12 @@
     if(k.indexOf("어웨이")===0 || k.indexOf("원정")===0 || k==="away") return "away";
     if(k.indexOf("홈")===0 || k==="home") return "home";
     return "";
+  }
+  function parsePhaseCell(v){
+    var k = normKey(v);
+    if(!k) return "";
+    if(k.indexOf("포스트")>-1 || k==="post" || k==="ps" || k.indexOf("postseason")>-1) return "post";
+    return "regular";
   }
   function isTruthyCell(v){
     var k = normKey(v);
@@ -2595,6 +2833,8 @@
       }
 
       if(noRec){ patch.noRecord = true; patch.tag = (f.tag===undefined ? "" : String(f.tag).trim()); }
+      var ph = parsePhaseCell(f.phase);
+      if(ph){ patch.phase = ph; patch.round = (ph==="post" && f.round!==undefined) ? String(f.round).trim() : ""; }
       var key = date + "|" + away + "|" + home + "|" + (noRec ? 1 : 0);
       var p = pending[key];
       if(!p){
@@ -2651,6 +2891,7 @@
       g.winner = p.winner; g.canceled = false; g.cancelReason = "";
     }
     if(p.noRecord){ g.noRecord = true; if(p.tag) g.tag = p.tag; }
+    if(p.phase){ g.phase = p.phase; g.round = p.round || ""; }
     if(p.canceled){
       g.canceled = true; g.cancelReason = p.cancelReason || g.cancelReason || "취소";
       g.awayScore = null; g.homeScore = null; g.winner = null;
@@ -2666,7 +2907,7 @@
         updated++;
       } else {
         var rec = {
-          id: uid(), date: it.date, awayTeam: it.away, homeTeam: it.home, noRecord: false, tag: "",
+          id: uid(), date: it.date, awayTeam: it.away, homeTeam: it.home, noRecord: false, tag: "", phase: "regular", round: "",
           awayPitcher: "", homePitcher: "", awayScore: null, homeScore: null, winner: null,
           awayMVP: "", homeMVP: "", winPitcher: "", losePitcher: "", savePitcher: "", holdPitcher: "",
           stadium: STADIUM_MAP[it.home] || "", watched: false, canceled: false, cancelReason: "",
@@ -2698,6 +2939,7 @@
   function describeItem(it){
     var p = it.patch, bits = [];
     if(p.noRecord) bits.push("기록X" + (p.tag ? "(" + p.tag + ")" : ""));
+    if(p.phase==="post") bits.push("포스트시즌" + (p.round ? " " + p.round : ""));
     if(p.canceled) bits.push("취소");
     else if(p.hasScore) bits.push(p.awayScore + " : " + p.homeScore);
     else if(p.winner) bits.push(p.winner==="draw" ? "무" : (p.winner==="away" ? "어웨이 승" : "홈 승"));
@@ -2848,7 +3090,7 @@
     ["결과","winner"],["구장","stadium"],["어웨이선발","awayPitcher"],["홈선발","homePitcher"],
     ["승리투수","winPitcher"],["패전투수","losePitcher"],["홀드","holdPitcher"],["세이브","savePitcher"],
     ["어웨이MVP","awayMVP"],["홈MVP","homeMVP"],["취소","canceled"],["취소사유","cancelReason"],
-    ["기록제외","noRecord"],["구분","tag"]
+    ["기록제외","noRecord"],["구분","tag"],["시즌구분","phase"],["라운드","round"]
   ];
   function csvCell(v){
     var s = (v===null || v===undefined) ? "" : String(v);
@@ -2858,6 +3100,7 @@
     if(key==="winner") return g.winner==="away" ? "어웨이 승" : (g.winner==="home" ? "홈 승" : (g.winner==="draw" ? "무" : ""));
     if(key==="canceled") return g.canceled ? "O" : "";
     if(key==="noRecord") return g.noRecord ? "O" : "";
+    if(key==="phase") return isPost(g) ? "포스트시즌" : "정규시즌";
     return g[key];
   }
   function downloadCsv(filename, lines){
@@ -2879,6 +3122,7 @@
       sample({date:"2026-03-28",awayTeam:"두산 베어스",homeTeam:"NC 다이노스",awayScore:0,homeScore:6,stadium:"창원NC파크",awayPitcher:"플렉센",homePitcher:"구창모",winPitcher:"구창모",losePitcher:"플렉센",holdPitcher:"배재환"}),
       sample({date:"2026-04-09",awayTeam:"LG 트윈스",homeTeam:"NC 다이노스",canceled:"O",cancelReason:"우천 취소"}),
       sample({date:"2026-09-12",awayTeam:"KIA 타이거즈",homeTeam:"NC 다이노스"}),
+      sample({date:"2026-10-14",awayTeam:"KIA 타이거즈",homeTeam:"두산 베어스",awayScore:3,homeScore:1,phase:"포스트시즌",round:"와일드카드 결정전"}),
       sample({date:"2026-11-08",awayTeam:"대한민국 국가대표",homeTeam:"일본 국가대표",awayScore:3,homeScore:2,noRecord:"O",tag:"국가대표"})
     ]);
   });
@@ -2894,12 +3138,20 @@
 
   // init: jump calendar to most recent NC game month if exists, else current month
   function positionCalendarToLatest(){
-    var ncGames = state.games.filter(function(g){ return (g.awayTeam===NC || g.homeTeam===NC) && !g.noRecord; });
+    // season = this year if it has any record, otherwise the most recent year that does
+    var years = {};
+    state.games.forEach(function(g){ var y = gameYear(g); if(y) years[y] = true; });
+    var cur = new Date().getFullYear();
+    var list = Object.keys(years).map(Number).sort(function(a,b){ return b-a; });
+    var year = years[cur] ? cur : (list.length ? list[0] : cur);
+    state.seasonYear = year;
+    state.calYear = year;
+    var ncGames = state.games.filter(function(g){
+      return gameYear(g)===year && (g.awayTeam===NC || g.homeTeam===NC) && !g.noRecord;
+    });
     if(ncGames.length){
       ncGames.sort(function(a,b){ return b.date.localeCompare(a.date); });
-      var dt = new Date(ncGames[0].date+"T00:00:00");
-      state.calYear = dt.getFullYear();
-      state.calMonth = dt.getMonth();
+      state.calMonth = new Date(ncGames[0].date+"T00:00:00").getMonth();
     }
   }
 
