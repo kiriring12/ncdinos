@@ -1,3 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+네이버 스포츠에서 KBO 경기 결과를 받아서, 기록판의 '일정 가져오기' 탭에 올릴 수 있는 CSV로 저장합니다.
+
+필요한 것: Python 3.8 이상 (추가 설치 없음 - 기본 라이브러리만 사용)
+
+사용 예
+  # 시즌 전체(일정 + 지난 경기 결과) 한 번에
+  python fetch_naver_kbo.py --from 2026-03-28 --to 2026-10-12
+
+  # 매일 업데이트용 (옵션 없이 실행하면 최근 3일 ~ 오늘)
+  python fetch_naver_kbo.py
+
+  # 결과가 나온 경기/취소 경기만 (예정 경기는 제외)
+  python fetch_naver_kbo.py --results-only
+
+  # 정규시즌 + 포스트시즌을 한 파일에 담아요 (CSV의 '시즌구분', '라운드' 칸으로 구분)
+  python fetch_naver_kbo.py --from 2026-03-28 --to 2026-11-15
+
+  # 포스트시즌은 빼고 정규시즌만 / 시범경기·올스타전도 함께(기록 반영 X로 표시)
+  python fetch_naver_kbo.py --no-postseason
+  python fetch_naver_kbo.py --include-exhibition
+
+실행하면 kbo_results.csv 가 만들어져요. 기록판 > '일정 가져오기' 탭에서 그 파일을 선택하세요.
+
+※ 네이버의 비공식(공개 문서 없음) 주소를 사용해요. 예고 없이 바뀔 수 있어요.
+   문제가 생기면 --probe 경기ID 로 원본 응답을 확인할 수 있어요.
+"""
 import argparse
 import csv
 import json
@@ -14,11 +43,23 @@ HEADERS = {
     "Referer": "https://m.sports.naver.com/",
 }
 
+# 기록판 '일정 가져오기' 탭이 인식하는 제목 (순서 그대로)
 COLUMNS = [
     "날짜", "어웨이", "홈", "어웨이점수", "홈점수", "결과", "구장",
     "어웨이선발", "홈선발", "승리투수", "패전투수", "홀드", "세이브",
     "어웨이MVP", "홈MVP", "취소", "취소사유",
+    "기록제외", "구분", "시즌구분", "라운드",
 ]
+
+# 네이버의 라운드 코드 (오픈소스 샘플 데이터에서 확인한 값)
+ROUND_MAP = {
+    "kbo_r": ("regular", ""),
+    "kbo_ps_wd": ("post", "와일드카드 결정전"),
+    "kbo_ps_sp": ("post", "준플레이오프"),
+    "kbo_ps_po": ("post", "플레이오프"),
+    "kbo_ps_ks": ("post", "한국시리즈"),
+}
+EXTRA_MAP = {"kbo_e": "시범경기", "kbo_as": "올스타전"}
 
 
 def fetch_json(url, timeout=20):
@@ -133,7 +174,8 @@ def main():
     ap.add_argument("--out", default="kbo_results.csv", help="저장할 CSV 파일 (기본: kbo_results.csv)")
     ap.add_argument("--json", dest="json_out", default="", help="원하면 JSON도 같이 저장")
     ap.add_argument("--results-only", action="store_true", help="예정 경기는 제외하고 결과/취소 경기만 저장")
-    ap.add_argument("--round-code", default="kbo_r", help="kbo_r=정규시즌(기본), all=전부(시범/포스트시즌 포함)")
+    ap.add_argument("--no-postseason", action="store_true", help="포스트시즌 경기는 제외 (기본: 정규시즌 + 포스트시즌)")
+    ap.add_argument("--include-exhibition", action="store_true", help="시범경기·올스타전도 포함 (기록 반영 X 경기로 표시)")
     ap.add_argument("--with-stadium", action="store_true", help="네이버의 구장 이름도 저장 (기본: 비워서 기록판의 기본 구장명 사용)")
     ap.add_argument("--sleep", type=float, default=0.2, help="요청 사이 대기(초)")
     ap.add_argument("--strict", action="store_true", help="하루라도 받지 못하면 파일을 만들지 않고 실패로 종료 (자동 실행용)")
@@ -166,7 +208,18 @@ def main():
                 continue
             rc = g.get("roundCode") or ""
             round_count[rc or "(없음)"] = round_count.get(rc or "(없음)", 0) + 1
-            if args.round_code != "all" and rc and rc != args.round_code:
+            phase, rnd, extra_tag = "regular", "", ""
+            if rc in ROUND_MAP:
+                phase, rnd = ROUND_MAP[rc]
+            elif rc in EXTRA_MAP:
+                if not args.include_exhibition:
+                    continue
+                extra_tag = EXTRA_MAP[rc]
+            elif rc.startswith("kbo_ps"):
+                phase = "post"          # 새로운 포스트시즌 코드: 라운드 이름만 비워둠
+            elif rc:
+                continue                # 알 수 없는 코드는 건너뜀
+            if phase == "post" and args.no_postseason:
                 continue
             canceled = is_canceled(g)
             status = (g.get("statusCode") or "").upper()
@@ -177,6 +230,11 @@ def main():
             row, status, canceled = build_row(g, args.with_stadium)
             if not row["날짜"] or not row["어웨이"] or not row["홈"]:
                 continue
+            if extra_tag:
+                row["기록제외"], row["구분"] = "O", extra_tag
+            else:
+                row["시즌구분"] = "포스트시즌" if phase == "post" else "정규시즌"
+                row["라운드"] = rnd
             key = "취소" if canceled else status
             status_count[key] = status_count.get(key, 0) + 1
             rows.append(row)
@@ -185,7 +243,7 @@ def main():
         time.sleep(args.sleep)
 
     if not rows:
-        print("받은 경기가 없어요. 날짜 범위를 확인하거나 --round-code all 로 다시 해보세요. (기존 파일은 그대로 둬요)")
+        print("받은 경기가 없어요. 날짜 범위를 확인해보세요. (기존 파일은 그대로 둬요)")
         sys.exit(1)
     if args.strict and failed:
         print("받지 못한 날짜가 있어서 파일을 갱신하지 않았어요:", ", ".join(failed))
