@@ -18,14 +18,16 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6kqel_mcsoye",
     "date": "2026-03-29",
     "awayTeam": "두산 베어스",
     "homeTeam": "NC 다이노스",
-    "awayPitcher": "타무라",
+    "awayPitcher": "곽빈",
     "homePitcher": "테일러",
     "awayScore": 9,
     "homeScore": 6,
@@ -39,7 +41,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6lu15_iohor6",
@@ -60,7 +64,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6qmej_3q1yyk",
@@ -81,7 +87,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6v5ka_v15vsd",
@@ -102,7 +110,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6wctu_swv0vs",
@@ -123,7 +133,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6x6cq_1wxclw",
@@ -144,7 +156,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth6y904_4p8zej",
@@ -165,7 +179,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth70kw0_amioqk",
@@ -186,7 +202,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth7451g_9986jv",
@@ -207,7 +225,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth74o0m_yrexep",
@@ -228,7 +248,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth75u7b_02lvu3",
@@ -249,7 +271,9 @@
     "stadium": "대구 삼성 라이온즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth78k27_4msoec",
@@ -270,7 +294,9 @@
     "stadium": "대구 삼성 라이온즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth9s997_8zlme4",
@@ -291,7 +317,9 @@
     "stadium": "대구 삼성 라이온즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth9wx7x_olknkd",
@@ -312,7 +340,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mth9xyk3_28vf9u",
@@ -333,7 +363,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtha1rpe_rj3tte",
@@ -354,7 +386,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtha27iq_i2brd5",
@@ -375,7 +409,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": true,
-    "cancelReason": "경기취소"
+    "cancelReason": "경기취소",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtha31q4_acfpwz",
@@ -396,7 +432,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtha4598_gho52p",
@@ -417,7 +455,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtha6mdg_qv5uzi",
@@ -438,7 +478,9 @@
     "stadium": "고척 스카이돔",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtha8lto_c8080w",
@@ -459,7 +501,9 @@
     "stadium": "고척 스카이돔",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthaasmu_dlqawg",
@@ -480,7 +524,9 @@
     "stadium": "고척 스카이돔",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthabvk8_rcmhei",
@@ -501,7 +547,9 @@
     "stadium": "대전 한화생명 볼파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthad41a_mjgabg",
@@ -522,7 +570,9 @@
     "stadium": "대전 한화생명 볼파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthafs8z_4fyyhq",
@@ -543,7 +593,9 @@
     "stadium": "대전 한화생명 볼파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthahl3z_sbhkuz",
@@ -558,13 +610,15 @@
     "awayMVP": "",
     "homeMVP": "데이비슨",
     "winPitcher": "임지민",
-    "losePitcher": "네잉ㄹ",
+    "losePitcher": "네일",
     "savePitcher": "류진욱",
     "holdPitcher": "배재환, 김진호",
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthaitzv_xt2d6e",
@@ -585,7 +639,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthakrm5_syt1ug",
@@ -606,7 +662,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthaoegr_3s1n7d",
@@ -614,20 +672,22 @@
     "awayTeam": "NC 다이노스",
     "homeTeam": "LG 트윈스",
     "awayPitcher": "토다",
-    "homePitcher": "톨 허스트",
+    "homePitcher": "톨허스트",
     "awayScore": 1,
     "homeScore": 5,
     "winner": null,
     "awayMVP": "",
     "homeMVP": "오스틴",
-    "winPitcher": "톨 허스트",
+    "winPitcher": "톨허스트",
     "losePitcher": "토다",
     "savePitcher": "",
     "holdPitcher": "김진성",
     "stadium": "서울종합운동장 잠실 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthapcoj_wftvl0",
@@ -648,7 +708,9 @@
     "stadium": "서울종합운동장 잠실 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthaq9c3_tf14sy",
@@ -669,7 +731,9 @@
     "stadium": "서울종합운동장 잠실 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtharbh9_0sygno",
@@ -690,7 +754,9 @@
     "stadium": "인천 SSG 랜더스필드",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthatubf_57k4rn",
@@ -711,7 +777,9 @@
     "stadium": "인천 SSG 랜더스필드",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthavzuo_s924wa",
@@ -732,7 +800,9 @@
     "stadium": "인천 SSG 랜더스필드",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthax3s5_nvg462",
@@ -753,7 +823,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthaypmo_0fa2ov",
@@ -774,7 +846,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthazw3c_t2wvyf",
@@ -795,7 +869,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthb5j5a_0i0wu6",
@@ -816,7 +892,9 @@
     "stadium": "사직 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthb723c_wryvvn",
@@ -837,7 +915,9 @@
     "stadium": "사직 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthb87lw_dj1sh4",
@@ -858,7 +938,9 @@
     "stadium": "사직 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthba1k7_1fofzf",
@@ -879,7 +961,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mthbb01w_vmrysu",
@@ -900,7 +984,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtjkx83k_l9bchz",
@@ -921,7 +1007,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtjl5390_ketwd0",
@@ -942,7 +1030,9 @@
     "stadium": "서울종합운동장 잠실 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtkro4to_zsaf47",
@@ -963,7 +1053,9 @@
     "stadium": "서울종합운동장 잠실 야구장",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtkrx1as_2egnqm",
@@ -984,7 +1076,9 @@
     "stadium": "수원 케이티 위즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqb9me_sddgd3",
@@ -1005,7 +1099,9 @@
     "stadium": "수원 케이티 위즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqc6gx_jlujao",
@@ -1026,14 +1122,16 @@
     "stadium": "수원 케이티 위즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqcz2l_uhtd81",
     "date": "2026-05-27",
     "awayTeam": "한화 이글스",
     "homeTeam": "NC 다이노스",
-    "awayPitcher": "정우주",
+    "awayPitcher": "박준영",
     "homePitcher": "토다",
     "awayScore": 4,
     "homeScore": 6,
@@ -1047,14 +1145,16 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqe0sq_zvc103",
     "date": "2026-05-28",
     "awayTeam": "한화 이글스",
     "homeTeam": "NC 다이노스",
-    "awayPitcher": "황준서",
+    "awayPitcher": "왕옌청",
     "homePitcher": "김태경",
     "awayScore": 18,
     "homeScore": 7,
@@ -1068,7 +1168,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqg2m0_ke3k36",
@@ -1089,7 +1191,9 @@
     "stadium": "창원NC파크",
     "watched": true,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqhtfn_fr90yy",
@@ -1110,7 +1214,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpqiyw1_y2fe2v",
@@ -1131,7 +1237,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpwz5b5_im75j5",
@@ -1152,7 +1260,9 @@
     "stadium": "대구 삼성 라이온즈 파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpx335z_g8uk3t",
@@ -1173,7 +1283,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpx4lon_im2d2h",
@@ -1194,7 +1306,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtpx6l9q_0ftq4z",
@@ -1215,14 +1329,16 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwgkad3_rfi7xj",
     "date": "2026-06-06",
     "awayTeam": "LG 트윈스",
     "homeTeam": "NC 다이노스",
-    "awayPitcher": "톨허스터",
+    "awayPitcher": "톨허스트",
     "homePitcher": "테일러",
     "awayScore": 5,
     "homeScore": 8,
@@ -1236,7 +1352,9 @@
     "stadium": "창원NC파크",
     "watched": false,
     "canceled": false,
-    "cancelReason": ""
+    "cancelReason": "",
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwgzlos_gpgx63",
@@ -1257,7 +1375,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwgzlot_66v2qc",
@@ -1278,7 +1398,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwgzlot_vty2mw",
@@ -1299,7 +1421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwgzlot_f4xpow",
@@ -1320,7 +1444,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh15fy_dz25ge",
@@ -1341,7 +1467,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh15fy_salsan",
@@ -1362,7 +1490,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh15fy_8p94df",
@@ -1383,7 +1513,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh7ghv_ma32kz",
@@ -1404,7 +1536,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh7ghv_1fx5hl",
@@ -1425,7 +1559,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh7ghw_ocxm48",
@@ -1446,7 +1582,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwh7ghw_o68gzn",
@@ -1467,7 +1605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhagia_d61dk2",
@@ -1488,7 +1628,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhagib_izc2fi",
@@ -1509,7 +1651,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhagic_decf3l",
@@ -1530,7 +1674,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhagic_p083uk",
@@ -1551,7 +1697,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhj139_5tqdk7",
@@ -1572,7 +1720,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhj13a_7ecpjw",
@@ -1593,7 +1743,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhj13a_3f5q36",
@@ -1614,7 +1766,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtwhj13a_sxxdbv",
@@ -1635,7 +1789,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn1fk4_aylr6k",
@@ -1657,7 +1813,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232845828,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn1fk4_uxk5bg",
@@ -1679,7 +1837,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232845829,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn1fk4_g04d9i",
@@ -1701,7 +1861,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232845830,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn1fk4_loja5c",
@@ -1723,7 +1885,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232845831,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn2feu_kn8xq7",
@@ -1745,7 +1909,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232892294,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn2feu_0wmmst",
@@ -1767,7 +1933,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232892295,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn2feu_yflv4w",
@@ -1789,7 +1957,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232892296,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn2feu_cjgjoy",
@@ -1811,7 +1981,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232892297,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn32a4_befu7a",
@@ -1833,7 +2005,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232921932,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn32a4_2eka33",
@@ -1855,7 +2029,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232921933,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn32a4_hntov7",
@@ -1877,7 +2053,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232921934,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn32a4_p89lgc",
@@ -1899,7 +2077,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232921935,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn3wkp_jvfly2",
@@ -1921,7 +2101,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232961193,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn3wkp_sq2gr4",
@@ -1943,7 +2125,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232961194,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn3wkp_d1e154",
@@ -1965,7 +2149,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232961195,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn3wkp_p3my15",
@@ -1987,7 +2173,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789232961196,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn70r1_b1k5k8",
@@ -2009,7 +2197,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789233106573,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn70r1_ssw9xk",
@@ -2031,7 +2221,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789233106574,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn70r1_6i5ql8",
@@ -2053,7 +2245,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789233106575,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyn70r1_icbunb",
@@ -2075,7 +2269,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1789233106576,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyo0v10_kjooij",
@@ -2097,7 +2293,9 @@
     "canceled": true,
     "cancelReason": "경기취소",
     "createdAt": 1789234498836,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyo0v10_gxieiv",
@@ -2119,7 +2317,9 @@
     "canceled": true,
     "cancelReason": "경기취소",
     "createdAt": 1789234498837,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyo0v10_cz3828",
@@ -2141,7 +2341,9 @@
     "canceled": true,
     "cancelReason": "경기취소",
     "createdAt": 1789234498838,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mtyo0v10_oss9rv",
@@ -2163,7 +2365,9 @@
     "canceled": true,
     "cancelReason": "경기취소",
     "createdAt": 1789234498839,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu11xghy_cyqfvz",
@@ -2185,7 +2389,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789378787014
+    "createdAt": 1789378787014,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu11xghz_xz99fm",
@@ -2207,7 +2413,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789378787015
+    "createdAt": 1789378787015,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu11xgi0_clk2el",
@@ -2229,7 +2437,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789378787016
+    "createdAt": 1789378787016,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu11xgi0_q2f30b",
@@ -2251,7 +2461,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789378787017
+    "createdAt": 1789378787017,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1267qz_nvp0sc",
@@ -2273,7 +2485,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379195578
+    "createdAt": 1789379195578,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1267r0_hz3ddn",
@@ -2295,7 +2509,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379195579
+    "createdAt": 1789379195579,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1267r0_3ois67",
@@ -2317,7 +2533,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379195580
+    "createdAt": 1789379195580,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1267r0_30ayto",
@@ -2339,7 +2557,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379195581
+    "createdAt": 1789379195581,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu126plm_afcbap",
@@ -2361,7 +2581,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379218714
+    "createdAt": 1789379218714,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu126plm_n6r77g",
@@ -2383,7 +2605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379218715
+    "createdAt": 1789379218715,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu126plm_3of7fr",
@@ -2405,7 +2629,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379218716
+    "createdAt": 1789379218716,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu126plm_p4qvz6",
@@ -2427,7 +2653,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379218717
+    "createdAt": 1789379218717,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127hav_gkttcd",
@@ -2449,7 +2677,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254615
+    "createdAt": 1789379254615,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_7h7txl",
@@ -2471,7 +2701,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254616
+    "createdAt": 1789379254616,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_gov043",
@@ -2493,7 +2725,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254617
+    "createdAt": 1789379254617,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_9n88rd",
@@ -2515,7 +2749,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254618
+    "createdAt": 1789379254618,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_91uqn3",
@@ -2537,7 +2773,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254715
+    "createdAt": 1789379254715,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_ghp5y1",
@@ -2559,7 +2797,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254716
+    "createdAt": 1789379254716,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_xcddz0",
@@ -2581,7 +2821,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254717
+    "createdAt": 1789379254717,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_28n990",
@@ -2603,7 +2845,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254718
+    "createdAt": 1789379254718,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_hhlxmk",
@@ -2625,7 +2869,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254725
+    "createdAt": 1789379254725,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_kz6yr0",
@@ -2647,7 +2893,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254726
+    "createdAt": 1789379254726,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_dyo5c4",
@@ -2669,7 +2917,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254727
+    "createdAt": 1789379254727,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu127haw_8zu502",
@@ -2691,7 +2941,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379254728
+    "createdAt": 1789379254728,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l2_0mhe2m",
@@ -2713,7 +2965,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789379288678
+    "createdAt": 1789379288678,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l2_j4qq6e",
@@ -2735,7 +2989,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789379288679
+    "createdAt": 1789379288679,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l2_gwcove",
@@ -2757,7 +3013,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288680
+    "createdAt": 1789379288680,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l3_2kzr80",
@@ -2779,7 +3037,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288681
+    "createdAt": 1789379288681,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l3_heom9f",
@@ -2801,7 +3061,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288778
+    "createdAt": 1789379288778,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l3_zd44qz",
@@ -2823,7 +3085,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288779
+    "createdAt": 1789379288779,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l3_c4g2if",
@@ -2845,7 +3109,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288780
+    "createdAt": 1789379288780,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l4_d0ozdm",
@@ -2867,7 +3133,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288781
+    "createdAt": 1789379288781,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l4_toc7ny",
@@ -2889,7 +3157,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288788
+    "createdAt": 1789379288788,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l4_28atsp",
@@ -2911,7 +3181,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288789
+    "createdAt": 1789379288789,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l4_0s23ds",
@@ -2933,7 +3205,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288790
+    "createdAt": 1789379288790,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1287l4_t2vpwm",
@@ -2955,7 +3229,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379288791
+    "createdAt": 1789379288791,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j1_6qqd3d",
@@ -2977,7 +3253,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376733
+    "createdAt": 1789379376733,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j1_mjlonl",
@@ -2999,7 +3277,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376734
+    "createdAt": 1789379376734,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_rrv2j6",
@@ -3021,7 +3301,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376735
+    "createdAt": 1789379376735,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_y84lsh",
@@ -3043,7 +3325,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376736
+    "createdAt": 1789379376736,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_3bm109",
@@ -3065,7 +3349,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376833
+    "createdAt": 1789379376833,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_20g8p1",
@@ -3087,7 +3373,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376834
+    "createdAt": 1789379376834,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_1qeeb9",
@@ -3109,7 +3397,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376835
+    "createdAt": 1789379376835,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_z1cllg",
@@ -3131,7 +3421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376836
+    "createdAt": 1789379376836,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_cqwmai",
@@ -3153,7 +3445,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376843
+    "createdAt": 1789379376843,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_4yzo3l",
@@ -3175,7 +3469,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376844
+    "createdAt": 1789379376844,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_a0uk10",
@@ -3197,7 +3493,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376845
+    "createdAt": 1789379376845,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12a3j2_buvfcx",
@@ -3219,7 +3517,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379376846
+    "createdAt": 1789379376846,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsf_ller9s",
@@ -3241,7 +3541,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405583
+    "createdAt": 1789379405583,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsf_bp4yix",
@@ -3263,7 +3565,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405584
+    "createdAt": 1789379405584,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsf_waphrm",
@@ -3285,7 +3589,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405585
+    "createdAt": 1789379405585,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsf_r7ga6h",
@@ -3307,7 +3613,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405586
+    "createdAt": 1789379405586,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_ui3g4p",
@@ -3329,7 +3637,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405683
+    "createdAt": 1789379405683,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_ix9et9",
@@ -3351,7 +3661,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405684
+    "createdAt": 1789379405684,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_m7i15x",
@@ -3373,7 +3685,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405685
+    "createdAt": 1789379405685,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_4emrj2",
@@ -3395,7 +3709,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405686
+    "createdAt": 1789379405686,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_6v4it2",
@@ -3417,7 +3733,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405693
+    "createdAt": 1789379405693,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_az4nws",
@@ -3439,7 +3757,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405694
+    "createdAt": 1789379405694,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_rb7d79",
@@ -3461,7 +3781,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405695
+    "createdAt": 1789379405695,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu12apsg_9tzb0b",
@@ -3483,7 +3805,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789379405696
+    "createdAt": 1789379405696,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymn_gdr8ox",
@@ -3505,7 +3829,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251855
+    "createdAt": 1789431251855,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymo_zucoz8",
@@ -3527,7 +3853,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251856
+    "createdAt": 1789431251856,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymq_eeeugq",
@@ -3549,7 +3877,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251857
+    "createdAt": 1789431251857,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymq_h7erl2",
@@ -3571,7 +3901,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251858
+    "createdAt": 1789431251858,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_rg76mv",
@@ -3593,7 +3925,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251955
+    "createdAt": 1789431251955,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_eb9o1e",
@@ -3615,7 +3949,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251956
+    "createdAt": 1789431251956,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_ewpmmg",
@@ -3637,7 +3973,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251957
+    "createdAt": 1789431251957,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_8gz1kk",
@@ -3659,7 +3997,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251958
+    "createdAt": 1789431251958,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_az0kqj",
@@ -3681,7 +4021,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251965
+    "createdAt": 1789431251965,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_hd84p9",
@@ -3703,7 +4045,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251966
+    "createdAt": 1789431251966,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_indcjw",
@@ -3725,7 +4069,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251967
+    "createdAt": 1789431251967,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x5ymr_ym8gvo",
@@ -3747,7 +4093,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431251968
+    "createdAt": 1789431251968,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_ho5jxv",
@@ -3769,7 +4117,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431414940
+    "createdAt": 1789431414940,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_fz3asx",
@@ -3791,7 +4141,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431414941
+    "createdAt": 1789431414941,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_o5su21",
@@ -3813,7 +4165,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431414942
+    "createdAt": 1789431414942,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_4ljf6d",
@@ -3835,7 +4189,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431414943
+    "createdAt": 1789431414943,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_qjxbud",
@@ -3857,7 +4213,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415040
+    "createdAt": 1789431415040,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_mkv8dy",
@@ -3879,7 +4237,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415041
+    "createdAt": 1789431415041,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_xwliou",
@@ -3901,7 +4261,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415042
+    "createdAt": 1789431415042,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_g8x4wx",
@@ -3923,7 +4285,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415043
+    "createdAt": 1789431415043,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_1djw4l",
@@ -3945,7 +4309,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415050
+    "createdAt": 1789431415050,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_v2cw9k",
@@ -3967,7 +4333,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415051
+    "createdAt": 1789431415051,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_bxeyys",
@@ -3989,7 +4357,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415052
+    "createdAt": 1789431415052,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1x9ggs_mewyca",
@@ -4011,7 +4381,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431415053
+    "createdAt": 1789431415053,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1l_n6u55r",
@@ -4033,7 +4405,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808377
+    "createdAt": 1789431808377,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1l_7qf0db",
@@ -4055,7 +4429,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808378
+    "createdAt": 1789431808378,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1l_v0aw86",
@@ -4077,7 +4453,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808379
+    "createdAt": 1789431808379,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1l_n78f37",
@@ -4099,7 +4477,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808380
+    "createdAt": 1789431808380,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_9iab3w",
@@ -4121,7 +4501,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808477
+    "createdAt": 1789431808477,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_mw346g",
@@ -4143,7 +4525,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808478
+    "createdAt": 1789431808478,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_9efgl0",
@@ -4165,7 +4549,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808479
+    "createdAt": 1789431808479,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_phjar6",
@@ -4187,7 +4573,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808480
+    "createdAt": 1789431808480,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_wmhl6p",
@@ -4209,7 +4597,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808487
+    "createdAt": 1789431808487,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_45la6o",
@@ -4231,7 +4621,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789431808488
+    "createdAt": 1789431808488,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_70408h",
@@ -4253,7 +4645,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808489
+    "createdAt": 1789431808489,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xhw1m_ydg2v0",
@@ -4275,7 +4669,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789431808490
+    "createdAt": 1789431808490,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahc_3jzxqs",
@@ -4297,7 +4693,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013713
+    "createdAt": 1789432013713,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahc_vf4are",
@@ -4319,7 +4717,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013714
+    "createdAt": 1789432013714,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahc_1o3g9p",
@@ -4341,7 +4741,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013715
+    "createdAt": 1789432013715,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahc_7x3v74",
@@ -4363,7 +4765,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013716
+    "createdAt": 1789432013716,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_jlylbl",
@@ -4385,7 +4789,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013813
+    "createdAt": 1789432013813,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_2dytx7",
@@ -4407,7 +4813,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013814
+    "createdAt": 1789432013814,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_j9ct4a",
@@ -4429,7 +4837,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013815
+    "createdAt": 1789432013815,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_64asrx",
@@ -4451,7 +4861,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013816
+    "createdAt": 1789432013816,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_qrd1bi",
@@ -4473,7 +4885,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013823
+    "createdAt": 1789432013823,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_9phrop",
@@ -4495,7 +4909,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013824
+    "createdAt": 1789432013824,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_ag1h9y",
@@ -4517,7 +4933,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013825
+    "createdAt": 1789432013825,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xmahd_dn9eud",
@@ -4539,7 +4957,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432013826
+    "createdAt": 1789432013826,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_1oe374",
@@ -4561,7 +4981,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125484
+    "createdAt": 1789432125484,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_xqax71",
@@ -4583,7 +5005,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125485
+    "createdAt": 1789432125485,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_a31gsz",
@@ -4605,7 +5029,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125486
+    "createdAt": 1789432125486,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_9xffjj",
@@ -4627,7 +5053,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125487
+    "createdAt": 1789432125487,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_b8v0po",
@@ -4649,7 +5077,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125584
+    "createdAt": 1789432125584,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_w3xuti",
@@ -4671,7 +5101,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125585
+    "createdAt": 1789432125585,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_wkhlqm",
@@ -4693,7 +5125,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125586
+    "createdAt": 1789432125586,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_7lb67g",
@@ -4715,7 +5149,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125587
+    "createdAt": 1789432125587,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_wskkvk",
@@ -4737,7 +5173,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125594
+    "createdAt": 1789432125594,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_7e6q12",
@@ -4759,7 +5197,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125595
+    "createdAt": 1789432125595,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_9ukw8p",
@@ -4781,7 +5221,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125596
+    "createdAt": 1789432125596,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xooq4_vbpltc",
@@ -4803,7 +5245,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432125597
+    "createdAt": 1789432125597,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_vz9jye",
@@ -4825,7 +5269,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205171
+    "createdAt": 1789432205171,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_z8j7up",
@@ -4847,7 +5293,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205172
+    "createdAt": 1789432205172,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_flnt3d",
@@ -4869,7 +5317,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205173
+    "createdAt": 1789432205173,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_bfnzvk",
@@ -4891,7 +5341,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205174
+    "createdAt": 1789432205174,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_dcaoxb",
@@ -4913,7 +5365,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205271
+    "createdAt": 1789432205271,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_4ua7p5",
@@ -4935,7 +5389,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205272
+    "createdAt": 1789432205272,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_3215pa",
@@ -4957,7 +5413,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205273
+    "createdAt": 1789432205273,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_np0sne",
@@ -4979,7 +5437,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205274
+    "createdAt": 1789432205274,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_vb7eqz",
@@ -5001,7 +5461,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205281
+    "createdAt": 1789432205281,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_wrifoe",
@@ -5023,7 +5485,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205282
+    "createdAt": 1789432205282,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_bl4nhy",
@@ -5045,7 +5509,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205283
+    "createdAt": 1789432205283,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xqe7m_501af8",
@@ -5067,7 +5533,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432205284
+    "createdAt": 1789432205284,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrr_xplg6u",
@@ -5089,7 +5557,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357527
+    "createdAt": 1789432357527,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrr_dckjgq",
@@ -5111,7 +5581,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357528
+    "createdAt": 1789432357528,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrr_n67zj4",
@@ -5133,7 +5605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357529
+    "createdAt": 1789432357529,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrr_ao4bhv",
@@ -5155,7 +5629,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357530
+    "createdAt": 1789432357530,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrr_ixvouc",
@@ -5177,7 +5653,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357626
+    "createdAt": 1789432357626,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrr_31he1h",
@@ -5199,7 +5677,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789432357627
+    "createdAt": 1789432357627,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrs_nbh69k",
@@ -5221,7 +5701,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789432357628
+    "createdAt": 1789432357628,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrs_ldfraw",
@@ -5243,7 +5725,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789432357629
+    "createdAt": 1789432357629,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrs_48o3u8",
@@ -5265,7 +5749,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357637
+    "createdAt": 1789432357637,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrs_w9hf9y",
@@ -5287,7 +5773,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357638
+    "createdAt": 1789432357638,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrs_62ralg",
@@ -5309,7 +5797,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357639
+    "createdAt": 1789432357639,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xtnrs_s7753o",
@@ -5331,7 +5821,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432357640
+    "createdAt": 1789432357640,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpf_0tinow",
@@ -5353,7 +5845,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529812
+    "createdAt": 1789432529812,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpf_j0ys5y",
@@ -5375,7 +5869,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529813
+    "createdAt": 1789432529813,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpf_ugfig2",
@@ -5397,7 +5893,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529814
+    "createdAt": 1789432529814,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpf_yyrouu",
@@ -5419,7 +5917,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529815
+    "createdAt": 1789432529815,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpf_6nhw5s",
@@ -5441,7 +5941,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529912
+    "createdAt": 1789432529912,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_oxmel3",
@@ -5463,7 +5965,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529913
+    "createdAt": 1789432529913,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_yxxwu3",
@@ -5485,7 +5989,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529914
+    "createdAt": 1789432529914,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_k6f9bw",
@@ -5507,7 +6013,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529915
+    "createdAt": 1789432529915,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_0aqhsy",
@@ -5529,7 +6037,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529922
+    "createdAt": 1789432529922,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_zeohcj",
@@ -5551,7 +6061,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529923
+    "createdAt": 1789432529923,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_iiakwt",
@@ -5573,7 +6085,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529924
+    "createdAt": 1789432529924,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1xxcpg_yv5v9e",
@@ -5595,7 +6109,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432529925
+    "createdAt": 1789432529925,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y0z4i_lmke9n",
@@ -5617,7 +6133,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789432698834
+    "createdAt": 1789432698834,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_9tzrmg",
@@ -5639,7 +6157,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1789432793766
+    "createdAt": 1789432793766,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_34xjst",
@@ -5661,7 +6181,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793767
+    "createdAt": 1789432793767,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_s85wjw",
@@ -5683,7 +6205,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793768
+    "createdAt": 1789432793768,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_2wn78m",
@@ -5705,7 +6229,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793769
+    "createdAt": 1789432793769,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_a3ju6u",
@@ -5727,7 +6253,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793866
+    "createdAt": 1789432793866,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_t7042l",
@@ -5749,7 +6277,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793867
+    "createdAt": 1789432793867,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_eedk0d",
@@ -5771,7 +6301,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793868
+    "createdAt": 1789432793868,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_jdw7qi",
@@ -5793,7 +6325,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793869
+    "createdAt": 1789432793869,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30di_ivv0fp",
@@ -5815,7 +6349,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793876
+    "createdAt": 1789432793876,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30dj_z1cg53",
@@ -5837,7 +6373,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793877
+    "createdAt": 1789432793877,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30dj_4r8yy0",
@@ -5859,7 +6397,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793878
+    "createdAt": 1789432793878,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y30dj_559f11",
@@ -5881,7 +6421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432793879
+    "createdAt": 1789432793879,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfw_4ny2ps",
@@ -5903,7 +6445,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904013
+    "createdAt": 1789432904013,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfx_3qn806",
@@ -5925,7 +6469,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904014
+    "createdAt": 1789432904014,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfx_3dnm58",
@@ -5947,7 +6493,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904015
+    "createdAt": 1789432904015,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfx_z3dp2l",
@@ -5969,7 +6517,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904016
+    "createdAt": 1789432904016,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfy_7wgprh",
@@ -5991,7 +6541,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904113
+    "createdAt": 1789432904113,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfy_zax4td",
@@ -6013,7 +6565,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904114
+    "createdAt": 1789432904114,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfy_16mjez",
@@ -6035,7 +6589,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904115
+    "createdAt": 1789432904115,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfy_o8lwyf",
@@ -6057,7 +6613,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904116
+    "createdAt": 1789432904116,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfy_5z5s69",
@@ -6079,7 +6637,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904123
+    "createdAt": 1789432904123,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfz_k8nvrv",
@@ -6101,7 +6661,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904124
+    "createdAt": 1789432904124,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfz_b1yifg",
@@ -6123,7 +6685,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904125
+    "createdAt": 1789432904125,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu1y5dfz_54r528",
@@ -6145,7 +6709,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789432904126
+    "createdAt": 1789432904126,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0v_856t2t",
@@ -6167,7 +6733,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432111
+    "createdAt": 1789534432111,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0v_zt463b",
@@ -6189,7 +6757,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432112
+    "createdAt": 1789534432112,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0v_6z0kr9",
@@ -6211,7 +6781,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432113
+    "createdAt": 1789534432113,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0v_fenir7",
@@ -6233,7 +6805,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432114
+    "createdAt": 1789534432114,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0w_f5riqu",
@@ -6255,7 +6829,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432211
+    "createdAt": 1789534432211,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0w_0c3llv",
@@ -6277,7 +6853,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432212
+    "createdAt": 1789534432212,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0w_n69gd1",
@@ -6299,7 +6877,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432213
+    "createdAt": 1789534432213,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0x_9pemn3",
@@ -6321,7 +6901,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432214
+    "createdAt": 1789534432214,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0x_53uak9",
@@ -6343,7 +6925,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432221
+    "createdAt": 1789534432221,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0x_2l6nt1",
@@ -6365,7 +6949,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432222
+    "createdAt": 1789534432222,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0x_m0inj0",
@@ -6387,7 +6973,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432223
+    "createdAt": 1789534432223,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mu3mlh0x_ld5j70",
@@ -6409,7 +6997,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1789534432224
+    "createdAt": 1789534432224,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxh_hqoupb",
@@ -6431,7 +7021,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422518
+    "createdAt": 1791419422518,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxh_yt70c1",
@@ -6453,7 +7045,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422519
+    "createdAt": 1791419422519,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxi_1r7yga",
@@ -6475,7 +7069,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422520
+    "createdAt": 1791419422520,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxi_leq48h",
@@ -6497,7 +7093,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422521
+    "createdAt": 1791419422521,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxi_accp0v",
@@ -6519,7 +7117,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422618
+    "createdAt": 1791419422618,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxi_1d2jxh",
@@ -6541,7 +7141,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422619
+    "createdAt": 1791419422619,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxi_2neg3i",
@@ -6563,7 +7165,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422620
+    "createdAt": 1791419422620,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxi_1ttplg",
@@ -6585,7 +7189,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422621
+    "createdAt": 1791419422621,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxj_qpeon1",
@@ -6607,7 +7213,9 @@
     "canceled": false,
     "cancelReason": "",
     "createdAt": 1791419422627,
-    "winner": null
+    "winner": null,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxj_sgo4xn",
@@ -6629,7 +7237,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422628
+    "createdAt": 1791419422628,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxj_nu4eog",
@@ -6651,7 +7261,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422629
+    "createdAt": 1791419422629,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxj_lmcwsw",
@@ -6673,7 +7285,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422630
+    "createdAt": 1791419422630,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysvcxj_i3hrn5",
@@ -6695,7 +7309,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419422631
+    "createdAt": 1791419422631,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_metzkx",
@@ -6717,7 +7333,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539676
+    "createdAt": 1791419539676,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_6v2fdw",
@@ -6739,7 +7357,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539677
+    "createdAt": 1791419539677,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_m8oqdc",
@@ -6761,7 +7381,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539678
+    "createdAt": 1791419539678,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_pusiuf",
@@ -6783,7 +7405,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539679
+    "createdAt": 1791419539679,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_zpneau",
@@ -6805,7 +7429,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539680
+    "createdAt": 1791419539680,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_uxqdgx",
@@ -6827,7 +7453,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539776
+    "createdAt": 1791419539776,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_7qizhn",
@@ -6849,7 +7477,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539777
+    "createdAt": 1791419539777,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvbx_td3qlc",
@@ -6871,7 +7501,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539778
+    "createdAt": 1791419539778,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_f7lqq5",
@@ -6893,7 +7525,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539779
+    "createdAt": 1791419539779,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_n38omm",
@@ -6915,7 +7549,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539780
+    "createdAt": 1791419539780,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_qhbqxy",
@@ -6937,7 +7573,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539786
+    "createdAt": 1791419539786,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_6i2skq",
@@ -6959,7 +7597,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539787
+    "createdAt": 1791419539787,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_51jo6e",
@@ -6981,7 +7621,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539788
+    "createdAt": 1791419539788,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_45gess",
@@ -7003,7 +7645,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539789
+    "createdAt": 1791419539789,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muysxvby_0b3rqp",
@@ -7025,7 +7669,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419539790
+    "createdAt": 1791419539790,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089d_9dxo0s",
@@ -7047,7 +7693,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649745
+    "createdAt": 1791419649745,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089d_qqm7w1",
@@ -7069,7 +7717,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649746
+    "createdAt": 1791419649746,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089e_qxro1q",
@@ -7091,7 +7741,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649747
+    "createdAt": 1791419649747,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089e_10j3v1",
@@ -7113,7 +7765,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649748
+    "createdAt": 1791419649748,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089e_rkausw",
@@ -7135,7 +7789,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649749
+    "createdAt": 1791419649749,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089e_g3p5bf",
@@ -7157,7 +7813,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649845
+    "createdAt": 1791419649845,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_c02egg",
@@ -7179,7 +7837,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649846
+    "createdAt": 1791419649846,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_lqy699",
@@ -7201,7 +7861,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649847
+    "createdAt": 1791419649847,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_uwacez",
@@ -7223,7 +7885,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649848
+    "createdAt": 1791419649848,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_9d6lra",
@@ -7245,7 +7909,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649849
+    "createdAt": 1791419649849,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_1pxc2a",
@@ -7267,7 +7933,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791419649855
+    "createdAt": 1791419649855,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_84n2by",
@@ -7289,7 +7957,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649856
+    "createdAt": 1791419649856,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_0duvbi",
@@ -7311,7 +7981,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649857
+    "createdAt": 1791419649857,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_xi4zkp",
@@ -7333,7 +8005,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649858
+    "createdAt": 1791419649858,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt089f_qqjt2m",
@@ -7355,7 +8029,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419649859
+    "createdAt": 1791419649859,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_n1yg4b",
@@ -7377,7 +8053,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787707
+    "createdAt": 1791419787707,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_7w8zs3",
@@ -7399,7 +8077,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787708
+    "createdAt": 1791419787708,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_c1o3dk",
@@ -7421,7 +8101,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787709
+    "createdAt": 1791419787709,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_jbz6tk",
@@ -7443,7 +8125,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787710
+    "createdAt": 1791419787710,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_k0l4mr",
@@ -7465,7 +8149,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787711
+    "createdAt": 1791419787711,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_gxicrk",
@@ -7487,7 +8173,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787807
+    "createdAt": 1791419787807,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_2wqtaz",
@@ -7509,7 +8197,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787808
+    "createdAt": 1791419787808,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_balxhb",
@@ -7531,7 +8221,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787809
+    "createdAt": 1791419787809,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_90iaee",
@@ -7553,7 +8245,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787810
+    "createdAt": 1791419787810,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36pn_sfgpts",
@@ -7575,7 +8269,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787811
+    "createdAt": 1791419787811,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36po_tfodc0",
@@ -7597,7 +8293,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787817
+    "createdAt": 1791419787817,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36po_13p6j0",
@@ -7619,7 +8317,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787818
+    "createdAt": 1791419787818,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36po_cbj39h",
@@ -7641,7 +8341,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787819
+    "createdAt": 1791419787819,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36po_tjp06v",
@@ -7663,7 +8365,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787820
+    "createdAt": 1791419787820,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_muyt36po_9gtvfq",
@@ -7685,7 +8389,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791419787821
+    "createdAt": 1791419787821,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3xcihx_bdty9j",
@@ -7707,7 +8413,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791729272229
+    "createdAt": 1791729272229,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3xcihx_8i4mtt",
@@ -7729,7 +8437,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791729272230
+    "createdAt": 1791729272230,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3xcihx_y0rs63",
@@ -7751,7 +8461,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791729272231
+    "createdAt": 1791729272231,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3xcihx_ygucf3",
@@ -7773,7 +8485,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791729272232
+    "createdAt": 1791729272232,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3xcihx_fz2suh",
@@ -7795,7 +8509,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791729272233
+    "createdAt": 1791729272233,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_v0esor",
@@ -7817,7 +8533,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481028
+    "createdAt": 1791730481028,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lthwzd",
@@ -7839,7 +8557,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481249
+    "createdAt": 1791730481249,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qlvfcb",
@@ -7861,7 +8581,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481383
+    "createdAt": 1791730481383,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5493pf",
@@ -7883,7 +8605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481384
+    "createdAt": 1791730481384,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fx74t3",
@@ -7905,7 +8629,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481385
+    "createdAt": 1791730481385,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jg5l96",
@@ -7927,7 +8653,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481386
+    "createdAt": 1791730481386,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dffgp8",
@@ -7949,7 +8677,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481387
+    "createdAt": 1791730481387,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_oey14j",
@@ -7971,7 +8701,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481388
+    "createdAt": 1791730481388,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_m5g15u",
@@ -7993,7 +8725,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481389
+    "createdAt": 1791730481389,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_o9swi1",
@@ -8015,7 +8749,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481390
+    "createdAt": 1791730481390,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hsxv7k",
@@ -8037,7 +8773,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481391
+    "createdAt": 1791730481391,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_naq4oh",
@@ -8059,7 +8797,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481392
+    "createdAt": 1791730481392,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_j5ah9h",
@@ -8081,7 +8821,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481393
+    "createdAt": 1791730481393,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ayy73s",
@@ -8103,7 +8845,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481394
+    "createdAt": 1791730481394,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_93sann",
@@ -8125,7 +8869,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481395
+    "createdAt": 1791730481395,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gwtkww",
@@ -8147,7 +8893,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481396
+    "createdAt": 1791730481396,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_o9jbok",
@@ -8169,7 +8917,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481397
+    "createdAt": 1791730481397,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_avofbu",
@@ -8191,7 +8941,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481398
+    "createdAt": 1791730481398,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_la4em8",
@@ -8213,7 +8965,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481399
+    "createdAt": 1791730481399,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ao9rov",
@@ -8235,7 +8989,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481400
+    "createdAt": 1791730481400,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qq4jwh",
@@ -8257,7 +9013,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481401
+    "createdAt": 1791730481401,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_itsg9i",
@@ -8279,7 +9037,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481402
+    "createdAt": 1791730481402,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4vzu1z",
@@ -8301,7 +9061,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481403
+    "createdAt": 1791730481403,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0mq723",
@@ -8323,7 +9085,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481404
+    "createdAt": 1791730481404,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_wd2flc",
@@ -8345,7 +9109,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481405
+    "createdAt": 1791730481405,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_kbf8l1",
@@ -8367,7 +9133,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481406
+    "createdAt": 1791730481406,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_i70c8b",
@@ -8389,7 +9157,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481407
+    "createdAt": 1791730481407,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qug2jq",
@@ -8411,7 +9181,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481408
+    "createdAt": 1791730481408,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_a5q037",
@@ -8433,7 +9205,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481409
+    "createdAt": 1791730481409,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_w3poa9",
@@ -8455,7 +9229,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481410
+    "createdAt": 1791730481410,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4hcgh1",
@@ -8477,7 +9253,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481411
+    "createdAt": 1791730481411,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_r0xq21",
@@ -8499,7 +9277,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481412
+    "createdAt": 1791730481412,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_h68say",
@@ -8521,7 +9301,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481413
+    "createdAt": 1791730481413,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_aio1kv",
@@ -8543,7 +9325,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481414
+    "createdAt": 1791730481414,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_sy4g52",
@@ -8565,7 +9349,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481415
+    "createdAt": 1791730481415,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_n7jv6r",
@@ -8587,7 +9373,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481416
+    "createdAt": 1791730481416,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_2gotqb",
@@ -8609,7 +9397,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481417
+    "createdAt": 1791730481417,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_m2e3od",
@@ -8631,7 +9421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481418
+    "createdAt": 1791730481418,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vfmx7n",
@@ -8653,7 +9445,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481419
+    "createdAt": 1791730481419,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pyjsi1",
@@ -8675,7 +9469,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481420
+    "createdAt": 1791730481420,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_y6pa2c",
@@ -8697,7 +9493,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481421
+    "createdAt": 1791730481421,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_y6ciky",
@@ -8719,7 +9517,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481422
+    "createdAt": 1791730481422,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fqlgqa",
@@ -8741,7 +9541,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481423
+    "createdAt": 1791730481423,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4f0tpo",
@@ -8763,7 +9565,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481424
+    "createdAt": 1791730481424,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_c0rdhi",
@@ -8785,7 +9589,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481425
+    "createdAt": 1791730481425,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_p6u6ro",
@@ -8807,7 +9613,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481426
+    "createdAt": 1791730481426,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_wh5w3y",
@@ -8829,7 +9637,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481427
+    "createdAt": 1791730481427,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_bc6drh",
@@ -8851,7 +9661,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481428
+    "createdAt": 1791730481428,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_zw3gug",
@@ -8873,7 +9685,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481429
+    "createdAt": 1791730481429,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5d6kfv",
@@ -8895,7 +9709,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481430
+    "createdAt": 1791730481430,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_x7bhcf",
@@ -8917,7 +9733,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481431
+    "createdAt": 1791730481431,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7vm77k",
@@ -8939,7 +9757,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481432
+    "createdAt": 1791730481432,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_urj7sd",
@@ -8961,7 +9781,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481433
+    "createdAt": 1791730481433,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_g1ju30",
@@ -8983,7 +9805,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481434
+    "createdAt": 1791730481434,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7ptrag",
@@ -9005,7 +9829,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481435
+    "createdAt": 1791730481435,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_y3y5jj",
@@ -9027,7 +9853,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481436
+    "createdAt": 1791730481436,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_wesc12",
@@ -9049,7 +9877,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481437
+    "createdAt": 1791730481437,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_26i09r",
@@ -9071,7 +9901,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481438
+    "createdAt": 1791730481438,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ij39tu",
@@ -9093,7 +9925,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481439
+    "createdAt": 1791730481439,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tv7c8x",
@@ -9115,7 +9949,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481440
+    "createdAt": 1791730481440,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_y4p0ul",
@@ -9137,7 +9973,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481441
+    "createdAt": 1791730481441,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_54um3k",
@@ -9159,7 +9997,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481442
+    "createdAt": 1791730481442,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_894ajl",
@@ -9181,7 +10021,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481443
+    "createdAt": 1791730481443,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_kzgmme",
@@ -9203,7 +10045,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481444
+    "createdAt": 1791730481444,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5xkio1",
@@ -9225,7 +10069,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481445
+    "createdAt": 1791730481445,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_t2p7mc",
@@ -9247,7 +10093,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481446
+    "createdAt": 1791730481446,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_c1t6k8",
@@ -9269,7 +10117,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481447
+    "createdAt": 1791730481447,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vlhevm",
@@ -9291,7 +10141,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481448
+    "createdAt": 1791730481448,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_suai3e",
@@ -9313,7 +10165,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481449
+    "createdAt": 1791730481449,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_uq5k2q",
@@ -9335,7 +10189,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481450
+    "createdAt": 1791730481450,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_u0yyir",
@@ -9357,7 +10213,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481451
+    "createdAt": 1791730481451,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_u2ones",
@@ -9379,7 +10237,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481452
+    "createdAt": 1791730481452,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9gt2ph",
@@ -9401,7 +10261,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481453
+    "createdAt": 1791730481453,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_rex0x2",
@@ -9423,7 +10285,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481454
+    "createdAt": 1791730481454,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fd5usd",
@@ -9445,7 +10309,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481455
+    "createdAt": 1791730481455,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_8az0t5",
@@ -9467,7 +10333,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481456
+    "createdAt": 1791730481456,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vevbzj",
@@ -9489,7 +10357,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481457
+    "createdAt": 1791730481457,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_nuj6h0",
@@ -9511,7 +10381,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481458
+    "createdAt": 1791730481458,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lpxte6",
@@ -9533,7 +10405,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481459
+    "createdAt": 1791730481459,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_j61wdn",
@@ -9555,7 +10429,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481460
+    "createdAt": 1791730481460,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qh5n4o",
@@ -9577,7 +10453,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481461
+    "createdAt": 1791730481461,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_mjmcci",
@@ -9599,7 +10477,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481462
+    "createdAt": 1791730481462,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_adflhb",
@@ -9621,7 +10501,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481463
+    "createdAt": 1791730481463,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7jmr97",
@@ -9643,7 +10525,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481464
+    "createdAt": 1791730481464,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_syervk",
@@ -9665,7 +10549,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481465
+    "createdAt": 1791730481465,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lzj3uh",
@@ -9687,7 +10573,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481466
+    "createdAt": 1791730481466,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gob2xj",
@@ -9709,7 +10597,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481467
+    "createdAt": 1791730481467,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_kmzfao",
@@ -9731,7 +10621,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481468
+    "createdAt": 1791730481468,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tgo4zq",
@@ -9753,7 +10645,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481469
+    "createdAt": 1791730481469,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_edikj5",
@@ -9775,7 +10669,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481470
+    "createdAt": 1791730481470,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_q37byk",
@@ -9797,7 +10693,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481471
+    "createdAt": 1791730481471,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_w4nxyc",
@@ -9819,7 +10717,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481472
+    "createdAt": 1791730481472,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_nyd0sx",
@@ -9841,7 +10741,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481473
+    "createdAt": 1791730481473,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_w420lo",
@@ -9863,7 +10765,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481474
+    "createdAt": 1791730481474,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_julmnu",
@@ -9885,7 +10789,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481475
+    "createdAt": 1791730481475,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_yy8gu2",
@@ -9907,7 +10813,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481476
+    "createdAt": 1791730481476,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xj4czd",
@@ -9929,7 +10837,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481477
+    "createdAt": 1791730481477,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ndm4j0",
@@ -9951,7 +10861,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481478
+    "createdAt": 1791730481478,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7vjmr8",
@@ -9973,7 +10885,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481479
+    "createdAt": 1791730481479,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_45aouz",
@@ -9995,7 +10909,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481480
+    "createdAt": 1791730481480,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_856l78",
@@ -10017,7 +10933,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481481
+    "createdAt": 1791730481481,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_h6u6mn",
@@ -10039,7 +10957,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481482
+    "createdAt": 1791730481482,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ycjqzw",
@@ -10061,7 +10981,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481483
+    "createdAt": 1791730481483,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_56gdq3",
@@ -10083,7 +11005,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481484
+    "createdAt": 1791730481484,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_p19ihu",
@@ -10105,7 +11029,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481485
+    "createdAt": 1791730481485,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5rlsqp",
@@ -10127,7 +11053,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481486
+    "createdAt": 1791730481486,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ry33zy",
@@ -10149,7 +11077,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481487
+    "createdAt": 1791730481487,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_rgmj68",
@@ -10171,7 +11101,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481488
+    "createdAt": 1791730481488,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lxe9md",
@@ -10193,7 +11125,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481489
+    "createdAt": 1791730481489,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7lyets",
@@ -10215,7 +11149,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481490
+    "createdAt": 1791730481490,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fdcdpz",
@@ -10237,7 +11173,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481491
+    "createdAt": 1791730481491,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3vx49g",
@@ -10259,7 +11197,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481492
+    "createdAt": 1791730481492,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_bfo54d",
@@ -10281,7 +11221,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481493
+    "createdAt": 1791730481493,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5hd73g",
@@ -10303,7 +11245,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481494
+    "createdAt": 1791730481494,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6x9jku",
@@ -10325,7 +11269,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481495
+    "createdAt": 1791730481495,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fe8qso",
@@ -10347,7 +11293,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481496
+    "createdAt": 1791730481496,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9fntle",
@@ -10369,7 +11317,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481497
+    "createdAt": 1791730481497,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_b5cx65",
@@ -10391,7 +11341,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481498
+    "createdAt": 1791730481498,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_iujynr",
@@ -10413,7 +11365,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481499
+    "createdAt": 1791730481499,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_opsbk2",
@@ -10435,7 +11389,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481500
+    "createdAt": 1791730481500,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_68qii4",
@@ -10457,7 +11413,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481501
+    "createdAt": 1791730481501,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_w4phy2",
@@ -10479,7 +11437,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481502
+    "createdAt": 1791730481502,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_q4j83f",
@@ -10501,7 +11461,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481503
+    "createdAt": 1791730481503,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_mp36ej",
@@ -10523,7 +11485,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481504
+    "createdAt": 1791730481504,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gbh4mp",
@@ -10545,7 +11509,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481505
+    "createdAt": 1791730481505,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_m0wyiu",
@@ -10567,7 +11533,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481506
+    "createdAt": 1791730481506,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_on2fbc",
@@ -10589,7 +11557,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481507
+    "createdAt": 1791730481507,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xeckcm",
@@ -10611,7 +11581,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481508
+    "createdAt": 1791730481508,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_g1elqf",
@@ -10633,7 +11605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481509
+    "createdAt": 1791730481509,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_at5lpj",
@@ -10655,7 +11629,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481510
+    "createdAt": 1791730481510,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hhosom",
@@ -10677,7 +11653,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481511
+    "createdAt": 1791730481511,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_uf2zr7",
@@ -10699,7 +11677,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481512
+    "createdAt": 1791730481512,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lwwl7s",
@@ -10721,7 +11701,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481513
+    "createdAt": 1791730481513,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hqq965",
@@ -10743,7 +11725,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481514
+    "createdAt": 1791730481514,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_n5x5kb",
@@ -10765,7 +11749,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481515
+    "createdAt": 1791730481515,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_toyman",
@@ -10787,7 +11773,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481516
+    "createdAt": 1791730481516,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3roige",
@@ -10809,7 +11797,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481517
+    "createdAt": 1791730481517,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_84c6fe",
@@ -10831,7 +11821,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481518
+    "createdAt": 1791730481518,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0lhiqh",
@@ -10853,7 +11845,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481519
+    "createdAt": 1791730481519,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_a0qf2p",
@@ -10875,7 +11869,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481520
+    "createdAt": 1791730481520,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ngfuos",
@@ -10897,7 +11893,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481521
+    "createdAt": 1791730481521,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9x1i0j",
@@ -10919,7 +11917,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481522
+    "createdAt": 1791730481522,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_f0btpl",
@@ -10941,7 +11941,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481523
+    "createdAt": 1791730481523,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_rbca09",
@@ -10963,7 +11965,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481524
+    "createdAt": 1791730481524,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ut1btx",
@@ -10985,7 +11989,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481525
+    "createdAt": 1791730481525,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9dh0h3",
@@ -11007,7 +12013,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481526
+    "createdAt": 1791730481526,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tq4hjb",
@@ -11029,7 +12037,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481527
+    "createdAt": 1791730481527,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_isf7cj",
@@ -11051,7 +12061,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481528
+    "createdAt": 1791730481528,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3hx1d7",
@@ -11073,7 +12085,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481529
+    "createdAt": 1791730481529,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lauq6r",
@@ -11095,7 +12109,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481530
+    "createdAt": 1791730481530,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0domb0",
@@ -11117,7 +12133,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481531
+    "createdAt": 1791730481531,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4w9u5z",
@@ -11139,7 +12157,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481532
+    "createdAt": 1791730481532,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_m417dv",
@@ -11161,7 +12181,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481533
+    "createdAt": 1791730481533,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_zoonjo",
@@ -11183,7 +12205,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481534
+    "createdAt": 1791730481534,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dzkewv",
@@ -11205,7 +12229,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481535
+    "createdAt": 1791730481535,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xr8ktx",
@@ -11227,7 +12253,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481536
+    "createdAt": 1791730481536,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qzlksg",
@@ -11249,7 +12277,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481537
+    "createdAt": 1791730481537,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_edj6p0",
@@ -11271,7 +12301,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481538
+    "createdAt": 1791730481538,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_17y33k",
@@ -11293,7 +12325,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481539
+    "createdAt": 1791730481539,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_mcepw5",
@@ -11315,7 +12349,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481540
+    "createdAt": 1791730481540,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_1q64zy",
@@ -11337,7 +12373,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481541
+    "createdAt": 1791730481541,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_072n1c",
@@ -11359,7 +12397,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481542
+    "createdAt": 1791730481542,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_brnxkb",
@@ -11381,7 +12421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481543
+    "createdAt": 1791730481543,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_trhkgs",
@@ -11403,7 +12445,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481544
+    "createdAt": 1791730481544,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_udxccg",
@@ -11425,7 +12469,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481545
+    "createdAt": 1791730481545,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4a1lu3",
@@ -11447,7 +12493,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481546
+    "createdAt": 1791730481546,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_x6s0l5",
@@ -11469,7 +12517,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481547
+    "createdAt": 1791730481547,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4xi37w",
@@ -11491,7 +12541,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481548
+    "createdAt": 1791730481548,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_h5x2c5",
@@ -11513,7 +12565,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481549
+    "createdAt": 1791730481549,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jnz7o4",
@@ -11535,7 +12589,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481550
+    "createdAt": 1791730481550,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ddnq9p",
@@ -11557,7 +12613,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481551
+    "createdAt": 1791730481551,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ukv8xg",
@@ -11579,7 +12637,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481552
+    "createdAt": 1791730481552,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_j883yo",
@@ -11601,7 +12661,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481553
+    "createdAt": 1791730481553,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_yemdgo",
@@ -11623,7 +12685,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481554
+    "createdAt": 1791730481554,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0zbyai",
@@ -11645,7 +12709,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481555
+    "createdAt": 1791730481555,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_d6wzk1",
@@ -11667,7 +12733,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481556
+    "createdAt": 1791730481556,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_kmffcb",
@@ -11689,7 +12757,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481557
+    "createdAt": 1791730481557,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_e2ocel",
@@ -11711,7 +12781,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481558
+    "createdAt": 1791730481558,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dkl03q",
@@ -11733,7 +12805,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481559
+    "createdAt": 1791730481559,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_bjjgwx",
@@ -11755,7 +12829,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481560
+    "createdAt": 1791730481560,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9t0w03",
@@ -11777,7 +12853,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481561
+    "createdAt": 1791730481561,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_h8hsw9",
@@ -11799,7 +12877,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481562
+    "createdAt": 1791730481562,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_blxn32",
@@ -11821,7 +12901,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481563
+    "createdAt": 1791730481563,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_c3w73z",
@@ -11843,7 +12925,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481564
+    "createdAt": 1791730481564,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vbqsjt",
@@ -11865,7 +12949,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481565
+    "createdAt": 1791730481565,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9ciaqw",
@@ -11887,7 +12973,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481566
+    "createdAt": 1791730481566,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vblewi",
@@ -11909,7 +12997,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481567
+    "createdAt": 1791730481567,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_irvs6x",
@@ -11931,7 +13021,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481568
+    "createdAt": 1791730481568,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_bm5chg",
@@ -11953,7 +13045,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481569
+    "createdAt": 1791730481569,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_q4j21u",
@@ -11975,7 +13069,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481570
+    "createdAt": 1791730481570,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_op1148",
@@ -11997,7 +13093,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481571
+    "createdAt": 1791730481571,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_72eoui",
@@ -12019,7 +13117,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481572
+    "createdAt": 1791730481572,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ip30xo",
@@ -12041,7 +13141,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481573
+    "createdAt": 1791730481573,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6ijro2",
@@ -12063,7 +13165,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481574
+    "createdAt": 1791730481574,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6snh25",
@@ -12085,7 +13189,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481575
+    "createdAt": 1791730481575,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9vqro9",
@@ -12107,7 +13213,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481576
+    "createdAt": 1791730481576,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_bd842o",
@@ -12129,7 +13237,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481577
+    "createdAt": 1791730481577,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_f8u18q",
@@ -12151,7 +13261,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481578
+    "createdAt": 1791730481578,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_l1rszd",
@@ -12173,7 +13285,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481579
+    "createdAt": 1791730481579,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6itl4l",
@@ -12195,7 +13309,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481580
+    "createdAt": 1791730481580,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7xea3b",
@@ -12217,7 +13333,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481581
+    "createdAt": 1791730481581,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_73m1p4",
@@ -12239,7 +13357,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481582
+    "createdAt": 1791730481582,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_d5d94c",
@@ -12261,7 +13381,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481583
+    "createdAt": 1791730481583,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_z8qagk",
@@ -12283,7 +13405,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481584
+    "createdAt": 1791730481584,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_scn3u7",
@@ -12305,7 +13429,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481585
+    "createdAt": 1791730481585,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_aanzjn",
@@ -12327,7 +13453,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481586
+    "createdAt": 1791730481586,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_bam02x",
@@ -12349,7 +13477,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481587
+    "createdAt": 1791730481587,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qjygim",
@@ -12371,7 +13501,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481588
+    "createdAt": 1791730481588,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ajhnx5",
@@ -12393,7 +13525,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481589
+    "createdAt": 1791730481589,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_kufg8d",
@@ -12415,7 +13549,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481590
+    "createdAt": 1791730481590,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_b2iqw6",
@@ -12437,7 +13573,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481591
+    "createdAt": 1791730481591,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6z3cqt",
@@ -12459,7 +13597,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481592
+    "createdAt": 1791730481592,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_y7odym",
@@ -12481,7 +13621,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481593
+    "createdAt": 1791730481593,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_300sj2",
@@ -12503,7 +13645,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481594
+    "createdAt": 1791730481594,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_zr3qgu",
@@ -12525,7 +13669,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481595
+    "createdAt": 1791730481595,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_sxrqk6",
@@ -12547,7 +13693,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481596
+    "createdAt": 1791730481596,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_f46u95",
@@ -12569,7 +13717,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481597
+    "createdAt": 1791730481597,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hrgz8y",
@@ -12591,7 +13741,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481598
+    "createdAt": 1791730481598,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3y9dvf",
@@ -12613,7 +13765,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481599
+    "createdAt": 1791730481599,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_aiyznn",
@@ -12635,7 +13789,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481600
+    "createdAt": 1791730481600,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jsvo1i",
@@ -12657,7 +13813,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481601
+    "createdAt": 1791730481601,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qope9b",
@@ -12679,7 +13837,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481602
+    "createdAt": 1791730481602,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_nceqr4",
@@ -12701,7 +13861,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481603
+    "createdAt": 1791730481603,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_r2n7o9",
@@ -12723,7 +13885,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481604
+    "createdAt": 1791730481604,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_l3t825",
@@ -12745,7 +13909,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481605
+    "createdAt": 1791730481605,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vg3sbg",
@@ -12767,7 +13933,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481606
+    "createdAt": 1791730481606,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6nkmym",
@@ -12789,7 +13957,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481607
+    "createdAt": 1791730481607,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hv83sq",
@@ -12811,7 +13981,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481608
+    "createdAt": 1791730481608,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_g6e8ri",
@@ -12833,7 +14005,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481609
+    "createdAt": 1791730481609,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_a5thqb",
@@ -12855,7 +14029,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481610
+    "createdAt": 1791730481610,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5qh4gc",
@@ -12877,7 +14053,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481611
+    "createdAt": 1791730481611,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_x5zbn0",
@@ -12899,7 +14077,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481612
+    "createdAt": 1791730481612,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_zfys19",
@@ -12921,7 +14101,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481613
+    "createdAt": 1791730481613,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_8zclk7",
@@ -12943,7 +14125,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481614
+    "createdAt": 1791730481614,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_63aaz0",
@@ -12965,7 +14149,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481615
+    "createdAt": 1791730481615,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_zhk27w",
@@ -12987,7 +14173,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481616
+    "createdAt": 1791730481616,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_m9ht4d",
@@ -13009,7 +14197,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481617
+    "createdAt": 1791730481617,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hldxj5",
@@ -13031,7 +14221,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481618
+    "createdAt": 1791730481618,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3md0vi",
@@ -13053,7 +14245,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481619
+    "createdAt": 1791730481619,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4uj9vm",
@@ -13075,7 +14269,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481620
+    "createdAt": 1791730481620,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_n4am60",
@@ -13097,7 +14293,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481621
+    "createdAt": 1791730481621,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ria4tc",
@@ -13119,7 +14317,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481622
+    "createdAt": 1791730481622,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9fyim5",
@@ -13141,7 +14341,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481623
+    "createdAt": 1791730481623,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_z4odou",
@@ -13163,7 +14365,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481624
+    "createdAt": 1791730481624,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9t5uad",
@@ -13185,7 +14389,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481625
+    "createdAt": 1791730481625,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_wzr116",
@@ -13207,7 +14413,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481626
+    "createdAt": 1791730481626,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_u8hfkz",
@@ -13229,7 +14437,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481627
+    "createdAt": 1791730481627,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_a9p3an",
@@ -13251,7 +14461,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481628
+    "createdAt": 1791730481628,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xe51z7",
@@ -13273,7 +14485,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481629
+    "createdAt": 1791730481629,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_527b3m",
@@ -13295,7 +14509,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481630
+    "createdAt": 1791730481630,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_335kje",
@@ -13317,7 +14533,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481631
+    "createdAt": 1791730481631,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ntaeo8",
@@ -13339,7 +14557,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481632
+    "createdAt": 1791730481632,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vpfth0",
@@ -13361,7 +14581,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481633
+    "createdAt": 1791730481633,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ys1it6",
@@ -13383,7 +14605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481634
+    "createdAt": 1791730481634,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0w721e",
@@ -13405,7 +14629,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481635
+    "createdAt": 1791730481635,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_q7dqla",
@@ -13427,7 +14653,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481636
+    "createdAt": 1791730481636,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ubji09",
@@ -13449,7 +14677,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481637
+    "createdAt": 1791730481637,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_1x93yi",
@@ -13471,7 +14701,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481638
+    "createdAt": 1791730481638,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_zlyyvj",
@@ -13493,7 +14725,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481639
+    "createdAt": 1791730481639,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9rdxpe",
@@ -13515,7 +14749,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481640
+    "createdAt": 1791730481640,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_etuctq",
@@ -13537,7 +14773,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481641
+    "createdAt": 1791730481641,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_i81y53",
@@ -13559,7 +14797,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481642
+    "createdAt": 1791730481642,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jv7c6m",
@@ -13581,7 +14821,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481643
+    "createdAt": 1791730481643,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ya8043",
@@ -13603,7 +14845,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481644
+    "createdAt": 1791730481644,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_n9o02i",
@@ -13625,7 +14869,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481645
+    "createdAt": 1791730481645,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_n4l3s6",
@@ -13647,7 +14893,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481646
+    "createdAt": 1791730481646,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_524mon",
@@ -13669,7 +14917,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481647
+    "createdAt": 1791730481647,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_wq41rt",
@@ -13691,7 +14941,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481648
+    "createdAt": 1791730481648,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_32w1dl",
@@ -13713,7 +14965,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481649
+    "createdAt": 1791730481649,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_mzc749",
@@ -13735,7 +14989,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481650
+    "createdAt": 1791730481650,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_8k3ydt",
@@ -13757,7 +15013,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481651
+    "createdAt": 1791730481651,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pyao25",
@@ -13779,7 +15037,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481652
+    "createdAt": 1791730481652,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_1eb0ev",
@@ -13801,7 +15061,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481653
+    "createdAt": 1791730481653,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jukdq3",
@@ -13823,7 +15085,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481654
+    "createdAt": 1791730481654,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_580lb2",
@@ -13845,7 +15109,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481655
+    "createdAt": 1791730481655,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9i919r",
@@ -13867,7 +15133,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481656
+    "createdAt": 1791730481656,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_rh5rnl",
@@ -13889,7 +15157,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481657
+    "createdAt": 1791730481657,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_j1z71b",
@@ -13911,7 +15181,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481658
+    "createdAt": 1791730481658,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_nr306m",
@@ -13933,7 +15205,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481659
+    "createdAt": 1791730481659,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0aekdo",
@@ -13955,7 +15229,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481660
+    "createdAt": 1791730481660,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xfuuxu",
@@ -13977,7 +15253,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481661
+    "createdAt": 1791730481661,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pfs096",
@@ -13999,7 +15277,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481662
+    "createdAt": 1791730481662,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_611s8d",
@@ -14021,7 +15301,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481663
+    "createdAt": 1791730481663,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_w8ra0g",
@@ -14043,7 +15325,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481664
+    "createdAt": 1791730481664,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_eby0hf",
@@ -14065,7 +15349,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481665
+    "createdAt": 1791730481665,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_028nkz",
@@ -14087,7 +15373,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481666
+    "createdAt": 1791730481666,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_121hjf",
@@ -14109,7 +15397,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481667
+    "createdAt": 1791730481667,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jtzxfk",
@@ -14131,7 +15421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481668
+    "createdAt": 1791730481668,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vc33c7",
@@ -14153,7 +15445,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481669
+    "createdAt": 1791730481669,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ii6f8w",
@@ -14175,7 +15469,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481670
+    "createdAt": 1791730481670,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jep7vs",
@@ -14197,7 +15493,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481671
+    "createdAt": 1791730481671,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ed5ang",
@@ -14219,7 +15517,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481672
+    "createdAt": 1791730481672,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qatxkp",
@@ -14241,7 +15541,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481673
+    "createdAt": 1791730481673,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_y75mdf",
@@ -14263,7 +15565,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481674
+    "createdAt": 1791730481674,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jm4n9v",
@@ -14285,7 +15589,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481675
+    "createdAt": 1791730481675,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vp23l5",
@@ -14307,7 +15613,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481676
+    "createdAt": 1791730481676,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tc4o3h",
@@ -14329,7 +15637,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481677
+    "createdAt": 1791730481677,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7i0zqv",
@@ -14351,7 +15661,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481678
+    "createdAt": 1791730481678,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_uo8fb3",
@@ -14373,7 +15685,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481679
+    "createdAt": 1791730481679,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pp3t5u",
@@ -14395,7 +15709,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481680
+    "createdAt": 1791730481680,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ox60u7",
@@ -14417,7 +15733,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481681
+    "createdAt": 1791730481681,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9y5rz1",
@@ -14439,7 +15757,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481682
+    "createdAt": 1791730481682,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pf9bfz",
@@ -14461,7 +15781,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481683
+    "createdAt": 1791730481683,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_8xf5k2",
@@ -14483,7 +15805,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481684
+    "createdAt": 1791730481684,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4am59v",
@@ -14505,7 +15829,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481685
+    "createdAt": 1791730481685,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_h295k1",
@@ -14527,7 +15853,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481686
+    "createdAt": 1791730481686,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0rj8v8",
@@ -14549,7 +15877,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481687
+    "createdAt": 1791730481687,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_26c20k",
@@ -14571,7 +15901,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481688
+    "createdAt": 1791730481688,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xvft2e",
@@ -14593,7 +15925,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481689
+    "createdAt": 1791730481689,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ftd9wx",
@@ -14615,7 +15949,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481690
+    "createdAt": 1791730481690,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_csbd16",
@@ -14637,7 +15973,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481691
+    "createdAt": 1791730481691,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6hinza",
@@ -14659,7 +15997,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481692
+    "createdAt": 1791730481692,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xbvyjp",
@@ -14681,7 +16021,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481693
+    "createdAt": 1791730481693,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_enolwl",
@@ -14703,7 +16045,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481694
+    "createdAt": 1791730481694,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_607vbm",
@@ -14725,7 +16069,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481695
+    "createdAt": 1791730481695,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vqoxsa",
@@ -14747,7 +16093,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481696
+    "createdAt": 1791730481696,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_uhmk9q",
@@ -14769,7 +16117,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481697
+    "createdAt": 1791730481697,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dqdx1j",
@@ -14791,7 +16141,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481698
+    "createdAt": 1791730481698,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ukx2if",
@@ -14813,7 +16165,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481699
+    "createdAt": 1791730481699,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dbha97",
@@ -14835,7 +16189,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481700
+    "createdAt": 1791730481700,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gecbxz",
@@ -14857,7 +16213,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481701
+    "createdAt": 1791730481701,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9g7ovm",
@@ -14879,7 +16237,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481702
+    "createdAt": 1791730481702,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_o8ba47",
@@ -14901,7 +16261,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481703
+    "createdAt": 1791730481703,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_e3ufxr",
@@ -14923,7 +16285,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481704
+    "createdAt": 1791730481704,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_iyppg1",
@@ -14945,7 +16309,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481705
+    "createdAt": 1791730481705,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_5sx41w",
@@ -14967,7 +16333,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481706
+    "createdAt": 1791730481706,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_49pd94",
@@ -14989,7 +16357,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481707
+    "createdAt": 1791730481707,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_v392nu",
@@ -15011,7 +16381,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481708
+    "createdAt": 1791730481708,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lwgy3r",
@@ -15033,7 +16405,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481709
+    "createdAt": 1791730481709,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_txgbb8",
@@ -15055,7 +16429,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481710
+    "createdAt": 1791730481710,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4s5lna",
@@ -15077,7 +16453,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481711
+    "createdAt": 1791730481711,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_plirlh",
@@ -15099,7 +16477,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481712
+    "createdAt": 1791730481712,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_mns85m",
@@ -15121,7 +16501,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481713
+    "createdAt": 1791730481713,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_03w1u4",
@@ -15143,7 +16525,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481714
+    "createdAt": 1791730481714,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_v6glv5",
@@ -15165,7 +16549,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481715
+    "createdAt": 1791730481715,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4341au",
@@ -15187,7 +16573,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481716
+    "createdAt": 1791730481716,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_38wyv5",
@@ -15209,7 +16597,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481717
+    "createdAt": 1791730481717,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_iwucx6",
@@ -15231,7 +16621,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481718
+    "createdAt": 1791730481718,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lx658a",
@@ -15253,7 +16645,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481719
+    "createdAt": 1791730481719,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_rjfc1b",
@@ -15275,7 +16669,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481720
+    "createdAt": 1791730481720,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_9op2qw",
@@ -15297,7 +16693,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481721
+    "createdAt": 1791730481721,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fhxdfl",
@@ -15319,7 +16717,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481722
+    "createdAt": 1791730481722,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_aprs56",
@@ -15341,7 +16741,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481723
+    "createdAt": 1791730481723,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0lflh2",
@@ -15363,7 +16765,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481724
+    "createdAt": 1791730481724,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gp3lgv",
@@ -15385,7 +16789,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481725
+    "createdAt": 1791730481725,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_oau2l3",
@@ -15407,7 +16813,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481726
+    "createdAt": 1791730481726,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_2gmzau",
@@ -15429,7 +16837,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481727
+    "createdAt": 1791730481727,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_g5p6np",
@@ -15451,7 +16861,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481728
+    "createdAt": 1791730481728,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_k6yfgk",
@@ -15473,7 +16885,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481729
+    "createdAt": 1791730481729,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_02u9qc",
@@ -15495,7 +16909,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481730
+    "createdAt": 1791730481730,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7lnl16",
@@ -15517,7 +16933,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481731
+    "createdAt": 1791730481731,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3xdcko",
@@ -15539,7 +16957,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481732
+    "createdAt": 1791730481732,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_rk73xj",
@@ -15561,7 +16981,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481733
+    "createdAt": 1791730481733,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_if5olj",
@@ -15583,7 +17005,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481734
+    "createdAt": 1791730481734,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qr2os0",
@@ -15605,7 +17029,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481735
+    "createdAt": 1791730481735,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xdrd0q",
@@ -15627,7 +17053,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481736
+    "createdAt": 1791730481736,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_fb5v23",
@@ -15649,7 +17077,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481737
+    "createdAt": 1791730481737,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hl6uy3",
@@ -15671,7 +17101,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481738
+    "createdAt": 1791730481738,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3lys13",
@@ -15693,7 +17125,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481739
+    "createdAt": 1791730481739,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tz1ebw",
@@ -15715,7 +17149,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481740
+    "createdAt": 1791730481740,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_0c8ksm",
@@ -15737,7 +17173,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481741
+    "createdAt": 1791730481741,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_w8qz6y",
@@ -15759,7 +17197,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481742
+    "createdAt": 1791730481742,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ezptc3",
@@ -15781,7 +17221,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481743
+    "createdAt": 1791730481743,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_unxwr2",
@@ -15803,7 +17245,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481744
+    "createdAt": 1791730481744,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_icgbai",
@@ -15825,7 +17269,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481745
+    "createdAt": 1791730481745,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_82yxs2",
@@ -15847,7 +17293,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481746
+    "createdAt": 1791730481746,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tc776x",
@@ -15869,7 +17317,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481747
+    "createdAt": 1791730481747,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_f0ytxm",
@@ -15891,7 +17341,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481748
+    "createdAt": 1791730481748,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_1qr9gd",
@@ -15913,7 +17365,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481749
+    "createdAt": 1791730481749,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_sn80yg",
@@ -15935,7 +17389,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481750
+    "createdAt": 1791730481750,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_7izsns",
@@ -15957,7 +17413,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481751
+    "createdAt": 1791730481751,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_cuwzc2",
@@ -15979,7 +17437,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481752
+    "createdAt": 1791730481752,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_h74b4a",
@@ -16001,7 +17461,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481753
+    "createdAt": 1791730481753,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_px9rlg",
@@ -16023,7 +17485,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481754
+    "createdAt": 1791730481754,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ib03hr",
@@ -16045,7 +17509,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481755
+    "createdAt": 1791730481755,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_tx4rff",
@@ -16067,7 +17533,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481756
+    "createdAt": 1791730481756,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_8dd55v",
@@ -16089,7 +17557,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481757
+    "createdAt": 1791730481757,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_3szngs",
@@ -16111,7 +17581,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481758
+    "createdAt": 1791730481758,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ms7mkv",
@@ -16133,7 +17605,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481759
+    "createdAt": 1791730481759,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_n37tiq",
@@ -16155,7 +17629,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481760
+    "createdAt": 1791730481760,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pp12ry",
@@ -16177,7 +17653,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481761
+    "createdAt": 1791730481761,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_m3jznc",
@@ -16199,7 +17677,9 @@
     "watched": false,
     "canceled": true,
     "cancelReason": "경기취소",
-    "createdAt": 1791730481762
+    "createdAt": 1791730481762,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_08wkhz",
@@ -16221,7 +17701,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481763
+    "createdAt": 1791730481763,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_kzsa4u",
@@ -16243,7 +17725,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481764
+    "createdAt": 1791730481764,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_1tf6tl",
@@ -16265,7 +17749,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481765
+    "createdAt": 1791730481765,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hvn65x",
@@ -16287,7 +17773,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481766
+    "createdAt": 1791730481766,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hca8uv",
@@ -16309,7 +17797,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481767
+    "createdAt": 1791730481767,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_cjql93",
@@ -16331,7 +17821,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481768
+    "createdAt": 1791730481768,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_qbokm6",
@@ -16353,7 +17845,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481769
+    "createdAt": 1791730481769,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_jv50si",
@@ -16375,7 +17869,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481770
+    "createdAt": 1791730481770,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4wvnqe",
@@ -16397,7 +17893,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481771
+    "createdAt": 1791730481771,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ua6x2c",
@@ -16419,7 +17917,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481772
+    "createdAt": 1791730481772,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_pqo0qh",
@@ -16441,7 +17941,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481773
+    "createdAt": 1791730481773,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dogta1",
@@ -16463,7 +17965,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481774
+    "createdAt": 1791730481774,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_nwn445",
@@ -16485,7 +17989,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481775
+    "createdAt": 1791730481775,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_dz0xl1",
@@ -16507,7 +18013,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481776
+    "createdAt": 1791730481776,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_247ifo",
@@ -16529,7 +18037,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481777
+    "createdAt": 1791730481777,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_6mzrq9",
@@ -16551,7 +18061,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481778
+    "createdAt": 1791730481778,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_adx56l",
@@ -16573,7 +18085,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481779
+    "createdAt": 1791730481779,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_18xvck",
@@ -16595,7 +18109,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481780
+    "createdAt": 1791730481780,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_t51njq",
@@ -16617,7 +18133,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481781
+    "createdAt": 1791730481781,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_hh50m1",
@@ -16639,7 +18157,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481782
+    "createdAt": 1791730481782,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_2fionh",
@@ -16661,7 +18181,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481783
+    "createdAt": 1791730481783,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ocu7xe",
@@ -16683,7 +18205,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481784
+    "createdAt": 1791730481784,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_59x5m7",
@@ -16705,7 +18229,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481785
+    "createdAt": 1791730481785,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ltbf3a",
@@ -16727,7 +18253,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481786
+    "createdAt": 1791730481786,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_lnm5dg",
@@ -16749,7 +18277,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481787
+    "createdAt": 1791730481787,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_vh2k18",
@@ -16771,7 +18301,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481788
+    "createdAt": 1791730481788,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_2ybrde",
@@ -16793,7 +18325,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481789
+    "createdAt": 1791730481789,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_4x0yfp",
@@ -16815,7 +18349,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481790
+    "createdAt": 1791730481790,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_spjihr",
@@ -16837,7 +18373,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481791
+    "createdAt": 1791730481791,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_t1no8y",
@@ -16859,7 +18397,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481792
+    "createdAt": 1791730481792,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gji46z",
@@ -16881,7 +18421,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481793
+    "createdAt": 1791730481793,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_22c0wc",
@@ -16903,7 +18445,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481794
+    "createdAt": 1791730481794,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_2ow11l",
@@ -16925,7 +18469,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481795
+    "createdAt": 1791730481795,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_ryctbx",
@@ -16947,7 +18493,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481796
+    "createdAt": 1791730481796,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_2e7idf",
@@ -16969,7 +18517,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481797
+    "createdAt": 1791730481797,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_v0figw",
@@ -16991,7 +18541,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481798
+    "createdAt": 1791730481798,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_gvt8kv",
@@ -17013,7 +18565,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481799
+    "createdAt": 1791730481799,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_sgc2dm",
@@ -17035,7 +18589,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481800
+    "createdAt": 1791730481800,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7j_xozmex",
@@ -17057,7 +18613,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481801
+    "createdAt": 1791730481801,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_r5mj4e",
@@ -17079,7 +18637,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481802
+    "createdAt": 1791730481802,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_l5zon2",
@@ -17101,7 +18661,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481803
+    "createdAt": 1791730481803,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_bpv00m",
@@ -17123,7 +18685,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481804
+    "createdAt": 1791730481804,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_mu7xi4",
@@ -17145,7 +18709,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481805
+    "createdAt": 1791730481805,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_83hmea",
@@ -17167,7 +18733,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481806
+    "createdAt": 1791730481806,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_jk7vfh",
@@ -17189,7 +18757,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481807
+    "createdAt": 1791730481807,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_sc1lfb",
@@ -17211,7 +18781,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481808
+    "createdAt": 1791730481808,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_jk81sr",
@@ -17233,7 +18805,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481809
+    "createdAt": 1791730481809,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_rw8blx",
@@ -17255,7 +18829,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481810
+    "createdAt": 1791730481810,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_mbr15e",
@@ -17277,7 +18853,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481811
+    "createdAt": 1791730481811,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_dajig0",
@@ -17299,7 +18877,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481812
+    "createdAt": 1791730481812,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_2uxw1t",
@@ -17321,7 +18901,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481813
+    "createdAt": 1791730481813,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_xzdi22",
@@ -17343,7 +18925,9 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481814
+    "createdAt": 1791730481814,
+    "phase": "regular",
+    "round": ""
   },
   {
     "id": "g_mv3y2f7k_z1jude",
@@ -17365,6 +18949,164 @@
     "watched": false,
     "canceled": false,
     "cancelReason": "",
-    "createdAt": 1791730481815
+    "createdAt": 1791730481815,
+    "phase": "regular",
+    "round": ""
+  },
+  {
+    "id": "g_mv9932xq_7ce3l4",
+    "date": "2026-10-14",
+    "awayTeam": "두산 베어스",
+    "homeTeam": "LG 트윈스",
+    "noRecord": false,
+    "tag": "",
+    "phase": "post",
+    "round": "와일드카드 결정전",
+    "awayPitcher": "곽빈",
+    "homePitcher": "카라스코",
+    "awayScore": 1,
+    "homeScore": 4,
+    "winner": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "카라스코",
+    "losePitcher": "곽빈",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "서울종합운동장 잠실 야구장",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": "",
+    "createdAt": 1792051319222
+  },
+  {
+    "id": "g_mv9932xq_amkzsx",
+    "date": "2026-10-17",
+    "awayTeam": "LG 트윈스",
+    "homeTeam": "KIA 타이거즈",
+    "noRecord": false,
+    "tag": "",
+    "phase": "post",
+    "round": "준플레이오프",
+    "awayPitcher": "",
+    "homePitcher": "",
+    "awayScore": null,
+    "homeScore": null,
+    "winner": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "광주-기아 챔피언스 필드",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": "",
+    "createdAt": 1792051319223
+  },
+  {
+    "id": "g_mv9932xq_qtuvh3",
+    "date": "2026-10-18",
+    "awayTeam": "LG 트윈스",
+    "homeTeam": "KIA 타이거즈",
+    "noRecord": false,
+    "tag": "",
+    "phase": "post",
+    "round": "준플레이오프",
+    "awayPitcher": "",
+    "homePitcher": "",
+    "awayScore": null,
+    "homeScore": null,
+    "winner": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "광주-기아 챔피언스 필드",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": "",
+    "createdAt": 1792051319224
+  },
+  {
+    "id": "g_mv9932xq_31ptub",
+    "date": "2026-10-20",
+    "awayTeam": "KIA 타이거즈",
+    "homeTeam": "LG 트윈스",
+    "noRecord": false,
+    "tag": "",
+    "phase": "post",
+    "round": "준플레이오프",
+    "awayPitcher": "",
+    "homePitcher": "",
+    "awayScore": null,
+    "homeScore": null,
+    "winner": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "서울종합운동장 잠실 야구장",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": "",
+    "createdAt": 1792051319225
+  },
+  {
+    "id": "g_mv9932xq_v6smin",
+    "date": "2026-10-21",
+    "awayTeam": "KIA 타이거즈",
+    "homeTeam": "LG 트윈스",
+    "noRecord": false,
+    "tag": "",
+    "phase": "post",
+    "round": "준플레이오프",
+    "awayPitcher": "",
+    "homePitcher": "",
+    "awayScore": null,
+    "homeScore": null,
+    "winner": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "서울종합운동장 잠실 야구장",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": "",
+    "createdAt": 1792051319226
+  },
+  {
+    "id": "g_mv9932xq_piekyt",
+    "date": "2026-10-23",
+    "awayTeam": "LG 트윈스",
+    "homeTeam": "KIA 타이거즈",
+    "noRecord": false,
+    "tag": "",
+    "phase": "post",
+    "round": "준플레이오프",
+    "awayPitcher": "",
+    "homePitcher": "",
+    "awayScore": null,
+    "homeScore": null,
+    "winner": null,
+    "awayMVP": "",
+    "homeMVP": "",
+    "winPitcher": "",
+    "losePitcher": "",
+    "savePitcher": "",
+    "holdPitcher": "",
+    "stadium": "광주-기아 챔피언스 필드",
+    "watched": false,
+    "canceled": false,
+    "cancelReason": "",
+    "createdAt": 1792051319227
   }
 ]
