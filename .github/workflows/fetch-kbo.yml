@@ -1,3 +1,11 @@
+# 저장소의 .github/workflows/fetch-kbo.yml 위치에 넣어주세요.
+# 매일 새벽(한국 시간 00:10)에 네이버 스포츠에서 KBO 정규시즌 + 포스트시즌 결과·일정을 받아
+#   - data/kbo_results.csv            (가장 최근 시즌, 기록판의 '자동 수집된 최신 CSV 불러오기'가 읽는 파일)
+#   - data/kbo_results_2026.csv ...   (시즌 연도별 보관본: 새 시즌이 시작돼도 지난 시즌 파일이 그대로 남아요)
+# 로 저장하고, 내용이 바뀐 경우에만 저장소에 커밋합니다.
+# Actions 탭에서 'Run workflow'로 수동 실행도 가능해요.
+name: KBO 결과 자동 수집
+
 on:
   schedule:
     - cron: "10 15 * * *"   # UTC 15:10 = 한국 시간 00:10
@@ -7,8 +15,10 @@ permissions:
   contents: write
 
 env:
-  SEASON_START: "2026-03-28"   # 새 시즌에는 이 두 날짜만 바꿔주세요
-  SEASON_END: "2026-10-14"
+  # 새 시즌에는 이 두 날짜만 바꿔주세요.
+  # SEASON_START: 개막일 / SEASON_END: 한국시리즈가 끝난 뒤의 넉넉한 날짜 (포스트시즌 일정까지 받아요)
+  SEASON_START: "2026-03-28"
+  SEASON_END: "2026-11-30"
 
 jobs:
   fetch:
@@ -20,16 +30,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: 네이버에서 경기 결과 수집
+      - name: 네이버에서 경기 결과 수집 (정규시즌 + 포스트시즌)
         run: |
           mkdir -p data
           python fetch_naver_kbo.py --from "$SEASON_START" --to "$SEASON_END" --out data/kbo_results.csv --strict
+          YEAR="${SEASON_START%%-*}"
+          cp data/kbo_results.csv "data/kbo_results_${YEAR}.csv"
 
       - name: 바뀐 경우에만 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/kbo_results.csv
+          git add data/kbo_results.csv data/kbo_results_*.csv
           if git diff --cached --quiet; then
             echo "변경 없음"
           else
