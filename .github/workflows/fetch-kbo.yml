@@ -1,28 +1,40 @@
 # 저장소의 .github/workflows/fetch-kbo.yml 위치에 넣어주세요.
+#
 # 매일 새벽(한국 시간 00:10)에 네이버 스포츠에서 KBO 정규시즌 + 포스트시즌 결과·일정을 받아
-#   - data/kbo_results.csv            (가장 최근 시즌, 기록판의 '자동 수집된 최신 CSV 불러오기'가 읽는 파일)
-#   - data/kbo_results_2026.csv ...   (시즌 연도별 보관본: 새 시즌이 시작돼도 지난 시즌 파일이 그대로 남아요)
-# 로 저장하고, 내용이 바뀐 경우에만 저장소에 커밋합니다.
+# data 폴더에 시즌별로 보관합니다.
+#   data/kbo_results_2013.csv, kbo_results_2014.csv ... (연도별 파일. 지난 시즌은 한 번만 받고 그대로 둬요)
+#   data/kbo_results.csv                                 (올해 파일의 복사본 - '자동 수집된 최신 CSV 불러오기'용)
+#   data/index.json                                      (보관된 시즌 목록 - 기록판이 과거 시즌을 자동으로 불러올 때 사용)
+#
+# ★ 아래 FOUNDING_DATE(창단일)만 적어두면, 그 해부터 올해까지 모든 시즌을 알아서 저장해요.
+#   첫 실행은 시즌이 많아 몇 분~수십 분 걸릴 수 있고, 이후에는 올해 시즌만 갱신해서 금방 끝나요.
+#
 # Actions 탭에서 'Run workflow'로 수동 실행도 가능해요.
+#   - '다시 받을 연도'에 2024,2025 처럼 적으면 그 해만 새로 받아요 (비워두면 올해만 갱신).
 name: KBO 결과 자동 수집
 
 on:
   schedule:
     - cron: "10 15 * * *"   # UTC 15:10 = 한국 시간 00:10
   workflow_dispatch:
+    inputs:
+      refresh_years:
+        description: "다시 받을 연도 (예: 2024,2025). 비워두면 올해만 갱신"
+        required: false
+        default: ""
 
 permissions:
   contents: write
 
 env:
-  # 새 시즌에는 이 두 날짜만 바꿔주세요.
-  # SEASON_START: 개막일 / SEASON_END: 한국시리즈가 끝난 뒤의 넉넉한 날짜 (포스트시즌 일정까지 받아요)
-  SEASON_START: "2026-03-28"
-  SEASON_END: "2026-11-30"
+  # 창단일 (YYYY-MM-DD). 이 날짜가 속한 해부터 올해까지 모든 시즌을 저장해요.
+  FOUNDING_DATE: "2011-03-31"
+  REFRESH_YEARS: ${{ inputs.refresh_years }}
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
 
@@ -30,21 +42,28 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: 네이버에서 경기 결과 수집 (정규시즌 + 포스트시즌)
+      - name: 창단 이후 모든 시즌 수집·보관
+        id: fetch
+        continue-on-error: true      # 일부 시즌 수집에 실패해도, 받은 시즌은 아래에서 저장해요
         run: |
-          mkdir -p data
-          python fetch_naver_kbo.py --from "$SEASON_START" --to "$SEASON_END" --out data/kbo_results.csv --strict
-          YEAR="${SEASON_START%%-*}"
-          cp data/kbo_results.csv "data/kbo_results_${YEAR}.csv"
+          ARGS=""
+          if [ -n "$REFRESH_YEARS" ]; then ARGS="--refresh-years $REFRESH_YEARS"; fi
+          python fetch_naver_kbo.py --archive-dir data --founding "$FOUNDING_DATE" --strict $ARGS
 
       - name: 바뀐 경우에만 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/kbo_results.csv data/kbo_results_*.csv
+          git add data
           if git diff --cached --quiet; then
             echo "변경 없음"
           else
             git commit -m "KBO 결과 자동 업데이트 $(TZ=Asia/Seoul date +'%F %R')"
             git push
           fi
+
+      - name: 일부 시즌을 받지 못했다면 알림
+        if: steps.fetch.outcome == 'failure'
+        run: |
+          echo "일부 시즌을 받지 못했어요. 위 로그의 '받지 못한 날짜'를 확인하고 다시 실행해주세요."
+          exit 1
