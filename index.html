@@ -642,12 +642,12 @@
       </table>
     </div>
     <div class="panel rank-wrap" style="margin-top:16px;">
-      <h2 class="section-title">포스트시즌(5위) 진출 · 순위 확정 현황</h2>
+      <h2 class="section-title">포스트시즌 진출 · 순위 확정 현황</h2>
       <div id="psNote" class="hint" style="margin-bottom:14px; line-height:1.6;"></div>
       <div style="overflow-x:auto;">
       <table class="rank-table" style="min-width:760px;">
         <thead>
-          <tr><th>순위</th><th>팀</th><th>성적</th><th>잔여</th><th>매직넘버</th><th>트래직넘버</th><th>5위 이내 진출 시나리오</th></tr>
+          <tr><th>순위</th><th>팀</th><th>성적</th><th>잔여</th><th>매직넘버</th><th>트래직넘버</th><th>포스트시즌 진출 시나리오</th></tr>
         </thead>
         <tbody id="postseasonBody"></tbody>
       </table>
@@ -697,6 +697,8 @@
     <div class="panel rank-wrap" style="margin-top:16px;">
       <h2 class="section-title">NC 다이노스 통산 기록 <span style="font-weight:400;">(KBO 정규시즌 / 포스트시즌 별도)</span></h2>
       <div id="recCareerSummary" style="margin-bottom:14px;"></div>
+      <div class="hint" id="archiveStatus" style="margin-bottom:6px;"></div>
+      <div style="margin-bottom:14px;"><button class="ghost" id="archiveReloadBtn">과거 시즌 다시 불러오기</button></div>
       <div class="field-row" style="margin-bottom:6px;">
         <div class="field" style="max-width:220px;">
           <label>창단일</label>
@@ -883,7 +885,7 @@
     }catch(e){ return []; }
   }
   function save(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games)); }catch(e){}
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.games.filter(function(g){ return g.src!=="archive"; }))); }catch(e){}
   }
   function uid(){ return "g_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2,8); }
 
@@ -1013,6 +1015,7 @@
         var remoteGames = Array.isArray(parsedRemote) ? parsedRemote : (parsedRemote && parsedRemote.games);
         if(Array.isArray(remoteGames)){
           state.games = remoteGames;
+          applyArchiveCache();
           save();
         }
         if(parsedRemote && !Array.isArray(parsedRemote) && parsedRemote.meta){
@@ -1034,7 +1037,7 @@
     syncBusy = true;
     var body = {
       message: "Update NC 다이노스 game records",
-      content: b64EncodeUnicode(JSON.stringify({ games: state.games, meta: state.meta }, null, 2)),
+      content: b64EncodeUnicode(JSON.stringify({ games: state.games.filter(function(g){ return g.src!=="archive"; }), meta: state.meta }, null, 2)),
       branch: syncCfg.branch || "main"
     };
     if(syncSha) body.sha = syncSha;
@@ -1810,7 +1813,11 @@
   });
 
   function deleteGame(id){
-    if(!confirm("이 경기 기록을 삭제할까요?")) return;
+    var target = state.games.find(function(g){ return g.id===id; });
+    var msg = (target && target.src==="archive")
+      ? "저장소에 보관된 과거 시즌 기록이에요. 지워도 앱을 다시 열면 다시 나타날 수 있어요. 그래도 삭제할까요?"
+      : "이 경기 기록을 삭제할까요?";
+    if(!confirm(msg)) return;
     state.games = state.games.filter(function(g){ return g.id!==id; });
     save();
     renderCalendarTab();
@@ -2074,7 +2081,7 @@
     }
     html += '</div>';
     html += '<div class="stat-block">';
-    html += '<div class="label">' + year + '시즌 정규시즌 성적 <span style="font-weight:400;">(' + playedReg + '경기 / 144경기)</span></div>';
+    html += '<div class="label">' + year + '시즌 정규시즌 성적 <span style="font-weight:400;">(' + playedReg + '경기 / ' + seasonTotal(year) + '경기)</span></div>';
     html += '<div class="stat-record tabular">' + y.w + '승 ' + y.d + '무 ' + y.l + '패</div>';
     html += '<div class="stat-rate">' + year + '시즌 승률 <b class="tabular">' + fmtRate(y.rate) + '</b></div>';
     html += '</div>';
@@ -2164,6 +2171,7 @@
       if(br!==ar) return br-ar;
       return b.w-a.w;
     });
+    if(results.some(function(r){ return r.played > 0; })) results = results.filter(function(r){ return r.played > 0; });
     var html = "";
     results.forEach(function(row, i){
       var rankNo = i+1;
@@ -2211,6 +2219,7 @@
   function renderRecordTab(){
     var monthBody = document.getElementById("recMonthBody");
     if(!monthBody) return;
+    renderArchiveStatus();
     var year = state.seasonYear;
 
     // ---- 1) monthly (selected season, regular season; postseason shown separately) ----
@@ -2448,6 +2457,10 @@
 
   // ---------------- Postseason / rank-clinch calculator ----------------
   var TOTAL_SEASON_GAMES = 144;
+  // games per team: 2013 = 133, 2014 = 128, 2015~ = 144
+  function seasonTotal(year){ return year===2013 ? 133 : (year===2014 ? 128 : TOTAL_SEASON_GAMES); }
+  // number of teams that reach the postseason: 4 through 2014, 5 from 2015
+  function cutRankFor(year){ return year >= 2015 ? 5 : 4; }
   var EXACT_LIMIT = 12;      // enumerate every W/D/L outcome when this many games (or fewer) remain
   var CUT_RANK = 5;          // 5th place and above reach the postseason
 
@@ -2459,7 +2472,7 @@
       });
       var rec = computeRecord(teamGames, team);
       var played = rec.w + rec.d + rec.l;
-      var remaining = Math.max(0, TOTAL_SEASON_GAMES - played);
+      var remaining = Math.max(0, seasonTotal(year) - played);
       return { team: team, w: rec.w, d: rec.d, l: rec.l, rate: rec.rate, played: played, remaining: remaining, maxWin: rec.w + remaining };
     }).sort(function(a,b){
       var ar = a.rate===null ? -1 : a.rate;
@@ -2477,6 +2490,8 @@
     var W0 = [], L0 = [], ga = [], gh = [], R = [];
     for(i=0;i<n;i++){ W0[i] = base[i].w; L0[i] = base[i].l; R[i] = 0; }
     for(k=0;k<N;k++){ ga[k] = future[k].a; gh[k] = future[k].h; R[ga[k]]++; R[gh[k]]++; }
+    var active = [];
+    for(i=0;i<n;i++) active[i] = (base[i].w + base[i].d + base[i].l + R[i]) > 0;
     var best = [], worst = [], maxHi = [], minLo = [];
     for(i=0;i<n;i++){
       best[i] = 99; worst[i] = 0; maxHi[i] = []; minLo[i] = [];
@@ -2496,9 +2511,10 @@
         else if(o===1){ w[h]++; tw[h]++; l[a]++; tl[a]++; }
       }
       for(i=0;i<n;i++){
+        if(!active[i]){ lo[i] = 99; hi[i] = 99; continue; }
         var better = 0, tied = 0, di = w[i] + l[i];
         for(j=0;j<n;j++){
-          if(j===i) continue;
+          if(j===i || !active[j]) continue;
           var cmp = w[j]*di - w[i]*(w[j]+l[j]);
           if(cmp>0) better++; else if(cmp===0) tied++;
         }
@@ -2544,6 +2560,11 @@
       else if(future[k].h===T) forced[k] = 1;
       else { forced[k] = -1; free.push(k); }
     }
+    var act = base.map(function(b, ix){
+      var c = 0;
+      future.forEach(function(f){ if(f.a===ix || f.h===ix) c++; });
+      return (b.w + b.d + b.l + c) > 0;
+    });
     var F = free.length, total = Math.pow(3, F), seen = [], sat = 0;
     for(i=0;i<F;i++) seen[i] = 0;
     var out = new Array(N), w = new Array(n), l = new Array(n);
@@ -2558,7 +2579,7 @@
       }
       var better = 0, tied = 0, di = w[T] + l[T];
       for(i=0;i<n;i++){
-        if(i===T) continue;
+        if(i===T || !act[i]) continue;
         var cmp = w[i]*di - w[T]*(w[i]+l[i]);
         if(cmp>0) better++; else if(cmp===0) tied++;
       }
@@ -2668,9 +2689,11 @@
     future.sort(function(x, y){ return x.g.date.localeCompare(y.g.date); });
     var cnt = TEAMS.map(function(){ return 0; });
     future.forEach(function(f){ cnt[f.a]++; cnt[f.h]++; });
-    var over = base.some(function(b, i){ return b.played + cnt[i] > TOTAL_SEASON_GAMES; });
-    var complete = !over && base.every(function(b, i){ return b.played + cnt[i] >= TOTAL_SEASON_GAMES - 4; });
-    return { base: base, future: future, stale: stale, cnt: cnt, over: over, complete: complete,
+    var total = seasonTotal(state.seasonYear);
+    var past = state.seasonYear < new Date().getFullYear();      // a finished season: use its final standings
+    var over = !past && base.some(function(b, i){ return b.played + cnt[i] > total; });
+    var complete = past || (!over && base.every(function(b, i){ return b.played + cnt[i] >= total - 4; }));
+    return { base: base, future: future, stale: stale, cnt: cnt, over: over, complete: complete, total: total,
              exact: complete && future.length <= EXACT_LIMIT };
   }
 
@@ -2681,8 +2704,15 @@
     4: "와일드카드 결정전 진출 (정규시즌 4위 · 홈 어드밴티지)",
     5: "와일드카드 결정전 진출 (정규시즌 5위)"
   };
-  function psRankText(r){
-    return PS_RANK_LABEL[r] || ("포스트시즌 진출 실패 (정규시즌 " + r + "위)");
+  var PS_RANK_LABEL_OLD = {
+    1: "한국시리즈 직행 (정규시즌 우승)",
+    2: "플레이오프 직행 (정규시즌 2위)",
+    3: "준플레이오프 진출 (정규시즌 3위)",
+    4: "준플레이오프 진출 (정규시즌 4위)"
+  };
+  function psRankText(r, year){
+    var table = (year && year < 2015) ? PS_RANK_LABEL_OLD : PS_RANK_LABEL;
+    return table[r] || ("포스트시즌 진출 실패 (정규시즌 " + r + "위)");
   }
   function psRangeText(lo, hi){ return lo===hi ? (lo + "위") : (lo + "~" + hi + "위"); }
 
@@ -2693,12 +2723,14 @@
     var note = document.getElementById("psNote");
     var wrap = document.getElementById("psMatrixWrap");
     var snap = psSnapshot();
+    var cut = cutRankFor(state.seasonYear);
     if(snap.base.every(function(b){ return b.played===0; })){
       body.innerHTML = '<tr class="empty-row"><td colspan="8">아직 입력된 경기 결과가 없습니다.</td></tr>';
       note.textContent = ""; wrap.style.display = "none";
       return;
     }
-    var order = computeStandings(state.seasonYear).map(function(s){ return TEAMS.indexOf(s.team); });
+    var order = computeStandings(state.seasonYear).map(function(s){ return TEAMS.indexOf(s.team); })
+      .filter(function(T){ return snap.base[T].played > 0 || snap.cnt[T] > 0; });
     var rows = [], noteHtml = "";
 
     if(snap.exact){
@@ -2707,23 +2739,23 @@
         ? '<b>최종 순위 기준</b> · 남은 경기가 없어서 지금 성적으로 순위를 확정했어요. 승률이 완전히 같을 땐 상대전적 등 타이브레이커를 반영하지 않아 순위를 확정하지 않아요.'
         : '<b>정확 계산</b> · 남은 일정 ' + snap.future.length + '경기가 모두 들어와 있어서, 가능한 모든 결과(승·무·패)를 직접 따져서 계산했어요. 승률이 완전히 같을 땐 상대전적 등 타이브레이커를 반영하지 않아 순위를 확정하지 않아요.';
       order.forEach(function(T, pos){
-        var cell = psCell(ex, T, CUT_RANK);
+        var cell = psCell(ex, T, cut);
         var s = snap.base[T];
         var rec = s.w + "승 " + s.d + "무 " + s.l + "패";
         var rng = psRangeText(ex.best[T], ex.worst[T]);
         var magicTxt = "-", tragicTxt = "-", desc = "";
         if(cell.kind==="secured"){
-          magicTxt = "확정"; desc = "포스트시즌(5위 이내) 진출 확정 · 최종 " + rng;
+          magicTxt = "확정"; desc = "포스트시즌(" + cut + "위 이내) 진출 확정 · 최종 " + rng;
         } else if(cell.kind==="impossible"){
           tragicTxt = "탈락 확정"; desc = "포스트시즌 진출 실패 확정 · 최종 " + rng;
         } else {
           var bits = [];
           if(cell.magic!==null){
             magicTxt = cell.magic + "승";
-            bits.push("남은 " + cell.R + "경기 중 " + cell.magic + "승을 거두면 5위 이내 확정");
+            bits.push("남은 " + cell.R + "경기 중 " + cell.magic + "승을 거두면 " + cut + "위 이내 확정");
           } else {
             magicTxt = "자력 불가";
-            var nd = psNeeded(snap.base, snap.future, T, CUT_RANK);
+            var nd = psNeeded(snap.base, snap.future, T, cut);
             var prefix = cell.R>0 ? ("남은 " + cell.R + "경기 전승 + ") : "남은 경기가 없어 ";
             bits.push("자력 확정 불가 — " + prefix + "필요 조건: " + (nd.conds.length ? nd.conds.slice(0,4).join(" / ") + (nd.conds.length>4 ? " 외 " + (nd.conds.length-4) + "건" : "") : "다른 경기 결과"));
           }
@@ -2738,20 +2770,20 @@
       renderPsMatrix(snap, ex, order);
       wrap.style.display = "";
     } else {
-      var remaining = snap.complete ? snap.cnt : snap.base.map(function(b){ return Math.max(0, TOTAL_SEASON_GAMES - b.played); });
-      var ap = psApprox(snap.base, remaining, CUT_RANK);
-      var why = snap.over ? "예정 경기 중 144경기를 넘는 팀이 있어(실제와 다른 예정 항목이 있을 수 있어요)"
+      var remaining = snap.complete ? snap.cnt : snap.base.map(function(b){ return Math.max(0, snap.total - b.played); });
+      var ap = psApprox(snap.base, remaining, cut);
+      var why = snap.over ? "예정 경기 중 " + snap.total + "경기를 넘는 팀이 있어(실제와 다른 예정 항목이 있을 수 있어요)"
               : (!snap.complete ? "남은 일정이 아직 다 들어오지 않아서" : "남은 경기가 " + snap.future.length + "경기로 많아서");
-      noteHtml = '<b>근사 계산</b> · ' + why + ' 팀당 144경기를 기준으로 승수만 비교한 단순 계산이에요(무승부·타이브레이커 미반영). 일정이 모두 들어오고 남은 경기가 ' + EXACT_LIMIT + '경기 이하가 되면 정확 계산과 순위 확정표가 나와요.';
+      noteHtml = '<b>근사 계산</b> · ' + why + ' 팀당 ' + snap.total + '경기를 기준으로 승수만 비교한 단순 계산이에요(무승부·타이브레이커 미반영). 일정이 모두 들어오고 남은 경기가 ' + EXACT_LIMIT + '경기 이하가 되면 정확 계산과 순위 확정표가 나와요.';
       order.forEach(function(T, pos){
         var a = ap[T], s = snap.base[T];
         var rec = s.w + "승 " + s.d + "무 " + s.l + "패";
         var magicTxt = "-", tragicTxt = "-", desc = "";
-        if(a.kind==="secured"){ magicTxt = "확정"; desc = "포스트시즌(5위 이내) 진출 확정"; }
+        if(a.kind==="secured"){ magicTxt = "확정"; desc = "포스트시즌(" + cut + "위 이내) 진출 확정"; }
         else if(a.kind==="impossible"){ tragicTxt = "탈락 확정"; desc = "포스트시즌 진출 실패 확정"; }
         else {
           var bits = [];
-          if(a.magic!==null){ magicTxt = a.magic + "승"; bits.push("남은 " + a.R + "경기 중 " + a.magic + "승이면 5위 이내 확정"); }
+          if(a.magic!==null){ magicTxt = a.magic + "승"; bits.push("남은 " + a.R + "경기 중 " + a.magic + "승이면 " + cut + "위 이내 확정"); }
           else {
             magicTxt = "자력 불가";
             if(a.need===null) bits.push("전승해도 다른 팀 결과와 무관하게 확정되기 어려움");
@@ -2792,14 +2824,14 @@
     var table = document.getElementById("psMatrix");
     var COLS = 9;
     var h = '<thead><tr><th rowspan="2" class="ps-team">구단</th><th colspan="' + COLS + '">순위</th></tr><tr>';
-    for(var r=1;r<=COLS;r++) h += '<th class="' + (r<=CUT_RANK ? "ps-h-in" : "ps-h-out") + '">' + r + "</th>";
+    for(var r=1;r<=COLS;r++) h += '<th class="' + (r<=cutRankFor(state.seasonYear) ? "ps-h-in" : "ps-h-out") + '">' + r + "</th>";
     h += "</tr></thead><tbody>";
     order.forEach(function(T){
       var b = ex.best[T], w = ex.worst[T];
       h += '<tr' + (TEAMS[T]===NC ? ' class="ps-nc"' : "") + '><th class="ps-team">' + escapeHtml(TEAMS[T]) + "</th>";
       if(b===w){
         var cls = b<=1 ? "ps-r1" : (b===2 ? "ps-r2" : (b<=5 ? "ps-sec" : "ps-imp"));
-        h += '<td colspan="' + COLS + '" class="' + cls + '">' + escapeHtml(psRankText(b)) + "</td>";
+        h += '<td colspan="' + COLS + '" class="' + cls + '">' + escapeHtml(psRankText(b, state.seasonYear)) + "</td>";
       } else {
         if(b>1) h += '<td colspan="' + (b-1) + '" class="ps-imp">' + (b-1) + "위 불가</td>";
         var lastOpen = Math.min(w-1, COLS);
@@ -2857,8 +2889,8 @@
       "KT wiz": ["kt","ktwiz","케이티","케이티위즈","위즈"],
       "두산 베어스": ["두산","두산베어스","베어스"],
       "LG 트윈스": ["lg","lg트윈스","엘지","트윈스"],
-      "SSG 랜더스": ["ssg","ssg랜더스","랜더스"],
-      "키움 히어로즈": ["키움","키움히어로즈","히어로즈"]
+      "SSG 랜더스": ["ssg","ssg랜더스","랜더스","sk","sk와이번스","와이번스"],
+      "키움 히어로즈": ["키움","키움히어로즈","히어로즈","넥센","넥센히어로즈","우리히어로즈"]
     };
     var map = {};
     TEAMS.forEach(function(t){ map[normKey(t)] = t; });
@@ -2982,6 +3014,17 @@
       return { items: [], errors: ["필수 제목(날짜, 어웨이, 홈)을 첫 줄에서 찾지 못했어요. 양식을 내려받아 확인해보세요."] };
     }
     var pending = {}, order = [];
+    var gameIndex = {}, taken = {};
+    state.games.forEach(function(g){
+      var k = g.date + "|" + g.awayTeam + "|" + g.homeTeam + "|" + (g.noRecord ? 1 : 0);
+      (gameIndex[k] = gameIndex[k] || []).push(g);
+    });
+    var pickExisting = function(k){
+      var arr = gameIndex[k];
+      if(!arr) return null;
+      for(var q = 0; q < arr.length; q++){ if(!taken[arr[q].id]) return arr[q]; }
+      return null;
+    };
     for(var r=1; r<table.length; r++){
       var line = r + 1;
       var row = table[r], f = {};
@@ -3024,18 +3067,14 @@
       var key = date + "|" + away + "|" + home + "|" + (noRec ? 1 : 0);
       var p = pending[key];
       if(!p){
-        var taken = {};
-        order.forEach(function(k2){ if(pending[k2].existing) taken[pending[k2].existing.id] = true; });
-        var existing = state.games.find(function(g){
-          return !taken[g.id] && !!g.noRecord===noRec && g.date===date && g.awayTeam===away && g.homeTeam===home;
-        }) || null;
+        var flag = noRec ? 1 : 0;
+        var existing = pickExisting(date + "|" + away + "|" + home + "|" + flag);
         var reversed = false;
         if(!existing){
-          existing = state.games.find(function(g){
-            return !taken[g.id] && !!g.noRecord===noRec && g.date===date && g.awayTeam===home && g.homeTeam===away;
-          }) || null;
+          existing = pickExisting(date + "|" + home + "|" + away + "|" + flag);
           reversed = !!existing;
         }
+        if(existing) taken[existing.id] = true;
         p = pending[key] = { date: date, away: away, home: home, existing: existing, reversed: reversed, patch: {} };
         order.push(key);
       }
@@ -3049,7 +3088,7 @@
       range = [dates[0], dates[dates.length-1]];
       var used = {};
       items.forEach(function(it){ if(it.existing) used[it.existing.id] = true; });
-      stale = state.games.filter(function(g){ return !g.noRecord && g.date>=range[0] && g.date<=range[1] && !used[g.id]; })
+      stale = state.games.filter(function(g){ return !g.noRecord && g.src!=="archive" && g.date>=range[0] && g.date<=range[1] && !used[g.id]; })
         .sort(function(a,b){ return a.date.localeCompare(b.date); });
     }
     return { items: items, errors: errors, stale: stale, range: range };
@@ -3084,23 +3123,28 @@
     }
   }
 
+  function newGameFromItem(it, createdAt){
+    var rec = {
+      id: uid(), date: it.date, awayTeam: it.away, homeTeam: it.home, noRecord: false, tag: "", phase: "regular", round: "",
+      awayPitcher: "", homePitcher: "", awayScore: null, homeScore: null, winner: null,
+      awayMVP: "", homeMVP: "", winPitcher: "", losePitcher: "", savePitcher: "", holdPitcher: "",
+      stadium: STADIUM_MAP[it.home] || "", watched: false, canceled: false, cancelReason: "",
+      createdAt: createdAt
+    };
+    applyPatchToGame(rec, it.patch);
+    return rec;
+  }
+
   function applyImportPlan(plan, protect, cleanup){
     var added = 0, updated = 0, fixed = 0, removed = 0, ts = Date.now();
     plan.items.forEach(function(it, i){
       if(it.existing){
         if(it.reversed){ swapSides(it.existing); fixed++; }
         applyPatchToGame(it.existing, it.patch, protect);
+        delete it.existing.src;        // 가져오기로 직접 반영한 기록은 이 기기에도 저장돼요
         updated++;
       } else {
-        var rec = {
-          id: uid(), date: it.date, awayTeam: it.away, homeTeam: it.home, noRecord: false, tag: "", phase: "regular", round: "",
-          awayPitcher: "", homePitcher: "", awayScore: null, homeScore: null, winner: null,
-          awayMVP: "", homeMVP: "", winPitcher: "", losePitcher: "", savePitcher: "", holdPitcher: "",
-          stadium: STADIUM_MAP[it.home] || "", watched: false, canceled: false, cancelReason: "",
-          createdAt: ts + i
-        };
-        applyPatchToGame(rec, it.patch);
-        state.games.push(rec);
+        state.games.push(newGameFromItem(it, ts + i));
         added++;
       }
     });
@@ -3240,10 +3284,10 @@
 
   // --- Load the CSV that GitHub Actions keeps up to date (data/kbo_results.csv) ---
   var REPO_CSV_PATH = "data/kbo_results.csv";
-  function fetchRepoCsvBuffer(){
+  function fetchRepoFile(path, fresh){
     if(syncConfigured()){
       var url = "https://api.github.com/repos/" + encodeURIComponent(syncCfg.owner) + "/" + encodeURIComponent(syncCfg.repo) +
-        "/contents/" + REPO_CSV_PATH + "?ref=" + encodeURIComponent(syncCfg.branch || "main");
+        "/contents/" + path + "?ref=" + encodeURIComponent(syncCfg.branch || "main");
       return fetch(url, { headers: { "Authorization": "Bearer " + syncCfg.token, "Accept": "application/vnd.github.raw+json" } })
         .then(function(res){
           if(res.status===404) throw new Error("NOTFOUND");
@@ -3251,12 +3295,90 @@
           return res.arrayBuffer();
         });
     }
-    return fetch(REPO_CSV_PATH + "?t=" + Date.now(), { cache: "no-store" }).then(function(res){
+    return fetch(path + (fresh ? "?t=" + Date.now() : ""), fresh ? { cache: "no-store" } : {}).then(function(res){
       if(res.status===404) throw new Error("NOTFOUND");
       if(!res.ok) throw new Error("HTTP " + res.status);
       return res.arrayBuffer();
     });
   }
+  function fetchRepoCsvBuffer(){ return fetchRepoFile(REPO_CSV_PATH, true); }
+
+  // --- Past seasons kept by GitHub Actions (data/kbo_results_YYYY.csv): loaded when the page opens, not stored on this device ---
+  var archiveCache = {};     // year -> games (each marked src:"archive")
+  var archiveInfo = { state: "idle", years: [], games: 0, skipped: 0, msg: "" };
+  function gkey(g){ return g.date + "|" + g.awayTeam + "|" + g.homeTeam; }
+  function applyArchiveCache(){
+    var persisted = state.games.filter(function(g){ return g.src!=="archive"; });
+    var keys = {};
+    persisted.forEach(function(g){ keys[gkey(g)] = true; });
+    var add = [];
+    Object.keys(archiveCache).forEach(function(y){
+      archiveCache[y].forEach(function(g){ if(!keys[gkey(g)]) add.push(g); });
+    });
+    state.games = persisted.concat(add);
+  }
+  function renderArchiveStatus(){
+    var el = document.getElementById("archiveStatus");
+    if(!el) return;
+    var st = archiveInfo.state, msg = "";
+    if(st==="loading") msg = "과거 시즌을 저장소에서 불러오는 중이에요…";
+    else if(st==="ok"){
+      var ys = archiveInfo.years;
+      msg = "자동 보관된 과거 시즌 " + ys.length + "개" + (ys.length ? " (" + ys[0] + "~" + ys[ys.length-1] + ", 총 " + archiveInfo.games.toLocaleString() + "경기)" : "") +
+        "를 저장소에서 불러왔어요. 이 기록은 이 기기에 따로 저장하지 않고, 열 때마다 저장소에서 가져와요." +
+        (archiveInfo.skipped ? " (팀 이름을 알 수 없는 " + archiveInfo.skipped + "줄은 제외)" : "");
+    }
+    else if(st==="error") msg = archiveInfo.msg;
+    el.textContent = msg;
+    el.style.color = st==="error" ? "#C64B4B" : "";
+  }
+  function loadArchive(){
+    archiveInfo.state = "loading"; renderArchiveStatus();
+    var cur = new Date().getFullYear();
+    return fetchRepoFile("data/index.json", true).then(function(buf){
+      var manifest = JSON.parse(decodeBuffer(buf).replace(/^\uFEFF/, ""));
+      if(manifest.founding && !state.meta.foundingDate){ state.meta.foundingDate = manifest.founding; saveMeta(); }
+      var years = (manifest.years || []).filter(function(y){ return y < cur; });
+      return Promise.all(years.map(function(y){
+        return fetchRepoFile("data/kbo_results_" + y + ".csv", false)
+          .then(function(b){ return { y: y, text: decodeBuffer(b) }; })
+          .catch(function(){ return { y: y, text: null }; });
+      }));
+    }).then(function(list){
+      state.games = state.games.filter(function(g){ return g.src!=="archive"; });
+      archiveCache = {};
+      var total = 0, skipped = 0, loaded = [];
+      list.forEach(function(item){
+        if(!item.text) return;
+        var plan = buildImportPlan(parseDelimited(item.text.replace(/^\uFEFF/, "")));
+        skipped += plan.errors.length;
+        var recs = [];
+        plan.items.forEach(function(it){
+          if(it.existing) return;                 // a record already on this device wins
+          var rec = newGameFromItem(it, 0);
+          delete rec.createdAt;                   // so it never affects the "next date" suggestion
+          rec.src = "archive";
+          recs.push(rec);
+        });
+        if(recs.length){ archiveCache[item.y] = recs; total += recs.length; loaded.push(item.y); }
+      });
+      applyArchiveCache();
+      loaded.sort(function(a, b){ return a - b; });
+      archiveInfo = { state: "ok", years: loaded, games: total, skipped: skipped, msg: "" };
+      renderArchiveStatus();
+      refreshAllViews();
+    }).catch(function(err){
+      archiveInfo = { state: "error", years: [], games: 0, skipped: 0,
+        msg: err.message==="NOTFOUND"
+          ? "저장소에서 data/index.json을 찾지 못했어요. GitHub Actions의 '창단 이후 전체 보관'을 한 번 실행했는지 확인해주세요."
+          : "과거 시즌을 불러오지 못했어요: " + err.message + (syncConfigured() ? " (동기화 탭의 저장소·토큰 설정을 확인해주세요)" : " (동기화 탭에 저장소를 연결하면 어디서든 불러올 수 있어요)") };
+      renderArchiveStatus();
+    });
+  }
+  function refreshAllViews(){
+    renderCalendarTab(); renderOtherTab(); renderRankingTab(); renderHeadToHeadRanking(); renderPostseasonScenarios();
+  }
+  document.getElementById("archiveReloadBtn").addEventListener("click", function(){ loadArchive(); });
   document.getElementById("impRepoBtn").addEventListener("click", function(){
     impResult.textContent = "저장소에서 불러오는 중...";
     fetchRepoCsvBuffer().then(function(buf){
@@ -3359,9 +3481,11 @@
     syncPull(true).finally(function(){
       overlay.style.display = "none";
       initialRender();
+      loadArchive();
     });
   } else {
     initialRender();
+    loadArchive();
   }
 })();
 </script>
