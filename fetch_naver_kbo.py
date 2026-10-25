@@ -22,6 +22,10 @@
   python fetch_naver_kbo.py --no-postseason
   python fetch_naver_kbo.py --include-exhibition
 
+  # ★ 창단 이후 모든 시즌을 연도별 파일로 보관 (GitHub Actions에서 쓰는 방식)
+  #    지난 시즌은 한 번만 받아서 data/kbo_results_2013.csv 처럼 저장해두고, 올해만 매번 갱신해요.
+  python fetch_naver_kbo.py --archive-dir data --founding 2011-03-31
+
 실행하면 kbo_results.csv 가 만들어져요. 기록판 > '일정 가져오기' 탭에서 그 파일을 선택하세요.
 
 ※ 네이버의 비공식(공개 문서 없음) 주소를 사용해요. 예고 없이 바뀔 수 있어요.
@@ -30,6 +34,7 @@
 import argparse
 import csv
 import json
+import os
 import sys
 import time
 from datetime import date, datetime, timedelta
@@ -166,6 +171,213 @@ def probe(game_id):
         print("실패(없는 주소일 수 있어요):", e)
 
 
+def fetch_range(a, b):
+    qs = urlencode({
+        "fields": "basic,schedule,baseball,manualRelayUrl",
+        "upperCategoryId": "kbaseball",
+        "fromDate": a.isoformat(),
+        "toDate": b.isoformat(),
+        "size": 500,
+    })
+    payload = fetch_json("%s?%s" % (BASE, qs))
+    return payload["result"]["games"]
+
+
+def detect_chunk_days(sleep):
+    """여러 날을 한 번에 조회해도 하루씩 조회한 것과 같은 결과가 나오는지 확인해서 묶음 크기를 정해요."""
+    cur = date.today().year
+    for y in (cur - 1, cur - 2, cur - 3):
+        a, b = date(y, 4, 7), date(y, 4, 13)
+        try:
+            ranged = {g.get("gameId") for g in with_retry(fetch_range, a, b)}
+            perday = set()
+            d = a
+            while d <= b:
+                perday |= {g.get("gameId") for g in with_retry(fetch_day, d)}
+                d += timedelta(days=1)
+                time.sleep(sleep)
+        except Exception:
+            continue
+        if perday:
+            if ranged == perday:
+                print("범위 조회 확인 완료: 7일씩 묶어서 받아요. (%d년 샘플 %d경기 일치)" % (y, len(perday)))
+                return 7
+            print("범위 조회 결과가 하루씩 받은 결과와 달라서, 안전하게 하루씩 받아요.")
+            return 1
+    print("범위 조회를 확인할 샘플이 없어서, 안전하게 하루씩 받아요.")
+    return 1
+
+
+def convert_game(g, args, enrich_ok, counters):
+    """네이버 경기 하나를 CSV 한 줄로 바꿔요. 건너뛸 경기는 None."""
+    if g.get("categoryId") not in (None, "kbo"):
+        return None
+    rc = g.get("roundCode") or ""
+    counters["round"][rc or "(없음)"] = counters["round"].get(rc or "(없음)", 0) + 1
+    phase, rnd, extra_tag = "regular", "", ""
+    if rc in ROUND_MAP:
+        phase, rnd = ROUND_MAP[rc]
+    elif rc in EXTRA_MAP:
+        if not args.include_exhibition:
+            return None
+        extra_tag = EXTRA_MAP[rc]
+    elif rc.startswith("kbo_ps"):
+        phase = "post"              # 새로운 포스트시즌 코드: 라운드 이름만 비워둠
+    elif rc:
+        return None                 # 알 수 없는 코드는 건너뜀
+    else:
+        counters["nocode"] += 1     # 라운드 코드가 없으면 정규/포스트를 구분할 수 없어 건너뜀
+        return None
+    if phase == "post" and args.no_postseason:
+        return None
+    canceled = is_canceled(g)
+    status = (g.get("statusCode") or "").upper()
+    if args.results_only and not canceled and status != "RESULT":
+        return None
+    if enrich_ok and (status == "RESULT" or canceled) and not (g.get("winPitcherName") and g.get("awayStarterName")):
+        g = enrich(g)
+    row, status, canceled = build_row(g, args.with_stadium)
+    if not row["날짜"] or not row["어웨이"] or not row["홈"]:
+        return None
+    if extra_tag:
+        row["기록제외"], row["구분"] = "O", extra_tag
+    else:
+        row["시즌구분"] = "포스트시즌" if phase == "post" else "정규시즌"
+        row["라운드"] = rnd
+    key = "취소" if canceled else status
+    counters["status"][key] = counters["status"].get(key, 0) + 1
+    return row, g
+
+
+def collect(start, end, args, chunk_days, enrich_ok):
+    """start~end 기간의 경기를 받아 (rows, raw, counters, failed_days)로 돌려줘요."""
+    rows, raw, failed = [], [], []
+    counters = {"status": {}, "round": {}, "nocode": 0}
+    seen = set()
+
+    def take(games):
+        for g in games:
+            gid = g.get("gameId")
+            if gid in seen:
+                continue
+            seen.add(gid)
+            res = convert_game(g, args, enrich_ok, counters)
+            if res:
+                rows.append(res[0])
+                raw.append(res[1])
+
+    d = start
+    while d <= end:
+        span_end = min(end, d + timedelta(days=chunk_days - 1))
+        done = False
+        if chunk_days > 1:
+            try:
+                games = with_retry(fetch_range, d, span_end)
+                take([g for g in games if d.isoformat() <= (g.get("gameDate") or "") <= span_end.isoformat()])
+                done = True
+            except Exception as e:
+                print("  ! %s~%s 묶음 조회 실패, 하루씩 다시 시도: %s" % (d.isoformat(), span_end.isoformat(), e))
+        if not done:
+            dd = d
+            while dd <= span_end:
+                try:
+                    take(with_retry(fetch_day, dd))
+                except Exception as e:
+                    failed.append(dd.isoformat())
+                    print("  ! %s 실패: %s" % (dd.isoformat(), e))
+                dd += timedelta(days=1)
+                time.sleep(args.sleep)
+        d = span_end + timedelta(days=1)
+        time.sleep(args.sleep)
+    return rows, raw, counters, failed
+
+
+def write_csv(path, rows):
+    rows = sorted(rows, key=lambda r: (r["날짜"], r["홈"]))
+    with open(path, "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=COLUMNS)
+        w.writeheader()
+        w.writerows(rows)
+
+
+def count_rows(path):
+    try:
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            return max(0, sum(1 for _ in csv.reader(f)) - 1)
+    except OSError:
+        return 0
+
+
+def parse_window(text):
+    try:
+        a, b = text.split(":")
+        m1, d1 = [int(x) for x in a.split("-")]
+        m2, d2 = [int(x) for x in b.split("-")]
+        return (m1, d1), (m2, d2)
+    except Exception:
+        sys.exit("--season-window 형식이 잘못됐어요. 예: 03-01:11-30")
+
+
+def run_archive(args):
+    founding = datetime.strptime(args.founding, "%Y-%m-%d").date()
+    cur = date.today().year
+    (m1, d1), (m2, d2) = parse_window(args.season_window)
+    os.makedirs(args.archive_dir, exist_ok=True)
+    refresh = {int(x) for x in args.refresh_years.split(",") if x.strip()}
+
+    chunk = args.chunk_days
+    if chunk <= 0:
+        chunk = detect_chunk_days(args.sleep)
+
+    failed_years = []
+    for y in range(founding.year, cur + 1):
+        path = os.path.join(args.archive_dir, "kbo_results_%d.csv" % y)
+        is_past = y < cur
+        if is_past and os.path.exists(path) and not args.refresh_all and y not in refresh:
+            print("%d년: 이미 보관돼 있어서 건너뛰어요. (%d경기)" % (y, count_rows(path)))
+            continue
+        start, end = date(y, m1, d1), date(y, m2, d2)
+        print("%d년: %s ~ %s 받는 중..." % (y, start.isoformat(), end.isoformat()))
+        rows, _raw, counters, failed = collect(start, end, args, chunk, enrich_ok=(not is_past) or args.enrich_history)
+        if failed:
+            print("  → 받지 못한 날짜가 있어서 %d년 파일은 갱신하지 않았어요: %s" % (y, ", ".join(failed[:8]) + (" ..." if len(failed) > 8 else "")))
+            failed_years.append(y)
+            continue
+        if counters["nocode"]:
+            print("  ⚠ 라운드 코드가 없는 경기 %d개는 정규/포스트를 구분할 수 없어 제외했어요." % counters["nocode"])
+        if not rows:
+            if is_past:
+                write_csv(path, [])      # 경기가 없는 해는 빈 파일로 표시해서 다음부터 다시 받지 않아요
+                print("  → %d년은 받은 경기가 없어요. (빈 파일로 표시)" % y)
+            else:
+                print("  → 올해는 아직 받은 경기가 없어요. 기존 파일은 그대로 둬요.")
+            continue
+        write_csv(path, rows)
+        print("  → 저장: %s (%d경기) 상태별 %s" % (path, len(rows), counters["status"]))
+
+    # 올해 파일을 '최신' 파일로도 복사 (기록판의 '자동 수집된 최신 CSV 불러오기'가 읽는 파일)
+    cur_path = os.path.join(args.archive_dir, "kbo_results_%d.csv" % cur)
+    if os.path.exists(cur_path) and count_rows(cur_path) > 0:
+        with open(cur_path, "rb") as src, open(os.path.join(args.archive_dir, "kbo_results.csv"), "wb") as dst:
+            dst.write(src.read())
+
+    years = [y for y in range(founding.year, cur + 1)
+             if count_rows(os.path.join(args.archive_dir, "kbo_results_%d.csv" % y)) > 0]
+    manifest = {
+        "founding": founding.isoformat(),
+        "currentYear": cur,
+        "years": years,
+        "updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    with open(os.path.join(args.archive_dir, "index.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, ensure_ascii=False, indent=2)
+    print("보관된 시즌: %s" % (", ".join(str(y) for y in years) or "없음"))
+    if failed_years:
+        print("다시 실행이 필요한 해:", ", ".join(str(y) for y in failed_years))
+        if args.strict:
+            sys.exit(1)
+
+
 def main():
     today = date.today()
     ap = argparse.ArgumentParser(description="네이버 스포츠 KBO 결과 -> CSV")
@@ -180,10 +392,23 @@ def main():
     ap.add_argument("--sleep", type=float, default=0.2, help="요청 사이 대기(초)")
     ap.add_argument("--strict", action="store_true", help="하루라도 받지 못하면 파일을 만들지 않고 실패로 종료 (자동 실행용)")
     ap.add_argument("--probe", default="", help="경기ID 하나의 원본 응답 확인")
+    # 시즌별 보관 모드
+    ap.add_argument("--archive-dir", default="", help="지정하면 창단 연도부터 올해까지 연도별 파일(kbo_results_YYYY.csv)로 보관")
+    ap.add_argument("--founding", default="", help="창단일 YYYY-MM-DD (보관 모드에서 이 날짜가 속한 해부터 받아요)")
+    ap.add_argument("--season-window", default="03-01:11-30", help="매년 받을 기간 월-일:월-일 (기본 03-01:11-30)")
+    ap.add_argument("--refresh-all", action="store_true", help="이미 보관된 지난 시즌도 모두 다시 받기")
+    ap.add_argument("--refresh-years", default="", help="다시 받을 연도 목록 (예: 2024,2025)")
+    ap.add_argument("--chunk-days", type=int, default=0, help="한 번에 조회할 일수 (0=자동 확인, 1=하루씩)")
+    ap.add_argument("--enrich-history", action="store_true", help="지난 시즌도 경기마다 선발·투수 정보를 추가 조회 (오래 걸려요)")
     args = ap.parse_args()
 
     if args.probe:
         probe(args.probe)
+        return
+    if args.archive_dir:
+        if not args.founding:
+            sys.exit("--archive-dir 를 쓰려면 --founding 창단일이 필요해요.")
+        run_archive(args)
         return
 
     start = datetime.strptime(args.start, "%Y-%m-%d").date()
@@ -191,75 +416,24 @@ def main():
     if start > end:
         sys.exit("--from 이 --to 보다 늦어요.")
 
-    rows, raw = [], []
-    status_count, round_count, failed = {}, {}, []
-    d = start
-    while d <= end:
-        try:
-            games = with_retry(fetch_day, d)
-        except Exception as e:
-            failed.append(d.isoformat())
-            print("  ! %s 실패: %s" % (d.isoformat(), e))
-            d += timedelta(days=1)
-            continue
-
-        for g in games:
-            if g.get("categoryId") not in (None, "kbo"):
-                continue
-            rc = g.get("roundCode") or ""
-            round_count[rc or "(없음)"] = round_count.get(rc or "(없음)", 0) + 1
-            phase, rnd, extra_tag = "regular", "", ""
-            if rc in ROUND_MAP:
-                phase, rnd = ROUND_MAP[rc]
-            elif rc in EXTRA_MAP:
-                if not args.include_exhibition:
-                    continue
-                extra_tag = EXTRA_MAP[rc]
-            elif rc.startswith("kbo_ps"):
-                phase = "post"          # 새로운 포스트시즌 코드: 라운드 이름만 비워둠
-            elif rc:
-                continue                # 알 수 없는 코드는 건너뜀
-            if phase == "post" and args.no_postseason:
-                continue
-            canceled = is_canceled(g)
-            status = (g.get("statusCode") or "").upper()
-            if args.results_only and not canceled and status != "RESULT":
-                continue
-            if (status == "RESULT" or canceled) and not (g.get("winPitcherName") and g.get("awayStarterName")):
-                g = enrich(g)
-            row, status, canceled = build_row(g, args.with_stadium)
-            if not row["날짜"] or not row["어웨이"] or not row["홈"]:
-                continue
-            if extra_tag:
-                row["기록제외"], row["구분"] = "O", extra_tag
-            else:
-                row["시즌구분"] = "포스트시즌" if phase == "post" else "정규시즌"
-                row["라운드"] = rnd
-            key = "취소" if canceled else status
-            status_count[key] = status_count.get(key, 0) + 1
-            rows.append(row)
-            raw.append(g)
-        d += timedelta(days=1)
-        time.sleep(args.sleep)
-
+    chunk = args.chunk_days if args.chunk_days > 0 else 1
+    rows, raw, counters, failed = collect(start, end, args, chunk, enrich_ok=True)
     if not rows:
         print("받은 경기가 없어요. 날짜 범위를 확인해보세요. (기존 파일은 그대로 둬요)")
         sys.exit(1)
     if args.strict and failed:
         print("받지 못한 날짜가 있어서 파일을 갱신하지 않았어요:", ", ".join(failed))
         sys.exit(1)
-    rows.sort(key=lambda r: (r["날짜"], r["홈"]))
-    with open(args.out, "w", newline="", encoding="utf-8-sig") as f:
-        w = csv.DictWriter(f, fieldnames=COLUMNS)
-        w.writeheader()
-        w.writerows(rows)
+    write_csv(args.out, rows)
     if args.json_out:
         with open(args.json_out, "w", encoding="utf-8") as f:
             json.dump(raw, f, ensure_ascii=False, indent=2)
 
     print("저장 완료: %s (%d경기)" % (args.out, len(rows)))
-    print("상태별:", status_count or "없음")
-    print("라운드 코드별(필터 전):", round_count or "없음")
+    print("상태별:", counters["status"] or "없음")
+    print("라운드 코드별(필터 전):", counters["round"] or "없음")
+    if counters["nocode"]:
+        print("라운드 코드가 없어 제외한 경기: %d개" % counters["nocode"])
     if failed:
         print("받지 못한 날짜(다시 실행해 보세요):", ", ".join(failed))
 
