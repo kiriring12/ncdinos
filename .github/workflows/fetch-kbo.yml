@@ -11,6 +11,7 @@
 #
 # Actions 탭에서 'Run workflow'로 수동 실행도 가능해요.
 #   - '다시 받을 연도'에 2024,2025 처럼 적으면 그 해만 새로 받아요 (비워두면 올해만 갱신).
+#   - all 이라고 적으면 보관된 모든 시즌을 처음부터 다시 받아요. (구장 정보가 없던 예전 파일을 한 번 새로 받을 때 쓰세요)
 name: KBO 결과 자동 수집
 
 on:
@@ -19,7 +20,7 @@ on:
   workflow_dispatch:
     inputs:
       refresh_years:
-        description: "다시 받을 연도 (예: 2024,2025). 비워두면 올해만 갱신"
+        description: "다시 받을 연도 (예: 2024,2025 / 전부 다시 받으려면 all). 비워두면 올해만 갱신"
         required: false
         default: ""
 
