@@ -716,12 +716,21 @@
 
     <div class="panel rank-wrap" style="margin-top:16px;">
       <div class="table-toolbar">
-        <h2 class="section-title" style="margin:0;">구장별 승률</h2>
+        <h2 class="section-title" style="margin:0;" id="recStadiumSeasonTitle">시즌 구장별 승률</h2>
         <select class="filter-select" id="recPhase"><option value="regular">정규시즌</option><option value="post">포스트시즌</option><option value="both">정규+포스트시즌</option></select>
       </div>
       <div style="overflow-x:auto;">
-        <table class="rank-table" style="min-width:560px;"><thead id="recStadiumHead"></thead><tbody id="recStadiumBody"></tbody></table>
+        <table class="rank-table" style="min-width:560px;"><thead id="recStadiumSeasonHead"></thead><tbody id="recStadiumSeasonBody"></tbody></table>
       </div>
+      <div class="hint" style="margin-top:8px;">그 시즌에 경기가 있었던 구장만 나와요. 홈구장이 바뀐 팀은 새 구장과 옛 구장이 따로 나와요 (예: 마산종합운동장 야구장 → 창원NC파크).</div>
+    </div>
+
+    <div class="panel rank-wrap" style="margin-top:16px;">
+      <h2 class="section-title" id="recStadiumCareerTitle">통산 구장별 승률</h2>
+      <div style="overflow-x:auto;">
+        <table class="rank-table" style="min-width:560px;"><thead id="recStadiumCareerHead"></thead><tbody id="recStadiumCareerBody"></tbody></table>
+      </div>
+      <div class="hint" style="margin-top:8px;">NC가 경기를 치른 모든 구장(홈·원정, 임시 홈구장 포함)이 들어가요. 앱에 입력·보관된 경기 기준이에요.</div>
     </div>
 
     <div class="panel rank-wrap" style="margin-top:16px;">
@@ -729,7 +738,7 @@
       <div style="overflow-x:auto;">
         <table class="rank-table" style="min-width:560px;"><thead id="recTeamHead"></thead><tbody id="recTeamBody"></tbody></table>
       </div>
-      <div class="hint" style="margin-top:8px;">구장별·팀별 승률은 앱에 입력된 경기 기준이고, 위의 연도별 "직접 입력" 숫자는 반영되지 않아요. 구장별·팀별 표의 정규시즌/포스트시즌 선택은 위 구장별 표의 선택을 따라가요.</div>
+      <div class="hint" style="margin-top:8px;">구장별·팀별 승률은 앱에 입력된 경기 기준이고, 위의 연도별 "직접 입력" 숫자는 반영되지 않아요. 구장별·팀별 표의 정규시즌/포스트시즌 선택은 시즌 구장별 표 위의 선택을 따라가요.</div>
     </div>
   </section>
 
@@ -834,18 +843,45 @@
   "use strict";
 
   var TEAMS = ["NC 다이노스","롯데 자이언츠","삼성 라이온즈","KIA 타이거즈","한화 이글스","KT wiz","두산 베어스","LG 트윈스","SSG 랜더스","키움 히어로즈"];
-  var STADIUM_MAP = {
-    "NC 다이노스":"창원NC파크",
-    "롯데 자이언츠":"사직 야구장",
-    "삼성 라이온즈":"대구 삼성 라이온즈 파크",
-    "KIA 타이거즈":"광주-기아 챔피언스 필드",
-    "한화 이글스":"대전 한화생명 볼파크",
-    "KT wiz":"수원 케이티 위즈 파크",
-    "SSG 랜더스":"인천 SSG 랜더스필드",
-    "두산 베어스":"서울종합운동장 잠실 야구장",
-    "LG 트윈스":"서울종합운동장 잠실 야구장",
-    "키움 히어로즈":"고척 스카이돔"
+  // ---- stadium history (name changes only, e.g. 행복드림구장 -> 랜더스필드, are NOT split; a new/rebuilt ballpark IS) ----
+  function stadiumYear(date){ return parseInt(String(date || "").slice(0, 4), 10) || new Date().getFullYear(); }
+  // Where a team normally plays its home games in a given season (used when the data does not say).
+  function defaultStadium(team, date){
+    var y = stadiumYear(date);
+    switch(team){
+      case "NC 다이노스":    return y >= 2019 ? "창원NC파크" : "마산종합운동장 야구장";                       // 2019 new ballpark
+      case "롯데 자이언츠":  return "사직 야구장";
+      case "삼성 라이온즈":  return y >= 2016 ? "대구 삼성 라이온즈 파크" : "대구시민운동장 야구장";       // 2016 new ballpark
+      case "KIA 타이거즈":   return y >= 2014 ? "광주-기아 챔피언스 필드" : "광주 무등경기장 야구장";       // 2014 new ballpark
+      case "한화 이글스":    return y >= 2025 ? "대전 한화생명 볼파크" : "대전 한밭종합운동장 야구장";     // 2025 new ballpark
+      case "KT wiz":         return y >= 2015 ? "수원 케이티 위즈 파크" : "수원종합운동장 야구장";
+      case "SSG 랜더스":     return "인천 SSG 랜더스필드";
+      case "두산 베어스":
+      case "LG 트윈스":      return "서울종합운동장 잠실 야구장";
+      case "키움 히어로즈":  return y >= 2016 ? "고척 스카이돔" : "서울 목동야구장";                       // 2016 moved to 고척
+    }
+    return "";
+  }
+  // The data (Naver) gives only the city/place ("창원", "울산"...). Turn it into the official name of that year.
+  var STADIUM_PLACE = {
+    "잠실": "서울종합운동장 잠실 야구장", "사직": "사직 야구장",
+    "문학": "인천 SSG 랜더스필드", "인천": "인천 SSG 랜더스필드",
+    "고척": "고척 스카이돔", "목동": "서울 목동야구장",
+    "수원": function(y){ return y >= 2015 ? "수원 케이티 위즈 파크" : "수원종합운동장 야구장"; },
+    "광주": function(y){ return y >= 2014 ? "광주-기아 챔피언스 필드" : "광주 무등경기장 야구장"; },
+    "대구": function(y){ return y >= 2016 ? "대구 삼성 라이온즈 파크" : "대구시민운동장 야구장"; },
+    "대전": function(y){ return y >= 2025 ? "대전 한화생명 볼파크" : "대전 한밭종합운동장 야구장"; },
+    "창원": function(y){ return y >= 2019 ? "창원NC파크" : "마산종합운동장 야구장"; },
+    "마산": function(y){ return y >= 2019 ? "창원NC파크" : "마산종합운동장 야구장"; },
+    "포항": "포항야구장", "울산": "울산 문수야구장", "청주": "청주종합운동장 야구장"
   };
+  function canonicalStadium(raw, date){
+    var r = String(raw || "").trim();
+    if(!r) return "";
+    var t = STADIUM_PLACE[r.replace(/\s+/g, "")];
+    if(!t) return r;                      // already an official name, or a place we do not know
+    return (typeof t === "function") ? t(stadiumYear(date)) : t;
+  }
   var STORAGE_KEY = "nc_dinos_game_records_v1";
   var META_KEY = "nc_dinos_meta_v1";
   var NC = "NC 다이노스";
@@ -1225,7 +1261,7 @@
     var t = ncCurrentTeams();
     document.getElementById("ncAwayLabel").textContent = "⬅ " + t.awayTeam;
     document.getElementById("ncHomeLabel").textContent = t.homeTeam + " ➡";
-    var def = STADIUM_MAP[t.homeTeam] || "";
+    var def = defaultStadium(t.homeTeam, document.getElementById("nc-date").value);
     if(state.stadiumAutoOk){
       ncStadiumInput.value = def;
     }
@@ -1239,6 +1275,7 @@
     updateNcLabels();
   });
   ncOppCustomInput.addEventListener("input", function(){ updateNcLabels(); });
+  document.getElementById("nc-date").addEventListener("change", function(){ if(state.stadiumAutoOk) updateNcLabels(); });
   ncStadiumInput.addEventListener("input", function(){
     state.stadiumAutoOk = (ncStadiumInput.value.trim()==="");
   });
@@ -1322,7 +1359,7 @@
     var cancelReason = document.getElementById("nc-cancelReason").value.trim();
     if(cancel && !cancelReason){ toast("취소 사유를 입력해주세요."); return; }
 
-    var stadium = ncStadiumInput.value.trim() || STADIUM_MAP[teams.homeTeam] || "";
+    var stadium = ncStadiumInput.value.trim() || defaultStadium(teams.homeTeam, date);
     var existingNc = state.editingId ? state.games.find(function(g){ return g.id===state.editingId; }) : null;
 
     var rec = {
@@ -1696,7 +1733,7 @@
       losePitcher: base ? (base.losePitcher||"") : "",
       savePitcher: base ? (base.savePitcher||"") : "",
       holdPitcher: base ? (base.holdPitcher||"") : "",
-      stadium: (base && base.stadium) || STADIUM_MAP[homeTeam] || "",
+      stadium: (base && base.stadium) || defaultStadium(homeTeam, date),
       watched: base ? !!base.watched : false,
       canceled: !!row.canceled,
       cancelReason: row.canceled ? (row.cancelReason||"") : "",
@@ -2289,21 +2326,32 @@
       return '<tr' + (bold ? ' class="rec-total"' : '') + '><td>' + escapeHtml(label) + '</td><td class="tabular">' + ((sRec.w+sRec.d+sRec.l) ? (sRec.w+sRec.d+sRec.l) + '전 ' + wdlText(sRec) : '-') + '</td><td class="rate-cell tabular">' + fmtRate(sRec.rate) +
         '</td><td class="tabular">' + ((cRec.w+cRec.d+cRec.l) ? (cRec.w+cRec.d+cRec.l) + '전 ' + wdlText(cRec) : '-') + '</td><td class="rate-cell tabular">' + fmtRate(cRec.rate) + '</td></tr>';
     };
-    var stad = {};
-    pool.forEach(function(g){
-      var k = g.stadium || STADIUM_MAP[g.homeTeam] || "(구장 미기재)";
-      if(!stad[k]) stad[k] = { s: [], c: [] };
-      stad[k].c.push(g);
-      if(gameYear(g)===year) stad[k].s.push(g);
-    });
-    var srows = Object.keys(stad).map(function(k){
-      return { k: k, s: computeRecord(stad[k].s, NC), c: computeRecord(stad[k].c, NC) };
-    }).filter(function(r){ return (r.c.w + r.c.d + r.c.l) > 0; })
-      .sort(function(a, b){ return (b.c.w + b.c.d + b.c.l) - (a.c.w + a.c.d + a.c.l); });
-    document.getElementById("recStadiumHead").innerHTML = head("구장 (" + phLabel + ")");
-    document.getElementById("recStadiumBody").innerHTML = srows.length
-      ? srows.map(function(r){ return line(r.k, r.s, r.c, false); }).join("")
-      : '<tr class="empty-row"><td colspan="5">기록된 경기가 없습니다.</td></tr>';
+    var stadHead = '<tr><th>구장 (NC 기준)</th><th>경기</th><th>승</th><th>무</th><th>패</th><th>승률</th></tr>';
+    var stadiumRows = function(games){
+      var by = {};
+      games.forEach(function(g){
+        var k = g.stadium || defaultStadium(g.homeTeam, g.date) || "(구장 미기재)";
+        (by[k] = by[k] || []).push(g);
+      });
+      return Object.keys(by).map(function(k){ return { k: k, r: computeRecord(by[k], NC) }; })
+        .filter(function(x){ return (x.r.w + x.r.d + x.r.l) > 0; })
+        .sort(function(a, b){ return (b.r.w + b.r.d + b.r.l) - (a.r.w + a.r.d + a.r.l) || a.k.localeCompare(b.k); });
+    };
+    var stadiumTable = function(rows){
+      if(!rows.length) return '<tr class="empty-row"><td colspan="6">기록된 경기가 없습니다.</td></tr>';
+      var tw = 0, td = 0, tl = 0;
+      var html = rows.map(function(x){
+        tw += x.r.w; td += x.r.d; tl += x.r.l;
+        return '<tr><td>' + escapeHtml(x.k) + '</td><td class="tabular">' + (x.r.w + x.r.d + x.r.l) + '전</td><td class="tabular">' + x.r.w + '승</td><td class="tabular">' + x.r.d + '무</td><td class="tabular">' + x.r.l + '패</td><td class="rate-cell tabular">' + fmtRate(x.r.rate) + '</td></tr>';
+      }).join("");
+      return html + '<tr class="rec-total"><td>합계 (' + rows.length + '개 구장)</td><td class="tabular">' + (tw+td+tl) + '전</td><td class="tabular">' + tw + '승</td><td class="tabular">' + td + '무</td><td class="tabular">' + tl + '패</td><td class="rate-cell tabular">' + fmtRate(rateOf(tw, tl)) + '</td></tr>';
+    };
+    document.getElementById("recStadiumSeasonTitle").textContent = year + "시즌 구장별 승률 (" + phLabel + ")";
+    document.getElementById("recStadiumCareerTitle").textContent = "통산 구장별 승률 (" + phLabel + ")";
+    document.getElementById("recStadiumSeasonHead").innerHTML = stadHead;
+    document.getElementById("recStadiumCareerHead").innerHTML = stadHead;
+    document.getElementById("recStadiumSeasonBody").innerHTML = stadiumTable(stadiumRows(pool.filter(function(g){ return gameYear(g)===year; })));
+    document.getElementById("recStadiumCareerBody").innerHTML = stadiumTable(stadiumRows(pool));
 
     document.getElementById("recTeamTitle").textContent = "팀별 승률 · 상대전적 (" + phLabel + ")";
     var trows = TEAMS.filter(function(t){ return t!==NC; }).map(function(t){
@@ -3056,6 +3104,7 @@
         var v = (f[k]===undefined) ? "" : String(f[k]).trim();
         if(v) patch[k] = v;
       });
+      if(patch.stadium) patch.stadium = canonicalStadium(patch.stadium, date);
       if(f.canceled!==undefined && isTruthyCell(f.canceled)){
         patch.canceled = true;
         patch.cancelReason = (f.cancelReason===undefined ? "" : String(f.cancelReason).trim()) || "취소";
@@ -3102,7 +3151,7 @@
     t = g.awayPitcher; g.awayPitcher = g.homePitcher; g.homePitcher = t;
     t = g.awayMVP; g.awayMVP = g.homeMVP; g.homeMVP = t;
     if(g.winner==="away") g.winner = "home"; else if(g.winner==="home") g.winner = "away";
-    if(!g.stadium || g.stadium===STADIUM_MAP[oldHome]) g.stadium = STADIUM_MAP[g.homeTeam] || "";
+    if(!g.stadium || g.stadium===defaultStadium(oldHome, g.date)) g.stadium = defaultStadium(g.homeTeam, g.date);
   }
 
   function applyPatchToGame(g, p, protect){
@@ -3128,7 +3177,7 @@
       id: uid(), date: it.date, awayTeam: it.away, homeTeam: it.home, noRecord: false, tag: "", phase: "regular", round: "",
       awayPitcher: "", homePitcher: "", awayScore: null, homeScore: null, winner: null,
       awayMVP: "", homeMVP: "", winPitcher: "", losePitcher: "", savePitcher: "", holdPitcher: "",
-      stadium: STADIUM_MAP[it.home] || "", watched: false, canceled: false, cancelReason: "",
+      stadium: defaultStadium(it.home, it.date), watched: false, canceled: false, cancelReason: "",
       createdAt: createdAt
     };
     applyPatchToGame(rec, it.patch);
