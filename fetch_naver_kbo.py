@@ -236,7 +236,7 @@ def convert_game(g, args, enrich_ok, counters):
         return None
     if enrich_ok and (status == "RESULT" or canceled) and not (g.get("winPitcherName") and g.get("awayStarterName")):
         g = enrich(g)
-    row, status, canceled = build_row(g, args.with_stadium)
+    row, status, canceled = build_row(g, not args.no_stadium)
     if not row["날짜"] or not row["어웨이"] or not row["홈"]:
         return None
     if extra_tag:
@@ -323,7 +323,9 @@ def run_archive(args):
     cur = date.today().year
     (m1, d1), (m2, d2) = parse_window(args.season_window)
     os.makedirs(args.archive_dir, exist_ok=True)
-    refresh = {int(x) for x in args.refresh_years.split(",") if x.strip()}
+    if args.refresh_years.strip().lower() == "all":
+        args.refresh_all = True
+    refresh = {int(x) for x in args.refresh_years.split(",") if x.strip().isdigit()}
 
     chunk = args.chunk_days
     if chunk <= 0:
@@ -388,7 +390,8 @@ def main():
     ap.add_argument("--results-only", action="store_true", help="예정 경기는 제외하고 결과/취소 경기만 저장")
     ap.add_argument("--no-postseason", action="store_true", help="포스트시즌 경기는 제외 (기본: 정규시즌 + 포스트시즌)")
     ap.add_argument("--include-exhibition", action="store_true", help="시범경기·올스타전도 포함 (기록 반영 X 경기로 표시)")
-    ap.add_argument("--with-stadium", action="store_true", help="네이버의 구장 이름도 저장 (기본: 비워서 기록판의 기본 구장명 사용)")
+    ap.add_argument("--no-stadium", action="store_true", help="구장 이름을 저장하지 않음 (기본: 네이버의 구장 지역명을 저장하고, 기록판이 연도별 정식 구장명으로 바꿔요)")
+    ap.add_argument("--with-stadium", action="store_true", help=argparse.SUPPRESS)   # 예전 옵션 (이제 기본값)
     ap.add_argument("--sleep", type=float, default=0.2, help="요청 사이 대기(초)")
     ap.add_argument("--strict", action="store_true", help="하루라도 받지 못하면 파일을 만들지 않고 실패로 종료 (자동 실행용)")
     ap.add_argument("--probe", default="", help="경기ID 하나의 원본 응답 확인")
