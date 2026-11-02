@@ -7,36 +7,30 @@
 
 사용 예
   # 시즌 전체(일정 + 지난 경기 결과) 한 번에
-  python fetch_naver_kbo.py --from 2026-03-28 --to 2026-10-12
+  python fetch_naver_kbo.py --from 2026-03-28 --to 2026-11-15
 
   # 매일 업데이트용 (옵션 없이 실행하면 최근 3일 ~ 오늘)
   python fetch_naver_kbo.py
 
-  # 결과가 나온 경기/취소 경기만 (예정 경기는 제외)
-  python fetch_naver_kbo.py --results-only
-
-  # 정규시즌 + 포스트시즌을 한 파일에 담아요 (CSV의 '시즌구분', '라운드' 칸으로 구분)
-  python fetch_naver_kbo.py --from 2026-03-28 --to 2026-11-15
-
-  # 포스트시즌은 빼고 정규시즌만 / 시범경기·올스타전도 함께(기록 반영 X로 표시)
-  python fetch_naver_kbo.py --no-postseason
-  python fetch_naver_kbo.py --include-exhibition
-
   # ★ 창단 이후 모든 시즌을 연도별 파일로 보관 (GitHub Actions에서 쓰는 방식)
-  #    지난 시즌은 한 번만 받아서 data/kbo_results_2013.csv 처럼 저장해두고, 올해만 매번 갱신해요.
-  python fetch_naver_kbo.py --archive-dir data --founding 2011-03-31
+  #    최신 시즌부터 받고, 지난 시즌은 한 번만 받아 data/kbo_results_2013.csv 처럼 저장해요.
+  python fetch_naver_kbo.py --archive-dir data --founding 2011-03-31 --max-minutes 150
 
-실행하면 kbo_results.csv 가 만들어져요. 기록판 > '일정 가져오기' 탭에서 그 파일을 선택하세요.
+실행하면 CSV가 만들어져요. 기록판 > '일정 가져오기' 탭에서 그 파일을 선택하세요.
 
 ※ 네이버의 비공식(공개 문서 없음) 주소를 사용해요. 예고 없이 바뀔 수 있어요.
-   문제가 생기면 --probe 경기ID 로 원본 응답을 확인할 수 있어요.
+   - 응답이 없는 연도(오래된 시즌 등)는 몇 초 안에 포기하고 건너뛰어요.
+   - --max-minutes 를 주면 그 시간 안에 멈추고, 받은 시즌은 저장해요. 다음 실행에서 이어서 받아요.
+   - 문제가 생기면 --probe 경기ID 로 원본 응답을 확인할 수 있어요.
 """
 import argparse
 import csv
 import json
 import os
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -66,11 +60,40 @@ ROUND_MAP = {
 }
 EXTRA_MAP = {"kbo_e": "시범경기", "kbo_as": "올스타전"}
 
+START_TS = time.time()
+TIMEOUT = 10          # 요청 하나를 기다리는 최대 시간(초)
+DEADLINE = None       # --max-minutes 로 정해지는 전체 제한 시각
 
-def fetch_json(url, timeout=20):
+
+def log(msg):
+    print("[%5ds] %s" % (time.time() - START_TS, msg), flush=True)
+
+
+def time_up():
+    return DEADLINE is not None and time.time() > DEADLINE
+
+
+def fetch_json(url, timeout=None):
     req = Request(url, headers=HEADERS)
-    with urlopen(req, timeout=timeout) as res:
+    with urlopen(req, timeout=timeout or TIMEOUT) as res:
         return json.loads(res.read().decode("utf-8"))
+
+
+def with_retry(fn, *args, tries=2, wait=1.0):
+    """일시적인 오류(응답 없음, 5xx, 429)만 다시 시도해요. 4xx 는 다시 해도 소용없어서 바로 포기."""
+    last = None
+    for i in range(tries):
+        try:
+            return fn(*args)
+        except HTTPError as e:
+            last = e
+            if 400 <= e.code < 500 and e.code != 429:
+                raise
+            time.sleep(wait * (i + 1))
+        except (URLError, OSError, ValueError, KeyError) as e:
+            last = e
+            time.sleep(wait * (i + 1))
+    raise last
 
 
 def fetch_day(d):
@@ -88,17 +111,6 @@ def fetch_day(d):
 def fetch_game(game_id):
     payload = fetch_json("%s/%s" % (BASE, game_id))
     return payload["result"]["game"]
-
-
-def with_retry(fn, *args, tries=3, wait=1.0):
-    last = None
-    for i in range(tries):
-        try:
-            return fn(*args)
-        except (HTTPError, URLError, TimeoutError, KeyError, ValueError) as e:
-            last = e
-            time.sleep(wait * (i + 1))
-    raise last
 
 
 def is_canceled(g):
@@ -122,7 +134,6 @@ def build_row(g, with_stadium):
     row["홈선발"] = clean(g.get("homeStarterName"))
     if with_stadium:
         row["구장"] = clean(g.get("stadium"))
-
     if canceled:
         row["취소"] = "O"
         row["취소사유"] = clean(g.get("statusInfo")) or "취소"
@@ -133,19 +144,6 @@ def build_row(g, with_stadium):
         row["승리투수"] = clean(g.get("winPitcherName"))
         row["패전투수"] = clean(g.get("losePitcherName"))
     return row, status, canceled
-
-
-def enrich(g):
-    """목록 응답에 선발/승패 투수가 비어 있으면 경기 단건 응답으로 보강"""
-    try:
-        detail = with_retry(fetch_game, g["gameId"])
-    except Exception:
-        return g
-    merged = dict(g)
-    for k in ("awayStarterName", "homeStarterName", "winPitcherName", "losePitcherName", "stadium"):
-        if not merged.get(k) and detail.get(k):
-            merged[k] = detail[k]
-    return merged
 
 
 def probe(game_id):
@@ -160,56 +158,12 @@ def probe(game_id):
         print("원본 저장:", path)
     except Exception as e:
         print("실패:", e)
-    print("== 기록(박스스코어) 시도 ==")
-    try:
-        data = fetch_json("%s/%s/record" % (BASE, game_id))
-        path = "probe_%s_record.json" % game_id
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        print("원본 저장:", path)
-    except Exception as e:
-        print("실패(없는 주소일 수 있어요):", e)
 
 
-def fetch_range(a, b):
-    qs = urlencode({
-        "fields": "basic,schedule,baseball,manualRelayUrl",
-        "upperCategoryId": "kbaseball",
-        "fromDate": a.isoformat(),
-        "toDate": b.isoformat(),
-        "size": 500,
-    })
-    payload = fetch_json("%s?%s" % (BASE, qs))
-    return payload["result"]["games"]
+# ---------------------------------------------------------------- 수집
 
-
-def detect_chunk_days(sleep):
-    """여러 날을 한 번에 조회해도 하루씩 조회한 것과 같은 결과가 나오는지 확인해서 묶음 크기를 정해요."""
-    cur = date.today().year
-    for y in (cur - 1, cur - 2, cur - 3):
-        a, b = date(y, 4, 7), date(y, 4, 13)
-        try:
-            ranged = {g.get("gameId") for g in with_retry(fetch_range, a, b)}
-            perday = set()
-            d = a
-            while d <= b:
-                perday |= {g.get("gameId") for g in with_retry(fetch_day, d)}
-                d += timedelta(days=1)
-                time.sleep(sleep)
-        except Exception:
-            continue
-        if perday:
-            if ranged == perday:
-                print("범위 조회 확인 완료: 7일씩 묶어서 받아요. (%d년 샘플 %d경기 일치)" % (y, len(perday)))
-                return 7
-            print("범위 조회 결과가 하루씩 받은 결과와 달라서, 안전하게 하루씩 받아요.")
-            return 1
-    print("범위 조회를 확인할 샘플이 없어서, 안전하게 하루씩 받아요.")
-    return 1
-
-
-def convert_game(g, args, enrich_ok, counters):
-    """네이버 경기 하나를 CSV 한 줄로 바꿔요. 건너뛸 경기는 None."""
+def classify(g, args, counters):
+    """경기 하나가 어떤 종류인지 판단. 건너뛸 경기는 None, 아니면 (phase, 라운드, 기타구분)."""
     if g.get("categoryId") not in (None, "kbo"):
         return None
     rc = g.get("roundCode") or ""
@@ -230,66 +184,119 @@ def convert_game(g, args, enrich_ok, counters):
         return None
     if phase == "post" and args.no_postseason:
         return None
-    canceled = is_canceled(g)
+    if args.results_only and not is_canceled(g) and (g.get("statusCode") or "").upper() != "RESULT":
+        return None
+    return phase, rnd, extra_tag
+
+
+def needs_detail(g):
     status = (g.get("statusCode") or "").upper()
-    if args.results_only and not canceled and status != "RESULT":
-        return None
-    if enrich_ok and (status == "RESULT" or canceled) and not (g.get("winPitcherName") and g.get("awayStarterName")):
-        g = enrich(g)
-    row, status, canceled = build_row(g, not args.no_stadium)
-    if not row["날짜"] or not row["어웨이"] or not row["홈"]:
-        return None
-    if extra_tag:
-        row["기록제외"], row["구분"] = "O", extra_tag
-    else:
-        row["시즌구분"] = "포스트시즌" if phase == "post" else "정규시즌"
-        row["라운드"] = rnd
-    key = "취소" if canceled else status
-    counters["status"][key] = counters["status"].get(key, 0) + 1
-    return row, g
+    return (status == "RESULT" or is_canceled(g)) and not (g.get("winPitcherName") and g.get("awayStarterName"))
 
 
-def collect(start, end, args, chunk_days, enrich_ok):
-    """start~end 기간의 경기를 받아 (rows, raw, counters, failed_days)로 돌려줘요."""
-    rows, raw, failed = [], [], []
-    counters = {"status": {}, "round": {}, "nocode": 0}
-    seen = set()
+def collect_days(days, args, label):
+    """여러 날을 동시에 받아요. 처음부터 응답이 없으면 빨리 포기해요."""
+    games, failed, skipped = {}, [], []
+    lock = threading.Lock()
+    st = {"ok": 0, "fail": 0, "streak": 0, "done": 0, "abort": None}
+    total = len(days)
 
-    def take(games):
-        for g in games:
-            gid = g.get("gameId")
-            if gid in seen:
-                continue
-            seen.add(gid)
-            res = convert_game(g, args, enrich_ok, counters)
-            if res:
-                rows.append(res[0])
-                raw.append(res[1])
+    def work(d):
+        if st["abort"] or time_up():
+            return d, None, "skip"
+        try:
+            res, err = with_retry(fetch_day, d), None
+        except Exception as e:
+            res, err = None, e
+        time.sleep(args.sleep)
+        with lock:
+            st["done"] += 1
+            if err is None:
+                st["ok"] += 1
+                st["streak"] = 0
+            else:
+                st["fail"] += 1
+                st["streak"] += 1
+                if st["ok"] == 0 and st["fail"] >= args.fail_fast:
+                    st["abort"] = "응답 없음"
+                elif st["streak"] >= args.fail_streak:
+                    st["abort"] = "연속 실패"
+                if st["fail"] <= 3:
+                    log("  ! %s %s 실패: %s" % (label, d.isoformat(), err))
+            if st["done"] % 50 == 0:
+                log("  … %s %d/%d일 (성공 %d · 실패 %d)" % (label, st["done"], total, st["ok"], st["fail"]))
+        return d, res, err
 
+    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+        for d, res, err in pool.map(work, days):
+            if isinstance(err, str):
+                skipped.append(d)
+            elif err is not None:
+                failed.append(d)
+            else:
+                for g in res:
+                    games.setdefault(g.get("gameId"), g)
+    return games, failed, skipped, st
+
+
+def collect(start, end, args, enrich_ok, label=""):
+    """start~end 기간의 경기를 받아 (rows, raw, counters, 못 받은 날짜, 중단 사유, 성공 요청 수)를 돌려줘요."""
+    days = []
     d = start
     while d <= end:
-        span_end = min(end, d + timedelta(days=chunk_days - 1))
-        done = False
-        if chunk_days > 1:
-            try:
-                games = with_retry(fetch_range, d, span_end)
-                take([g for g in games if d.isoformat() <= (g.get("gameDate") or "") <= span_end.isoformat()])
-                done = True
-            except Exception as e:
-                print("  ! %s~%s 묶음 조회 실패, 하루씩 다시 시도: %s" % (d.isoformat(), span_end.isoformat(), e))
-        if not done:
-            dd = d
-            while dd <= span_end:
+        days.append(d)
+        d += timedelta(days=1)
+    games, failed, skipped, st = collect_days(days, args, label)
+    # 일시적으로 실패한 날짜는 한 번 더 시도
+    if failed and not st["abort"] and not time_up() and len(failed) <= 60:
+        g2, f2, s2, st2 = collect_days(failed, args, label + "(재시도)")
+        games.update({k: v for k, v in g2.items() if k not in games})
+        failed, skipped = f2, skipped + s2
+        st["ok"] += st2["ok"]
+
+    counters = {"status": {}, "round": {}, "nocode": 0}
+    picked = []
+    for g in games.values():
+        c = classify(g, args, counters)
+        if c:
+            picked.append((g, c))
+
+    details = {}
+    if enrich_ok:
+        need = [g for g, _ in picked if needs_detail(g)]
+        if need:
+            def fetch_detail(g):
+                if time_up():
+                    return
                 try:
-                    take(with_retry(fetch_day, dd))
-                except Exception as e:
-                    failed.append(dd.isoformat())
-                    print("  ! %s 실패: %s" % (dd.isoformat(), e))
-                dd += timedelta(days=1)
-                time.sleep(args.sleep)
-        d = span_end + timedelta(days=1)
-        time.sleep(args.sleep)
-    return rows, raw, counters, failed
+                    details[g["gameId"]] = with_retry(fetch_game, g["gameId"], tries=1)
+                except Exception:
+                    pass
+            with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+                list(pool.map(fetch_detail, need))
+
+    rows, raw = [], []
+    for g, (phase, rnd, extra_tag) in picked:
+        det = details.get(g.get("gameId"))
+        if det:
+            g = dict(g)
+            for k in ("awayStarterName", "homeStarterName", "winPitcherName", "losePitcherName", "stadium"):
+                if not g.get(k) and det.get(k):
+                    g[k] = det[k]
+        row, status, canceled = build_row(g, not args.no_stadium)
+        if not row["날짜"] or not row["어웨이"] or not row["홈"]:
+            continue
+        if extra_tag:
+            row["기록제외"], row["구분"] = "O", extra_tag
+        else:
+            row["시즌구분"] = "포스트시즌" if phase == "post" else "정규시즌"
+            row["라운드"] = rnd
+        key = "취소" if canceled else status
+        counters["status"][key] = counters["status"].get(key, 0) + 1
+        rows.append(row)
+        raw.append(g)
+    incomplete = sorted(set(d.isoformat() for d in failed + skipped))
+    return rows, raw, counters, incomplete, st["abort"], st["ok"]
 
 
 def write_csv(path, rows):
@@ -318,44 +325,88 @@ def parse_window(text):
         sys.exit("--season-window 형식이 잘못됐어요. 예: 03-01:11-30")
 
 
+def load_manifest(path):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
 def run_archive(args):
     founding = datetime.strptime(args.founding, "%Y-%m-%d").date()
     cur = date.today().year
     (m1, d1), (m2, d2) = parse_window(args.season_window)
     os.makedirs(args.archive_dir, exist_ok=True)
+    manifest_path = os.path.join(args.archive_dir, "index.json")
+
     if args.refresh_years.strip().lower() == "all":
         args.refresh_all = True
     refresh = {int(x) for x in args.refresh_years.split(",") if x.strip().isdigit()}
+    prior_unavailable = set() if args.refresh_all else set(load_manifest(manifest_path).get("unavailable", []))
+    unavailable = set()
 
-    chunk = args.chunk_days
-    if chunk <= 0:
-        chunk = detect_chunk_days(args.sleep)
+    log("시작: %d년 ~ %d년 (최신 시즌부터), 동시 요청 %d개, 요청 제한시간 %d초%s" % (
+        founding.year, cur, args.workers, TIMEOUT,
+        (", 전체 제한 %d분" % args.max_minutes) if args.max_minutes else ""))
 
-    failed_years = []
-    for y in range(founding.year, cur + 1):
+    failed_years, stopped_early, consecutive_unavailable = [], False, 0
+    for y in range(cur, founding.year - 1, -1):
+        if time_up():
+            log("시간 제한에 도달했어요. 남은 시즌은 다음 실행에서 이어서 받아요.")
+            stopped_early = True
+            break
         path = os.path.join(args.archive_dir, "kbo_results_%d.csv" % y)
         is_past = y < cur
         if is_past and os.path.exists(path) and not args.refresh_all and y not in refresh:
-            print("%d년: 이미 보관돼 있어서 건너뛰어요. (%d경기)" % (y, count_rows(path)))
+            log("%d년: 이미 보관돼 있어서 건너뛰어요. (%d경기)" % (y, count_rows(path)))
+            consecutive_unavailable = 0
             continue
+        if is_past and y in prior_unavailable and y not in refresh:
+            log("%d년: 네이버가 데이터를 주지 않았던 해라 건너뛰어요. (다시 시도하려면 다시 받을 연도에 %d 를 적어주세요)" % (y, y))
+            unavailable.add(y)
+            continue
+
         start, end = date(y, m1, d1), date(y, m2, d2)
-        print("%d년: %s ~ %s 받는 중..." % (y, start.isoformat(), end.isoformat()))
-        rows, _raw, counters, failed = collect(start, end, args, chunk, enrich_ok=(not is_past) or args.enrich_history)
-        if failed:
-            print("  → 받지 못한 날짜가 있어서 %d년 파일은 갱신하지 않았어요: %s" % (y, ", ".join(failed[:8]) + (" ..." if len(failed) > 8 else "")))
-            failed_years.append(y)
+        log("%d년: %s ~ %s (%d일) 받는 중..." % (y, start.isoformat(), end.isoformat(), (end - start).days + 1))
+        t0 = time.time()
+        rows, _raw, counters, incomplete, aborted, ok_reqs = collect(
+            start, end, args, enrich_ok=(not is_past) or args.enrich_history, label="%d년" % y)
+
+        if aborted == "응답 없음" and ok_reqs == 0:
+            if not is_past:
+                log("  → 올해 데이터에 응답이 없어요. 네이버가 막고 있거나 일시적인 장애일 수 있어요. 중단합니다.")
+                failed_years.append(y)
+                break
+            log("  → %d년은 응답이 없어서 건너뛰어요. (네이버가 이 시즌 데이터를 주지 않는 것 같아요)" % y)
+            unavailable.add(y)
+            consecutive_unavailable += 1
+            if consecutive_unavailable >= args.stop_after_unavailable:
+                log("  → %d해 연속으로 응답이 없어서, 더 오래된 시즌도 제공되지 않는 것으로 보고 거슬러 올라가기를 멈춰요." % consecutive_unavailable)
+                break
+            continue
+        consecutive_unavailable = 0
+
+        if incomplete:
+            kind = "시간 제한 때문에" if time_up() else "오류로"
+            log("  → %s 못 받은 날짜가 %d일 있어서 %d년 파일은 갱신하지 않았어요. (%s%s)" % (
+                kind, len(incomplete), y, ", ".join(incomplete[:5]), " ..." if len(incomplete) > 5 else ""))
+            if time_up():
+                stopped_early = True
+            else:
+                failed_years.append(y)
             continue
         if counters["nocode"]:
-            print("  ⚠ 라운드 코드가 없는 경기 %d개는 정규/포스트를 구분할 수 없어 제외했어요." % counters["nocode"])
+            log("  ⚠ 라운드 코드가 없는 경기 %d개는 정규/포스트를 구분할 수 없어 제외했어요." % counters["nocode"])
         if not rows:
             if is_past:
                 write_csv(path, [])      # 경기가 없는 해는 빈 파일로 표시해서 다음부터 다시 받지 않아요
-                print("  → %d년은 받은 경기가 없어요. (빈 파일로 표시)" % y)
+                log("  → %d년은 받은 경기가 없어요. (빈 파일로 표시)" % y)
             else:
-                print("  → 올해는 아직 받은 경기가 없어요. 기존 파일은 그대로 둬요.")
+                log("  → 올해는 아직 받은 경기가 없어요. 기존 파일은 그대로 둬요.")
             continue
         write_csv(path, rows)
-        print("  → 저장: %s (%d경기) 상태별 %s" % (path, len(rows), counters["status"]))
+        log("  → 저장: %s (%d경기, %d초) 상태별 %s" % (path, len(rows), time.time() - t0, counters["status"]))
 
     # 올해 파일을 '최신' 파일로도 복사 (기록판의 '자동 수집된 최신 CSV 불러오기'가 읽는 파일)
     cur_path = os.path.join(args.archive_dir, "kbo_results_%d.csv" % cur)
@@ -369,18 +420,24 @@ def run_archive(args):
         "founding": founding.isoformat(),
         "currentYear": cur,
         "years": years,
+        "unavailable": sorted(unavailable),
         "updated": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
-    with open(os.path.join(args.archive_dir, "index.json"), "w", encoding="utf-8") as f:
+    with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, ensure_ascii=False, indent=2)
-    print("보관된 시즌: %s" % (", ".join(str(y) for y in years) or "없음"))
+    log("보관된 시즌: %s" % (", ".join(str(y) for y in years) or "없음"))
+    if unavailable:
+        log("네이버가 주지 않는 해: %s" % ", ".join(str(y) for y in sorted(unavailable)))
+    if stopped_early:
+        log("※ 아직 다 받지 못했어요. 다시 실행하면 이어서 받아요.")
     if failed_years:
-        print("다시 실행이 필요한 해:", ", ".join(str(y) for y in failed_years))
+        log("다시 실행이 필요한 해: %s" % ", ".join(str(y) for y in failed_years))
         if args.strict:
             sys.exit(1)
 
 
 def main():
+    global TIMEOUT, DEADLINE
     today = date.today()
     ap = argparse.ArgumentParser(description="네이버 스포츠 KBO 결과 -> CSV")
     ap.add_argument("--from", dest="start", default=(today - timedelta(days=3)).isoformat(), help="시작일 YYYY-MM-DD (기본: 3일 전)")
@@ -392,18 +449,28 @@ def main():
     ap.add_argument("--include-exhibition", action="store_true", help="시범경기·올스타전도 포함 (기록 반영 X 경기로 표시)")
     ap.add_argument("--no-stadium", action="store_true", help="구장 이름을 저장하지 않음 (기본: 네이버의 구장 지역명을 저장하고, 기록판이 연도별 정식 구장명으로 바꿔요)")
     ap.add_argument("--with-stadium", action="store_true", help=argparse.SUPPRESS)   # 예전 옵션 (이제 기본값)
-    ap.add_argument("--sleep", type=float, default=0.2, help="요청 사이 대기(초)")
+    ap.add_argument("--sleep", type=float, default=0.05, help="요청 사이 대기(초)")
     ap.add_argument("--strict", action="store_true", help="하루라도 받지 못하면 파일을 만들지 않고 실패로 종료 (자동 실행용)")
     ap.add_argument("--probe", default="", help="경기ID 하나의 원본 응답 확인")
+    ap.add_argument("--workers", type=int, default=6, help="동시에 보낼 요청 수 (기본 6)")
+    ap.add_argument("--timeout", type=int, default=10, help="요청 하나를 기다리는 최대 시간(초, 기본 10)")
+    ap.add_argument("--fail-fast", type=int, default=6, help="한 번도 성공하지 못한 채 이만큼 실패하면 그 해를 포기 (기본 6)")
+    ap.add_argument("--fail-streak", type=int, default=40, help="연속으로 이만큼 실패하면 그 해를 포기 (기본 40)")
+    ap.add_argument("--max-minutes", type=float, default=0, help="전체 제한 시간(분). 넘으면 멈추고 받은 시즌은 저장 (0=제한 없음)")
     # 시즌별 보관 모드
     ap.add_argument("--archive-dir", default="", help="지정하면 창단 연도부터 올해까지 연도별 파일(kbo_results_YYYY.csv)로 보관")
     ap.add_argument("--founding", default="", help="창단일 YYYY-MM-DD (보관 모드에서 이 날짜가 속한 해부터 받아요)")
     ap.add_argument("--season-window", default="03-01:11-30", help="매년 받을 기간 월-일:월-일 (기본 03-01:11-30)")
     ap.add_argument("--refresh-all", action="store_true", help="이미 보관된 지난 시즌도 모두 다시 받기")
-    ap.add_argument("--refresh-years", default="", help="다시 받을 연도 목록 (예: 2024,2025)")
-    ap.add_argument("--chunk-days", type=int, default=0, help="한 번에 조회할 일수 (0=자동 확인, 1=하루씩)")
+    ap.add_argument("--refresh-years", default="", help="다시 받을 연도 목록 (예: 2024,2025 / 전부는 all)")
+    ap.add_argument("--stop-after-unavailable", type=int, default=2, help="응답이 없는 해가 이만큼 연속이면 더 오래된 해는 받지 않음 (기본 2)")
+    ap.add_argument("--chunk-days", type=int, default=0, help=argparse.SUPPRESS)      # 예전 옵션 (사용 안 함)
     ap.add_argument("--enrich-history", action="store_true", help="지난 시즌도 경기마다 선발·투수 정보를 추가 조회 (오래 걸려요)")
     args = ap.parse_args()
+
+    TIMEOUT = max(3, args.timeout)
+    if args.max_minutes and args.max_minutes > 0:
+        DEADLINE = time.time() + args.max_minutes * 60
 
     if args.probe:
         probe(args.probe)
@@ -419,13 +486,12 @@ def main():
     if start > end:
         sys.exit("--from 이 --to 보다 늦어요.")
 
-    chunk = args.chunk_days if args.chunk_days > 0 else 1
-    rows, raw, counters, failed = collect(start, end, args, chunk, enrich_ok=True)
+    rows, raw, counters, incomplete, aborted, _ok = collect(start, end, args, enrich_ok=True)
     if not rows:
         print("받은 경기가 없어요. 날짜 범위를 확인해보세요. (기존 파일은 그대로 둬요)")
         sys.exit(1)
-    if args.strict and failed:
-        print("받지 못한 날짜가 있어서 파일을 갱신하지 않았어요:", ", ".join(failed))
+    if args.strict and incomplete:
+        print("받지 못한 날짜가 있어서 파일을 갱신하지 않았어요:", ", ".join(incomplete))
         sys.exit(1)
     write_csv(args.out, rows)
     if args.json_out:
@@ -437,8 +503,8 @@ def main():
     print("라운드 코드별(필터 전):", counters["round"] or "없음")
     if counters["nocode"]:
         print("라운드 코드가 없어 제외한 경기: %d개" % counters["nocode"])
-    if failed:
-        print("받지 못한 날짜(다시 실행해 보세요):", ", ".join(failed))
+    if incomplete:
+        print("받지 못한 날짜(다시 실행해 보세요):", ", ".join(incomplete))
 
 
 if __name__ == "__main__":
