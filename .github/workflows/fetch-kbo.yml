@@ -1,3 +1,4 @@
+
 # 매일 새벽(한국 시간 00:10)에 네이버 스포츠에서 KBO 정규시즌 + 포스트시즌 결과·일정을 받아 data 폴더에 시즌별로 보관해요.
 #   data/kbo_results_2013.csv ... (연도별 파일. 지난 시즌은 한 번만 받고 그대로 둬요)
 #   data/kbo_results.csv          (올해 파일의 복사본 - '자동 수집된 최신 CSV 불러오기'용)
@@ -49,9 +50,10 @@ jobs:
         id: fetch
         continue-on-error: true      # 일부 시즌 수집에 실패해도, 받은 시즌은 아래에서 저장해요
         run: |
+          set -o pipefail
           ARGS=""
           if [ -n "$REFRESH_YEARS" ]; then ARGS="--refresh-years $REFRESH_YEARS"; fi
-          python -u fetch_naver_kbo.py --archive-dir data --founding "$FOUNDING_DATE" --strict --max-minutes 200 $ARGS
+          python -u fetch_naver_kbo.py --archive-dir data --founding "$FOUNDING_DATE" --strict --max-minutes 200 $ARGS 2>&1 | tee fetch.log
 
       - name: 바뀐 경우에만 커밋
         run: |
@@ -65,8 +67,26 @@ jobs:
             git push
           fi
 
+      - name: 실행 결과 요약
+        if: always()
+        run: |
+          {
+            echo "### 수집 결과 요약"
+            echo "- 수집 단계: **${{ steps.fetch.outcome }}**"
+            echo
+            echo '```'
+            if [ -f fetch.log ]; then
+              grep -E "전송 방식|시작:|저장:|건너뛰|보관된 시즌|네이버가 주지|다시 실행|응답이 없|실패|시간 제한|⚠|※|Traceback|Error" fetch.log | tail -n 60
+            else
+              echo "(수집 로그가 없어요 - 수집 단계가 시작되기 전에 멈췄어요)"
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: 일부 시즌을 받지 못했다면 알림
         if: steps.fetch.outcome == 'failure'
         run: |
-          echo "일부 시즌을 받지 못했어요. 위 로그에서 '다시 실행이 필요한 해'를 확인하고 다시 실행해주세요."
+          echo "일부 시즌을 받지 못했어요. 아래는 수집 로그의 마지막 부분이에요. (전체는 '수집 단계'를 펼치면 볼 수 있어요)"
+          echo "-----"
+          tail -n 40 fetch.log || true
           exit 1
